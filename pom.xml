@@ -17,38 +17,10 @@
 	<mailingLists>
 		<mailingList>
 			<name>Users List</name>
-			<subscribe>users-subscribe@jaxb2-commons.dev.java.net</subscribe>
-			<unsubscribe>users-unsubscribe@jaxb2-commons.dev.java.net</unsubscribe>
-			<post>users@jaxb2-commons.dev.java.net</post>
-			<archive>https://jaxb2-commons.dev.java.net/servlets/SummarizeList?listName=users</archive>
-		</mailingList>
-		<mailingList>
-			<name>Developers List</name>
-			<subscribe>dev-subscribe@jaxb2-commons.dev.java.net</subscribe>
-			<unsubscribe>dev-unsubscribe@jaxb2-commons.dev.java.net</unsubscribe>
-			<post>dev@jaxb2-commons.dev.java.net</post>
-			<archive>https://jaxb2-commons.dev.java.net/servlets/SummarizeList?listName=dev</archive>
-		</mailingList>
-		<mailingList>
-			<name>Issues List</name>
-			<subscribe>issues-subscribe@jaxb2-commons.dev.java.net</subscribe>
-			<unsubscribe>issues-unsubscribe@jaxb2-commons.dev.java.net</unsubscribe>
-			<post>issues@jaxb2-commons.dev.java.net</post>
-			<archive>https://jaxb2-commons.dev.java.net/servlets/SummarizeList?listName=issues</archive>
-		</mailingList>
-		<mailingList>
-			<name>Announcements List</name>
-			<subscribe>announce-subscribe@jaxb2-commons.dev.java.net</subscribe>
-			<unsubscribe>announce-unsubscribe@jaxb2-commons.dev.java.net</unsubscribe>
-			<post>announce@jaxb2-commons.dev.java.net</post>
-			<archive>https://jaxb2-commons.dev.java.net/servlets/SummarizeList?listName=announce</archive>
-		</mailingList>
-		<mailingList>
-			<name>CVS List</name>
-			<subscribe>cvs-subscribe@jaxb2-commons.dev.java.net</subscribe>
-			<unsubscribe>cvs-unsubscribe@jaxb2-commons.dev.java.net</unsubscribe>
-			<post>cvs@jaxb2-commons.dev.java.net</post>
-			<archive>https://jaxb2-commons.dev.java.net/servlets/SummarizeList?listName=cvs</archive>
+			<subscribe>users-subscribe@jaxb.dev.java.net</subscribe>
+			<unsubscribe>users-unsubscribe@jaxb2.dev.java.net</unsubscribe>
+			<post>users@jaxb.dev.java.net</post>
+			<archive>https://jaxb.dev.java.net/servlets/SummarizeList?listName=users</archive>
 		</mailingList>
 	</mailingLists>
 	<developers>
@@ -73,9 +45,9 @@
 		</contributor-->
 	</contributors>
 	<scm>
-		<connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:jaxb2-commons</connection>
-		<developerConnection>scm:cvs:pserver:${maven.username}@cvs.dev.java.net:/cvs:jaxb2-commons</developerConnection>
-		<url>https://jaxb2-commons.dev.java.net/source/browse/jaxb2-commons</url>
+		<connection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn</connection>
+		<developerConnection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn</developerConnection>
+		<url>https://jaxb2-commons-svn.dev.java.net/source/browse/jaxb2-commons-svn</url>
 	</scm>
 	<organization>
 		<name>Sun Microsystems</name>
@@ -137,10 +109,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
-		<!--site>
-			<id>maven-jaxb2-plugin-www</id>
-			<url>file:www-xxx</url>
-		</site-->
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
 			<id>java.net-maven2-repository</id>
@@ -150,6 +118,9 @@
 			<id>java.net-maven2-snapshotRepository</id>
 			<url>${dev.java.net-snapshots.deploy.url}</url>
 		</snapshotRepository>
+		<site>
+			<url>${sftp.static.highsource.org}/jaxb2-basics</url>
+		</site>
 	</distributionManagement>
 	<dependencies>
 		<!-- JUnit -->
