@@ -4,13 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
 	<artifactId>samples-basic-maven</artifactId>
-	<version>0.4.1.5</version>
 	<packaging>pom</packaging>
 	<name>JAXB2 Commons Samples - Basic Maven</name>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
 		<artifactId>samples</artifactId>
-		<version>0.4.1.5</version>
+		<version>0.5.0-SNAPSHOT</version>
 	</parent>
 	<build>
 		<defaultGoal>install</defaultGoal>
