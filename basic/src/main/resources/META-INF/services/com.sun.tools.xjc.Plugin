@@ -1,0 +1,6 @@
+org.jvnet.jaxb2_commons.plugin.jaxbindex.JaxbIndexPlugin
+org.jvnet.jaxb2_commons.plugin.tostring.ToStringPlugin
+org.jvnet.jaxb2_commons.plugin.equals.EqualsPlugin
+org.jvnet.jaxb2_commons.plugin.hashcode.HashCodePlugin
+org.jvnet.jaxb2_commons.plugin.copyable.CopyablePlugin
+org.jvnet.jaxb2_commons.plugin.mergeable.MergeablePlugin
