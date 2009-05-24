@@ -13,6 +13,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modules>
+		<module>po</module>
 		<module>basic</module>
 		<module>modular-ant</module>
 	</modules>
