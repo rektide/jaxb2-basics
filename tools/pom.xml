@@ -3,13 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
-	<artifactId>tools</artifactId>
+	<artifactId>jaxb2-basics-tools</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Commons Tools</name>
+	<name>JAXB2 Basics - Tools</name>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>project</artifactId>
+		<artifactId>jaxb2-basics-project</artifactId>
 		<version>0.5.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -26,14 +27,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>runtime</artifactId>
-			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-			</exclusions>
+			<artifactId>jaxb2-basics-runtime</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -42,13 +37,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb-xjc</artifactId>
+			<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
+			<version>2.1.10.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>

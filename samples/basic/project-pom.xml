@@ -6,16 +6,16 @@
 	<artifactId>jaxb2-basics-sample-basic-maven</artifactId>
 	<version>0.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>JAXB2 Commons Samples - Basic Maven</name>
+	<name>JAXB2 Basics - Sample [basic-maven]</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>runtime</artifactId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
 			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>testing</artifactId>
+			<artifactId>jaxb2-basics-testing</artifactId>
 			<version>0.5.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
@@ -61,7 +61,7 @@
 					<plugins>
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>basic</artifactId>
+							<artifactId>jaxb2-basics</artifactId>
 							<version>0.5.0-SNAPSHOT</version>
 						</plugin>
 					</plugins>

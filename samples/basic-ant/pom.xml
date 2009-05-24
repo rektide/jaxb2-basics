@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
-	<artifactId>samples-basic-ant</artifactId>
+	<artifactId>jaxb2-basics-sample-basic-ant</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Commons Samples - Basic Ant</name>
+	<name>JAXB2 Basics - Sample [basic-ant]</name>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>samples</artifactId>
+		<artifactId>jaxb2-basics-samples</artifactId>
 		<version>0.5.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
@@ -19,15 +19,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>basic</artifactId>
+			<artifactId>jaxb2-basics</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>testing</artifactId>
+			<artifactId>jaxb2-basics-testing</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2_commons-ant</artifactId>
+			<artifactId>jaxb2-basics-ant</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -38,13 +41,6 @@
 			<artifactId>jaxb-impl</artifactId>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>java.net-maven2-repository</id>
-			<url>${dev.java.net-releases.deploy.url}</url>
-		</repository>
-	</distributionManagement>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

@@ -4,12 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>tests</artifactId>
+		<artifactId>jaxb2-basics-tests</artifactId>
 		<version>0.5.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<artifactId>tests-issues</artifactId>
+	<artifactId>jaxb2-basics-test-issues</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Commons Tests [issues]</name>
+	<name>JAXB2 Basics - Test [issues]</name>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
@@ -27,7 +28,8 @@
 					<plugins>
                                                <plugin>
                                                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                                                       <artifactId>basic</artifactId>
+                                                       <artifactId>jaxb2-basics</artifactId>
+							<version>0.5.0-SNAPSHOT</version>
                                                </plugin>
                                        </plugins>
 				</configuration>

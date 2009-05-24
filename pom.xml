@@ -3,22 +3,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
-	<artifactId>project</artifactId>
+	<artifactId>jaxb2-basics-project</artifactId>
 	<packaging>pom</packaging>
 	<version>0.5.0-SNAPSHOT</version>
-	<name>JAXB2 Commons</name>
-	<url>https://jaxb2-commons.dev.java.net/</url>
-	<description>JAXB2 Commons include tools and plugins for the reference implementation of JAXB2</description>
+	<name>JAXB2 Basics - Project</name>
+	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
 	<issueManagement>
-		<system>CollabNet</system>
-		<url>https://jaxb2-commons.dev.java.net/servlets/ProjectIssues</url>
+		<system>JIRA</system>
+		<url>http://jira.highsource.org/browse/JIIB</url>
 	</issueManagement>
 	<inceptionYear>2005</inceptionYear>
 	<mailingLists>
 		<mailingList>
 			<name>Users List</name>
 			<subscribe>users-subscribe@jaxb.dev.java.net</subscribe>
-			<unsubscribe>users-unsubscribe@jaxb2.dev.java.net</unsubscribe>
+			<unsubscribe>users-unsubscribe@jaxb.dev.java.net</unsubscribe>
 			<post>users@jaxb.dev.java.net</post>
 			<archive>https://jaxb.dev.java.net/servlets/SummarizeList?listName=users</archive>
 		</mailingList>
@@ -54,7 +53,7 @@
 		<url>http://www.sun.com/</url>
 	</organization>
 	<modules>
-		<!--module>jaxb</module-->
+		<module>jaxb</module>
 		<module>ant</module>
 		<module>runtime</module>
 		<module>tools</module>
@@ -132,41 +131,6 @@
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>runtime</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>testing</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>tools</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>basic</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>annotate</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2_commons-ant</artifactId>
-				<version>0.5.0-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb-xjc</artifactId>
-				<version>2.1.10</version>
-			</dependency>
 			<!-- Maven JAXB2 Plugin -->
 
 			<dependency>
@@ -188,7 +152,7 @@
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
 				<artifactId>jaxb-xjc</artifactId>
-				<version>2.1.10</version>
+				<version>2.1.10.1</version>
 			</dependency>
 			<!-- JUnit -->
 			<dependency>

@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>tests</artifactId>
+		<artifactId>jaxb2-basics-tests</artifactId>
 		<version>0.5.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>tests-osxl</artifactId>
+	<artifactId>jaxb2-basics-test-osxl</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Commons Tests [osxl]</name>
+	<name>JAXB2 Basics - Test [osxl]</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.jvnet.jaxb2.maven2</groupId>
