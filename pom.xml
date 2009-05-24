@@ -53,7 +53,6 @@
 		<url>http://www.sun.com/</url>
 	</organization>
 	<modules>
-		<module>jaxb</module>
 		<module>ant</module>
 		<module>runtime</module>
 		<module>tools</module>
