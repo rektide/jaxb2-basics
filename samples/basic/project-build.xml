@@ -80,7 +80,9 @@
 			<!-- Plugins -->
 			<classpath>
 				<fileset dir="${basedir}/lib">
+					<!-- JAXB2 Basics library -->
 					<include name="jaxb2-basics-*.jar"/>
+					<!-- JAXB2 Basics library dependencies -->
 					<include name="jaxb2-basics-runtime-*.jar"/>
 					<include name="jaxb2-basics-tools-*.jar"/>
 					<include name="commons-beanutils-*.jar"/>
