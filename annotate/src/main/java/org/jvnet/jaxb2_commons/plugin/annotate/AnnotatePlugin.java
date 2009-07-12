@@ -1,7 +1,9 @@
 package org.jvnet.jaxb2_commons.plugin.annotate;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.xml.namespace.QName;
 
 import org.jvnet.annox.Constants;
 import org.jvnet.annox.model.XAnnotation;
@@ -199,14 +201,8 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public List<String> getCustomizationURIs() {
-		return Collections.singletonList(Constants.NAMESPACE_URI);
-	}
-
-	@Override
-	public boolean isCustomizationTagName(String namespaceURI, String localName) {
-		return Constants.NAMESPACE_URI.equals(namespaceURI)
-				&& "annotate".equals(localName);
+	public Collection<QName> getCustomizationElementNames() {
+		return Arrays.asList(new QName(Constants.NAMESPACE_URI, "annotate"));
 	}
 
 }

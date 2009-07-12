@@ -1,5 +1,15 @@
 package org.jvnet.jaxb2_commons.plugin;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
+
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -26,14 +36,11 @@ public abstract class AbstractPlugin extends Plugin {
 	@Override
 	public boolean run(Outline outline, Options options,
 			ErrorHandler errorHandler) throws SAXException {
-/*		try {
-			init(options);
-		} catch (Exception ex) {
-			SAXParseException saxex = new SAXParseException(
-					"Could not initialize Spring context.", null, ex);
-			errorHandler.fatalError(saxex);
-			throw saxex;
-		}*/
+		/*
+		 * try { init(options); } catch (Exception ex) { SAXParseException saxex =
+		 * new SAXParseException( "Could not initialize Spring context.", null,
+		 * ex); errorHandler.fatalError(saxex); throw saxex; }
+		 */
 		try {
 			return run(outline, options);
 		} catch (Exception ex) {
@@ -49,6 +56,41 @@ public abstract class AbstractPlugin extends Plugin {
 	}
 
 	protected void init(Options options) throws Exception {
+	}
+
+	public Collection<QName> getCustomizationElementNames() {
+		return Collections.<QName> emptyList();
+	}
+
+	private List<String> customizationURIs;
+
+	private Set<QName> customizationElementNames;
+
+	@Override
+	public List<String> getCustomizationURIs() {
+		if (this.customizationURIs == null) {
+			final Collection<QName> customizationElementNames = getCustomizationElementNames();
+			this.customizationURIs = new ArrayList<String>(
+					customizationElementNames.size());
+			for (QName customizationElementName : customizationElementNames) {
+				final String namespaceURI = customizationElementName
+						.getNamespaceURI();
+				if (!StringUtils.isEmpty(namespaceURI)) {
+					this.customizationURIs.add(namespaceURI);
+				}
+			}
+		}
+		return this.customizationURIs;
+	}
+
+	@Override
+	public boolean isCustomizationTagName(String namespaceURI, String localName) {
+		if (this.customizationElementNames == null) {
+			this.customizationElementNames = new HashSet<QName>(
+					getCustomizationElementNames());
+		}
+		return this.customizationElementNames.contains(new QName(namespaceURI,
+				localName));
 	}
 
 }

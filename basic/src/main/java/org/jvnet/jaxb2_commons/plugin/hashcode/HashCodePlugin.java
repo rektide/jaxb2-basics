@@ -1,7 +1,9 @@
 package org.jvnet.jaxb2_commons.plugin.hashcode;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jvnet.jaxb2_commons.lang.HashCode;
@@ -36,12 +38,6 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 	public String getUsage() {
 		return "TBD";
 	}
-	
-	@Override
-	public List<String> getCustomizationURIs() {
-		return Arrays.asList(Customizations.NAMESPACE_URI,
-				org.jvnet.jaxb2_commons.plugin.hashcode.Customizations.NAMESPACE_URI);
-	}
 
 	private Class hashCodeBuilder = JAXBHashCodeBuilder.class;
 
@@ -64,6 +60,15 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
+	}
+
+	@Override
+	public Collection<QName> getCustomizationElementNames() {
+		return Arrays
+				.asList(
+						org.jvnet.jaxb2_commons.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.GENERATED_ELEMENT_NAME);
 	}
 
 	@Override

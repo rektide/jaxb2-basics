@@ -1,7 +1,9 @@
 package org.jvnet.jaxb2_commons.plugin.tostring;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.jvnet.jaxb2_commons.lang.ToString;
@@ -39,12 +41,6 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 				+ "-XtoString-toStringBuilder:  toString builder class to use. Defaults to "
 				+ JAXBToStringBuilder.class.getName() + ".";
 	}
-	
-	@Override
-	public List<String> getCustomizationURIs() {
-		return Arrays.asList(Customizations.NAMESPACE_URI,
-				org.jvnet.jaxb2_commons.plugin.tostring.Customizations.NAMESPACE_URI);
-	}
 
 	private Class toStringBuilder = JAXBToStringBuilder.class;
 
@@ -70,6 +66,15 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
+	}
+
+	@Override
+	public Collection<QName> getCustomizationElementNames() {
+		return Arrays
+				.asList(
+						org.jvnet.jaxb2_commons.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.GENERATED_ELEMENT_NAME);
 	}
 
 	@Override

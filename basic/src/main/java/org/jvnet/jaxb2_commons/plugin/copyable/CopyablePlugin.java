@@ -1,8 +1,9 @@
 package org.jvnet.jaxb2_commons.plugin.copyable;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
+
+import javax.xml.namespace.QName;
 
 import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.jvnet.jaxb2_commons.lang.Copyable;
@@ -39,12 +40,6 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	public String getUsage() {
 		return "TBD";
 	}
-	
-	@Override
-	public List<String> getCustomizationURIs() {
-		return Arrays.asList(Customizations.NAMESPACE_URI,
-				org.jvnet.jaxb2_commons.plugin.copyable.Customizations.NAMESPACE_URI);
-	}
 
 	private Class copyBuilderClass = JAXBCopyBuilder.class;
 
@@ -67,6 +62,15 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
+	}
+
+	@Override
+	public Collection<QName> getCustomizationElementNames() {
+		return Arrays
+				.asList(
+						org.jvnet.jaxb2_commons.plugin.copyable.Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.IGNORED_ELEMENT_NAME,
+						Customizations.GENERATED_ELEMENT_NAME);
 	}
 
 	@Override
