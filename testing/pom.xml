@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
 		<artifactId>jaxb2-basics-project</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<dependencies>
@@ -31,12 +31,12 @@
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-tools</artifactId>
-			<version>0.5.0</version>
+			<version>0.5.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-runtime</artifactId>
-			<version>0.5.0</version>
+			<version>0.5.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2.maven2</groupId>
