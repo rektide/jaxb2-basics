@@ -18,11 +18,13 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -180,18 +182,21 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
 					final JBlock block = body.block();
-					final JVar sourceField = block.decl(fieldOutline
-							.getRawType(), "source"
+					final JType copyFieldType = fieldOutline.getRawType();
+					final JVar sourceField = block.decl(copyFieldType, "source"
 							+ fieldOutline.getPropertyInfo().getName(true));
 					FieldAccessorFactory.createFieldAccessor(fieldOutline,
 							JExpr._this()).toRawValue(block, sourceField);
-					final JVar copyField = block.decl(
-							fieldOutline.getRawType(), "copy"
-									+ fieldOutline.getPropertyInfo().getName(
-											true),
+					final JVar copyField = block.decl(copyFieldType, "copy"
+							+ fieldOutline.getPropertyInfo().getName(true),
 
-							JExpr.cast(fieldOutline.getRawType(), JExpr.invoke(
-									copyBuilder, "copy").arg(sourceField)));
+					JExpr.cast(copyFieldType, JExpr.invoke(copyBuilder, "copy")
+							.arg(sourceField)));
+					if (copyFieldType instanceof JClass
+							&& ((JClass) copyFieldType).isParameterized()) {
+						copyField.annotate(SuppressWarnings.class).param(
+								"value", "unchecked");
+					}
 					FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, copy)
 							.fromRawValue(

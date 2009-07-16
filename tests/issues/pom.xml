@@ -27,12 +27,12 @@
 						<arg>-Xmergeable</arg>
 					</args>
 					<plugins>
-                                               <plugin>
-                                                       <groupId>org.jvnet.jaxb2_commons</groupId>
-                                                       <artifactId>jaxb2-basics</artifactId>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
 							<version>0.5.1-SNAPSHOT</version>
-                                               </plugin>
-                                       </plugins>
+						</plugin>
+					</plugins>
 				</configuration>
 			</plugin>
 		</plugins>

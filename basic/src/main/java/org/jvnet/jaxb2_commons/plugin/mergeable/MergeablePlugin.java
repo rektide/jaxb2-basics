@@ -147,29 +147,6 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					theClass, leftObject));
 			JVar right = body.decl(JMod.FINAL, theClass, "right", JExpr.cast(
 					theClass, rightObject));
-
-			// if (!classOutline.target.isAbstract()) {
-			// merge = body.decl(JMod.FINAL, theClass, "merge",
-			//
-			// JOp.cond(JOp.eq(target, JExpr._null()), JExpr._new(theClass),
-			// JExpr.cast(theClass, target)));
-			// } else {
-			// body
-			// ._if(JExpr._null().eq(target))
-			// ._then()
-			// ._throw(
-			// JExpr
-			// ._new(
-			// theClass
-			// .owner()
-			// .ref(
-			// IllegalArgumentException.class))
-			// .arg(
-			// "Target argument must not be null for abstract mergeable
-			// classes."));
-			// merge = body.decl(JMod.FINAL, theClass, "merge", JExpr.cast(
-			// theClass, target));
-			// }
 			for (final FieldOutline fieldOutline : classOutline
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
