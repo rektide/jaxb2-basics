@@ -15,12 +15,10 @@
 	<classpathentry kind="src" output="annotate/target/classes" path="annotate/src/main/resources"/>
 	<classpathentry kind="src" output="annotate/target/test-classes" path="annotate/src/test/java"/>
 	<classpathentry kind="src" output="annotate/target/test-classes" path="annotate/src/test/resources"/>
-
 	<classpathentry kind="src" output="tests/issues/target/classes" path="tests/issues/target/generated-sources/xjc"/>
 	<classpathentry kind="src" output="tests/issues/target/classes" path="tests/issues/src/main/resources"/>
 	<classpathentry kind="src" output="tests/issues/target/test-classes" path="tests/issues/src/test/java"/>
-
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
