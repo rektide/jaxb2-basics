@@ -12,6 +12,7 @@
 
 	<xs:annotation>
 		<xs:appinfo>
+			<jaxb:globalBindings generateIsSetMethod="true"/>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues"/>
 			</jaxb:schemaBindings>
@@ -50,5 +51,8 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="issueJIIB3Type">
+		<xs:attribute name="optionalIntAttribute" type="xs:int" use="optional"/>
+	</xs:complexType>
 
 </xs:schema>
