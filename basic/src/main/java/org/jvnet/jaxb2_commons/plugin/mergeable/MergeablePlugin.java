@@ -14,6 +14,7 @@ import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
+import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
@@ -73,9 +74,9 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline, @SuppressWarnings("unused")
-	Options opt, @SuppressWarnings("unused")
-	ErrorHandler errorHandler) {
+	public boolean run(Outline outline,
+			@SuppressWarnings("unused") Options opt,
+			@SuppressWarnings("unused") ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 				processClassOutline(classOutline);
@@ -151,32 +152,29 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
 					final JBlock block = body.block();
+					final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
+					.createFieldAccessor(fieldOutline, left);
 					final JVar leftField = block.decl(
-							fieldOutline.getRawType(), "left"
+							leftFieldAccessor.getType(), "left"
 									+ fieldOutline.getPropertyInfo().getName(
 											true));
-					FieldAccessorFactory
-							.createFieldAccessor(fieldOutline, left)
-							.toRawValue(block, leftField);
-					final JVar rightField = block.decl(fieldOutline
-							.getRawType(), "right"
+					final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, right);
+					leftFieldAccessor.toRawValue(block, leftField);
+					final JVar rightField = block.decl(rightFieldAccessor
+							.getType(), "right"
 							+ fieldOutline.getPropertyInfo().getName(true));
 
-					FieldAccessorFactory.createFieldAccessor(fieldOutline,
-							right).toRawValue(block, rightField);
+					rightFieldAccessor.toRawValue(block, rightField);
 
-					FieldAccessorFactory.createFieldAccessor(fieldOutline,
-							target).fromRawValue(
-							block,
-							"unique"
-									+ fieldOutline.getPropertyInfo().getName(
-											true),
+					final FieldAccessorEx targetFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, target);
+					targetFieldAccessor.fromRawValue(block, "unique"
+							+ fieldOutline.getPropertyInfo().getName(true),
 
-							mergeBuilder.invoke("merge").arg(JExpr._this())
-									.arg(target).arg(
-											fieldOutline.getPropertyInfo()
-													.getName(true)).arg(
-											leftField).arg(rightField));
+					mergeBuilder.invoke("merge").arg(JExpr._this()).arg(target)
+							.arg(fieldOutline.getPropertyInfo().getName(true))
+							.arg(leftField).arg(rightField));
 				}
 
 			methodBody._return(JExpr._this());

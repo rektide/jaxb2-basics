@@ -14,6 +14,7 @@ import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
+import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
@@ -78,9 +79,9 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline, @SuppressWarnings("unused")
-	Options opt, @SuppressWarnings("unused")
-	ErrorHandler errorHandler) {
+	public boolean run(Outline outline,
+			@SuppressWarnings("unused") Options opt,
+			@SuppressWarnings("unused") ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 				processClassOutline(classOutline);
@@ -136,12 +137,13 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
 					final JBlock block = body.block();
-					final JVar theValue = block.decl(fieldOutline.getRawType(),
+					final FieldAccessorEx fieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, JExpr._this());
+					final JVar theValue = block.decl(fieldAccessor.getType(),
 							"the"
 									+ fieldOutline.getPropertyInfo().getName(
 											true));
-					FieldAccessorFactory.createFieldAccessor(fieldOutline,
-							JExpr._this()).toRawValue(block, theValue);
+					fieldAccessor.toRawValue(block, theValue);
 
 					block.invoke(toStringBuilder, "append").arg(
 							JExpr.lit(fieldOutline.getPropertyInfo().getName(

@@ -15,12 +15,16 @@ import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
+import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
@@ -76,9 +80,9 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline, @SuppressWarnings("unused")
-	Options opt, @SuppressWarnings("unused")
-	ErrorHandler errorHandler) {
+	public boolean run(Outline outline,
+			@SuppressWarnings("unused") Options opt,
+			@SuppressWarnings("unused") ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 
@@ -182,30 +186,59 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
 					final JBlock block = body.block();
-					final JType copyFieldType = fieldOutline.getRawType();
-					final JVar sourceField = block.decl(copyFieldType, "source"
-							+ fieldOutline.getPropertyInfo().getName(true));
-					FieldAccessorFactory.createFieldAccessor(fieldOutline,
-							JExpr._this()).toRawValue(block, sourceField);
-					final JVar copyField = block.decl(copyFieldType, "copy"
-							+ fieldOutline.getPropertyInfo().getName(true),
 
-					JExpr.cast(copyFieldType, JExpr.invoke(copyBuilder, "copy")
-							.arg(sourceField)));
-					if (copyFieldType instanceof JClass
-							&& ((JClass) copyFieldType).isParameterized()) {
-						copyField.annotate(SuppressWarnings.class).param(
-								"value", "unchecked");
+					final FieldAccessorEx sourceFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, JExpr._this());
+					final FieldAccessorEx copyFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, copy);
+
+					final JBlock setValueBlock;
+					final JBlock unsetValueBlock;
+
+					final JExpression valueIsSet = sourceFieldAccessor
+							.hasSetValue();
+
+					if (valueIsSet != null) {
+						final JConditional ifValueIsSet = block._if(valueIsSet);
+						setValueBlock = ifValueIsSet._then();
+						unsetValueBlock = ifValueIsSet._else();
+					} else {
+						setValueBlock = block;
+						unsetValueBlock = null;
 					}
-					FieldAccessorFactory
-							.createFieldAccessor(fieldOutline, copy)
-							.fromRawValue(
-									block,
-									"unique"
-											+ fieldOutline.getPropertyInfo()
-													.getName(true), copyField);
-					// block.invoke(equalsBuilder, "append").arg(lhsValue).arg(
-					// rhsValue);
+
+					if (setValueBlock != null) {
+
+						final JType copyFieldType = sourceFieldAccessor
+								.getType();
+						final JVar sourceField = setValueBlock.decl(
+								copyFieldType, "source"
+										+ fieldOutline.getPropertyInfo()
+												.getName(true));
+						sourceFieldAccessor.toRawValue(setValueBlock,
+								sourceField);
+						final JExpression builtCopy = JExpr.invoke(copyBuilder,
+								"copy").arg(sourceField);
+						final JVar copyField = setValueBlock.decl(
+								copyFieldType, "copy"
+										+ fieldOutline.getPropertyInfo()
+												.getName(true), copyFieldType
+										.isPrimitive() ? builtCopy :
+
+								JExpr.cast(copyFieldType, builtCopy));
+						if (copyFieldType instanceof JClass
+								&& ((JClass) copyFieldType).isParameterized()) {
+							copyField.annotate(SuppressWarnings.class).param(
+									"value", "unchecked");
+						}
+						copyFieldAccessor.fromRawValue(setValueBlock, "unique"
+								+ fieldOutline.getPropertyInfo().getName(true),
+								copyField);
+					}
+					if (unsetValueBlock != null) {
+						copyFieldAccessor.unsetValues(unsetValueBlock);
+
+					}
 				}
 
 			body._return(copy);
