@@ -1,5 +1,7 @@
 package org.jvnet.jaxb2_commons.util;
 
+import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
+
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpression;
@@ -15,13 +17,13 @@ public class FieldAccessorFactory {
 
 	}
 
-	public static FieldAccessor createFieldAccessor(FieldOutline fieldOutline,
+	public static FieldAccessorEx createFieldAccessor(FieldOutline fieldOutline,
 			JExpression targetObject) {
 		return new PropertyFieldAccessor(fieldOutline, targetObject);
 
 	}
 
-	private static class PropertyFieldAccessor implements FieldAccessor {
+	private static class PropertyFieldAccessor implements FieldAccessorEx {
 		private static final JType[] ABSENT = new JType[0];
 		private final FieldOutline fieldOutline;
 		private final JExpression targetObject;
@@ -30,6 +32,7 @@ public class FieldAccessorFactory {
 		private final JMethod getter;
 		private final JMethod setter;
 		private FieldAccessor fieldAccessor;
+		private final JType type;
 
 		public PropertyFieldAccessor(final FieldOutline fieldOutline,
 				JExpression targetObject) {
@@ -43,6 +46,8 @@ public class FieldAccessorFactory {
 			final String getterName = "get" + publicName;
 			final String setterName = "set" + publicName;
 			this.getter = theClass.getMethod(getterName, ABSENT);
+			this.type = this.getter != null ? this.getter.type() : fieldOutline
+					.getRawType();
 			// fieldOutline.getRawType();
 			final JType rawType = fieldOutline.getRawType();
 			final JMethod boxifiedSetter = theClass.getMethod(setterName,
@@ -53,6 +58,10 @@ public class FieldAccessorFactory {
 					: unboxifiedSetter;
 			this.isSetter = theClass.getMethod("isSet" + publicName, ABSENT);
 			this.unSetter = theClass.getMethod("unset" + publicName, ABSENT);
+		}
+		
+		public JType getType() {
+			return type;
 		}
 
 		public FieldOutline owner() {
