@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="jaxb2-basics-sample-basic-ant" default="install">
 	<property name="artifactId" value="jaxb2-basics-sample-basic-ant"/>
-	<property name="version" value="0.5.1-SNAPSHOT"/>
+	<property name="version" value="0.5.1"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="commons-lang-*.jar"/>
