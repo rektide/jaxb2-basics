@@ -56,18 +56,25 @@ public class Annotator {
 			XAnnotation xannotation) {
 		final JAnnotationUse annotationUse = annotatable.annotate(xannotation
 				.getAnnotationClass());
-		final AnnotatingFieldVisitor visitor = new AnnotatingFieldVisitor(
+		final XAnnotationVisitor<JAnnotationUse> visitor = createAnnotationFieldVisitor(
 				codeModel, annotationUse);
 		xannotation.accept(visitor);
 
 	}
 
+	protected XAnnotationVisitor<JAnnotationUse> createAnnotationFieldVisitor(
+			JCodeModel codeModel, final JAnnotationUse annotationUse) {
+		final XAnnotationVisitor<JAnnotationUse> visitor = new AnnotatingFieldVisitor(
+				codeModel, annotationUse);
+		return visitor;
+	}
+
 	public static class AnnotatingFieldVisitor implements
 			XAnnotationVisitor<JAnnotationUse> {
 
-		private final JCodeModel codeModel;
+		protected final JCodeModel codeModel;
 
-		private final JAnnotationUse use;
+		protected final JAnnotationUse use;
 
 		public AnnotatingFieldVisitor(final JCodeModel codeModel,
 				final JAnnotationUse use) {
