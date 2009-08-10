@@ -40,4 +40,24 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:simpleType name="two">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<annox:annotate>
+					<jl:SuppressWarnings/>
+				</annox:annotate>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="alpha">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<jl:SuppressWarnings/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType> 
 </xsd:schema>
