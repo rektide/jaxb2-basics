@@ -15,9 +15,12 @@ import org.w3c.dom.Element;
 
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
+import com.sun.tools.xjc.model.CEnumConstant;
+import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyVisitor;
@@ -25,6 +28,8 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.EnumConstantOutline;
+import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class CustomizationUtils {
@@ -228,6 +233,15 @@ public class CustomizationUtils {
 		}
 	}
 
+	public static CCustomizations getCustomizations(EnumOutline enumOutline) {
+		return getCustomizations(enumOutline.target);
+	}
+
+	public static CCustomizations getCustomizations(
+			EnumConstantOutline enumConstantOutline) {
+		return getCustomizations(enumConstantOutline.target);
+	}
+
 	public static CCustomizations getCustomizations(FieldOutline fieldOutline) {
 		return getCustomizations(fieldOutline.getPropertyInfo());
 	}
@@ -292,6 +306,20 @@ public class CustomizationUtils {
 
 	public static CCustomizations getCustomizations(final CClassInfo classInfo) {
 		return classInfo.getCustomizations();
+	}
+
+	public static CCustomizations getCustomizations(
+			final CEnumLeafInfo enumLeafInfo) {
+		return enumLeafInfo.getCustomizations();
+	}
+
+	public static CCustomizations getCustomizations(
+			final CEnumConstant enumConstant) {
+		if (enumConstant instanceof CCustomizable) {
+			return ((CCustomizable) enumConstant).getCustomizations();
+		} else {
+			return CCustomizations.EMPTY;
+		}
 	}
 
 }
