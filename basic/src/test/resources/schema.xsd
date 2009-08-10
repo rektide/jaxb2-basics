@@ -253,5 +253,8 @@
 		</xs:complexContent>
 	</xs:complexType>
 		
-	
+	<xs:element name="emptyElement">
+		<xs:complexType>
+		</xs:complexType>
+	</xs:element> 	
 </xs:schema>

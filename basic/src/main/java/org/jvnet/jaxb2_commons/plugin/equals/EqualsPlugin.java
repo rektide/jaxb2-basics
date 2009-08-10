@@ -75,9 +75,9 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline, @SuppressWarnings("unused")
-	Options opt, @SuppressWarnings("unused")
-	ErrorHandler errorHandler) {
+	public boolean run(Outline outline,
+			@SuppressWarnings("unused") Options opt,
+			@SuppressWarnings("unused") ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 
@@ -143,30 +143,36 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 			}
 			final JExpression _this = JExpr._this();
 
-			final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr
-					.cast(theClass, object));
+			if (classOutline.getDeclaredFields().length > 0) {
+				final JVar _that = body.decl(JMod.FINAL, theClass, "that",
+						JExpr.cast(theClass, object));
 
-			for (final FieldOutline fieldOutline : classOutline
-					.getDeclaredFields())
-				if (!getIgnoring().isIgnored(fieldOutline)) {
-					// final JBlock block = body.block();
-					//				
-					// final JVar lhsValue =
-					// block.decl(fieldOutline.getRawType(),
-					// "lhs" + fieldOutline.getPropertyInfo().getName(true));
-					// FieldAccessorFactory.createFieldAccessor(fieldOutline,
-					// JExpr._this()).toRawValue(block, lhsValue);
-					//
-					// final JVar rhsValue =
-					// block.decl(fieldOutline.getRawType(),
-					// "rhs" + fieldOutline.getPropertyInfo().getName(true));
-					// FieldAccessorFactory.createFieldAccessor(fieldOutline,
-					// that)
-					// .toRawValue(block, rhsValue);
-					body.invoke(equalsBuilder, "append").arg(
-							FieldAccessorUtils.get(_this, fieldOutline)).arg(
-							FieldAccessorUtils.get(_that, fieldOutline));
-				}
+				for (final FieldOutline fieldOutline : classOutline
+						.getDeclaredFields())
+					if (!getIgnoring().isIgnored(fieldOutline)) {
+						// final JBlock block = body.block();
+						//				
+						// final JVar lhsValue =
+						// block.decl(fieldOutline.getRawType(),
+						// "lhs" +
+						// fieldOutline.getPropertyInfo().getName(true));
+						// FieldAccessorFactory.createFieldAccessor(fieldOutline,
+						// JExpr._this()).toRawValue(block, lhsValue);
+						//
+						// final JVar rhsValue =
+						// block.decl(fieldOutline.getRawType(),
+						// "rhs" +
+						// fieldOutline.getPropertyInfo().getName(true));
+						// FieldAccessorFactory.createFieldAccessor(fieldOutline,
+						// that)
+						// .toRawValue(block, rhsValue);
+						body.invoke(equalsBuilder, "append").arg(
+								FieldAccessorUtils.get(_this, fieldOutline))
+								.arg(
+										FieldAccessorUtils.get(_that,
+												fieldOutline));
+					}
+			}
 		}
 		return equals;
 	}
