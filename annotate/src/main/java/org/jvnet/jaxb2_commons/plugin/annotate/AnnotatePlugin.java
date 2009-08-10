@@ -20,12 +20,16 @@ import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JAnnotatable;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.EnumConstantOutline;
+import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.xml.bind.v2.model.core.EnumConstant;
 
 public class AnnotatePlugin extends AbstractParameterizablePlugin {
 
@@ -82,7 +86,24 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 
 			processClassOutline(classOutline, options, errorHandler);
 		}
+		for (final EnumOutline enumOutline : outline.getEnums()) {
+			processEnumOutline(enumOutline, options, errorHandler);
+		}
 		return true;
+	}
+
+	protected void processEnumOutline(EnumOutline enumOutline, Options options,
+			ErrorHandler errorHandler) {
+		final CCustomizations customizations = CustomizationUtils
+				.getCustomizations(enumOutline);
+		annotateEnumOutline(enumOutline.clazz.owner(), enumOutline,
+				customizations, errorHandler);
+
+		for (final EnumConstantOutline enumConstantOutline : enumOutline.constants) {
+			processEnumConstantOutline(enumOutline, enumConstantOutline,
+					options, errorHandler);
+		}
+
 	}
 
 	protected void processClassOutline(ClassOutline classOutline,
@@ -109,6 +130,53 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 				.getCustomizations(fieldOutline);
 		annotate(fieldOutline.parent().ref.owner(), fieldOutline,
 				customizations, errorHandler);
+	}
+
+	private void processEnumConstantOutline(EnumOutline enumOutline,
+			EnumConstantOutline enumConstantOutline, Options options,
+			ErrorHandler errorHandler) {
+
+		final CCustomizations customizations = CustomizationUtils
+				.getCustomizations(enumConstantOutline);
+
+		annotateEnumConstantOutline(enumOutline.parent().getCodeModel(),
+				enumConstantOutline, customizations, errorHandler);
+	}
+
+	protected void annotateEnumOutline(final JCodeModel codeModel,
+			final EnumOutline enumOutline,
+			final CCustomizations customizations,
+			final ErrorHandler errorHandler) {
+		for (final CPluginCustomization customization : customizations) {
+			final Element element = customization.element;
+			final String namespaceURI = element.getNamespaceURI();
+			if (Constants.NAMESPACE_URI.equals(namespaceURI)) {
+				customization.markAsAcknowledged();
+
+				final JAnnotatable annotatable = enumOutline.clazz;
+
+				annotate(codeModel, errorHandler, customization, element,
+						annotatable);
+			}
+		}
+	}
+
+	protected void annotateEnumConstantOutline(final JCodeModel codeModel,
+			final EnumConstantOutline enumConstantOutline,
+			final CCustomizations customizations,
+			final ErrorHandler errorHandler) {
+		for (final CPluginCustomization customization : customizations) {
+			final Element element = customization.element;
+			final String namespaceURI = element.getNamespaceURI();
+			if (Constants.NAMESPACE_URI.equals(namespaceURI)) {
+				customization.markAsAcknowledged();
+
+				final JAnnotatable annotatable = enumConstantOutline.constRef;
+
+				annotate(codeModel, errorHandler, customization, element,
+						annotatable);
+			}
+		}
 	}
 
 	protected void annotateClassOutline(final JCodeModel codeModel,

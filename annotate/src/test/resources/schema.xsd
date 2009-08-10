@@ -179,4 +179,25 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:simpleType name="two">
+		<xs:annotation>
+			<xs:appinfo>
+				<annox:annotate>
+					<F xmlns="http://annox.dev.java.net/org.jvnet.jaxb2_commons.plugin.annotate.tests" value="enum type" />
+				</annox:annotate>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="alpha">
+				<xs:annotation>
+					<xs:appinfo>
+						<annox:annotate>
+							<F xmlns="http://annox.dev.java.net/org.jvnet.jaxb2_commons.plugin.annotate.tests" value="enum constant" />
+						</annox:annotate>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType> 
 </xs:schema>
