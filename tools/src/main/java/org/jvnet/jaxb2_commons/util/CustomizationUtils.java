@@ -315,8 +315,9 @@ public class CustomizationUtils {
 
 	public static CCustomizations getCustomizations(
 			final CEnumConstant enumConstant) {
-		if (enumConstant instanceof CCustomizable) {
-			return ((CCustomizable) enumConstant).getCustomizations();
+		final Object _enumConstant = enumConstant;
+		if (_enumConstant instanceof CCustomizable) {
+			return ((CCustomizable) _enumConstant).getCustomizations();
 		} else {
 			return CCustomizations.EMPTY;
 		}
