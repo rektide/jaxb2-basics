@@ -30,6 +30,7 @@ import org.jvnet.annox.model.XAnnotationField.XShort;
 import org.jvnet.annox.model.XAnnotationField.XShortArray;
 import org.jvnet.annox.model.XAnnotationField.XString;
 import org.jvnet.annox.model.XAnnotationField.XStringArray;
+import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 
 import com.sun.codemodel.JAnnotatable;
 import com.sun.codemodel.JAnnotationArrayMember;
@@ -102,7 +103,7 @@ public class Annotator {
 		}
 
 		public JAnnotationUse visitClassField(XClass field) {
-			final JType type = codeModel.ref(field.getClassName());
+			JType type = CodeModelUtils.ref(codeModel, field.getClassName());
 			return use.param(field.getName(), type);
 		}
 
@@ -172,8 +173,8 @@ public class Annotator {
 			final JAnnotationArrayMember array = use
 					.paramArray(field.getName());
 
-			for (final String className : field.getClassNames()){
-				final JType type = codeModel.ref(className);
+			for (final String className : field.getClassNames()) {
+				final JType type = CodeModelUtils.ref(codeModel, className);
 				array.param(type);
 			}
 			return use;
