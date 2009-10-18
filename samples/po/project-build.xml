@@ -71,7 +71,8 @@
 				-XhashCode
 				-XtoString
 				-Xcopyable
-				-Xmergeable"/>
+				-Xmergeable
+				-Xinheritance"/>
 			<binding dir="${basedir}/src/main/resources">
 			 	<include name="**/*.xjb"/>
 			</binding>

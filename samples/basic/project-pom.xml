@@ -61,6 +61,7 @@
 						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xinheritance</arg>
 						<arg>-Xcopyable</arg>
 					</args>
 					<plugins>

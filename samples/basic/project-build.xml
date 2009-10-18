@@ -69,6 +69,7 @@
 			<arg line="
 				-Xequals
 				-XhashCode
+				-Xinheritance
 				-XtoString
 				-Xcopyable"/>
 			<binding dir="${basedir}/src/main/resources">
