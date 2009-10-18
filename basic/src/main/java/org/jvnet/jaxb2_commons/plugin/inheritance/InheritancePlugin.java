@@ -57,7 +57,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin {
 						Customizations.EXTENDS_ELEMENT_NAME);
 		if (extendsClassCustomization != null) {
 
-			final ExtendsClass extendsClass = (ExtendsClass) Customizations
+			final ExtendsClass extendsClass = (ExtendsClass) CustomizationUtils
 					.unmarshall(Customizations.getContext(),
 							extendsClassCustomization);
 
@@ -74,7 +74,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin {
 		for (final CPluginCustomization implementsInterfaceCustomization : implementsInterfaceCustomizations) {
 			if (implementsInterfaceCustomization != null) {
 
-				final ImplementsInterface implementsInterface = (ImplementsInterface) org.jvnet.jaxb2_commons.plugin.inheritance.Customizations
+				final ImplementsInterface implementsInterface = (ImplementsInterface) org.jvnet.jaxb2_commons.util.CustomizationUtils
 						.unmarshall(Customizations.getContext(),
 								implementsInterfaceCustomization);
 				if (implementsInterface.getInterfaceName() != null) {
