@@ -22,9 +22,8 @@ public class Customizations {
 	private static final JAXBContext context;
 	static {
 		try {
-			context = JAXBContext.newInstance(
-
-			ExtendsClass.class, ImplementsInterface.class);
+			context = JAXBContext.newInstance(ObjectFactory.class.getPackage()
+					.getName(), ObjectFactory.class.getClassLoader());
 		} catch (JAXBException e) {
 			throw new ExceptionInInitializerError(e);
 		}
