@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
@@ -77,4 +78,17 @@ public class ClassUtils {
 		return fields.toArray(new FieldOutline[fields.size()]);
 	}
 
+	public static String getPackagedClassName(final CClassInfo classInfo) {
+
+		if (classInfo.parent() instanceof CClassInfo) {
+			return getPackagedClassName((CClassInfo) classInfo.parent()) + '$'
+					+ classInfo.shortName;
+		} else {
+			final String r = classInfo.parent().fullName();
+			if (r.length() == 0)
+				return classInfo.shortName;
+			else
+				return r + '.' + classInfo.shortName;
+		}
+	}
 }

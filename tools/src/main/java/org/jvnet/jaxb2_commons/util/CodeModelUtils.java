@@ -66,19 +66,18 @@ public class CodeModelUtils {
 				: getClassName((JDefinedClass) theClass.outer()) + "$"
 						+ theClass.name());
 	}
-	
+
 	public static String getLocalClassName(final JDefinedClass theClass) {
 		return (theClass.outer() == null ? theClass.name()
 				: getLocalClassName((JDefinedClass) theClass.outer()) + "$"
 						+ theClass.name());
 	}
-	
+
 	public static String getDottedLocalClassName(final JDefinedClass theClass) {
 		return (theClass.outer() == null ? theClass.name()
-				: getDottedLocalClassName((JDefinedClass) theClass.outer()) + "."
-						+ theClass.name());
+				: getDottedLocalClassName((JDefinedClass) theClass.outer())
+						+ "." + theClass.name());
 	}
-	
 
 	public static String getPackagedClassName(final JDefinedClass theClass) {
 		return (theClass.outer() == null ? theClass.fullName()
@@ -184,4 +183,90 @@ public class CodeModelUtils {
 	public static JCodeModel getCodeModel(ClassOutline classOutline) {
 		return classOutline.ref.owner();
 	}
+
+	public static JType ref(JCodeModel codeModel, String className) {
+		try {
+			// try the context class loader first
+			return codeModel.ref(Thread.currentThread().getContextClassLoader()
+					.loadClass(className));
+		} catch (ClassNotFoundException e) {
+			// fall through
+		}
+		// then the default mechanism.
+		try {
+			return codeModel.ref(Class.forName(className));
+		} catch (ClassNotFoundException e1) {
+			// fall through
+		}
+
+		{
+			JDefinedClass _class = _getClass(codeModel, className);
+			if (_class != null) {
+				return _class;
+			}
+		}
+		return codeModel.ref(className.replace('$', '.'));
+	}
+
+	public static JDefinedClass _getClass(JCodeModel codeModel,
+			String fullyQualifiedName) {
+		final int idx = fullyQualifiedName.lastIndexOf('.');
+		if (idx < 0) {
+			return codeModel.rootPackage()._getClass(fullyQualifiedName);
+		} else {
+			final String packageName = fullyQualifiedName.substring(0, idx);
+			for (Iterator<JPackage> iterator = codeModel.packages(); iterator
+					.hasNext();) {
+				final JPackage _package = iterator.next();
+				if (packageName.equals(_package.name())) {
+					return _getClass(_package, fullyQualifiedName
+							.substring(idx + 1));
+				}
+			}
+			return null;
+		}
+
+	}
+
+	public static JDefinedClass _getClass(JPackage _package, String name) {
+		final int idx = name.lastIndexOf('$');
+		if (idx < 0) {
+			return _package._getClass(name);
+		} else {
+			final String parentClassName = name.substring(0, idx);
+			final JDefinedClass parentClass = _package
+					._getClass(parentClassName);
+			if (parentClass == null) {
+				return null;
+			} else {
+				return _getClass(parentClass, name.substring(idx + 1));
+			}
+
+		}
+
+	}
+
+	public static JDefinedClass _getClass(JDefinedClass _class, String name) {
+		final int idx = name.lastIndexOf('$');
+		if (idx < 0) {
+			for (Iterator<JDefinedClass> nestedClasses = _class.classes(); nestedClasses
+					.hasNext();) {
+				final JDefinedClass nestedClass = nestedClasses.next();
+				if (nestedClass.name().equals(name)) {
+					return nestedClass;
+				}
+			}
+			return null;
+
+		} else {
+			final JDefinedClass nestedClass = _getClass(_class, name.substring(
+					0, idx));
+			if (nestedClass == null) {
+				return null;
+			} else {
+				return _getClass(nestedClass, name.substring(idx + 1));
+			}
+		}
+	}
+
 }

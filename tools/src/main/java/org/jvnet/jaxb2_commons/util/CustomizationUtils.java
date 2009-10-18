@@ -6,13 +6,22 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -357,4 +366,96 @@ public class CustomizationUtils {
 		}
 	}
 
+	public static Object unmarshall(final JAXBContext context,
+			final CPluginCustomization customization) throws AssertionError {
+		if (customization == null) {
+			return null;
+		} else
+
+		{
+			final Unmarshaller unmarshaller;
+			try {
+				unmarshaller = context.createUnmarshaller();
+			} catch (JAXBException ex) {
+				final AssertionError error = new AssertionError(
+						"Unmarshaller could not be created.");
+				error.initCause(ex);
+				throw error;
+			}
+
+			try {
+				final Object result = unmarshaller.unmarshal(new DOMSource(
+						customization.element));
+				final JAXBIntrospector introspector = context
+						.createJAXBIntrospector();
+				if (introspector.isElement(result)) {
+					return JAXBIntrospector.getValue(result);
+				} else {
+					return result;
+				}
+			} catch (JAXBException ex) {
+				throw new IllegalArgumentException(
+						"Could not unmarshal the customization.", ex);
+			}
+
+		}
+	}
+
+	public static CPluginCustomization marshal(final JAXBContext context,
+			final QName name, final Object object) {
+
+		try {
+
+			final JAXBIntrospector introspector = context
+					.createJAXBIntrospector();
+
+			final Object value;
+			{
+				if (introspector.isElement(object)) {
+					value = object;
+				} else {
+					@SuppressWarnings("unchecked")
+					final JAXBElement jaxbElement = new JAXBElement(name,
+							object.getClass(), object);
+					value = jaxbElement;
+				}
+
+			}
+
+			final Marshaller marshaller = context.createMarshaller();
+
+			final DOMResult result = new DOMResult();
+
+			marshaller.marshal(value, result);
+
+			final Node node = result.getNode();
+
+			final Element element;
+			if (node instanceof Element)
+
+			{
+				element = (Element) node;
+			} else if (node instanceof Document) {
+				element = ((Document) node).getDocumentElement();
+			} else {
+				element = null;
+				throw new IllegalArgumentException(
+						"Could not marhsall object into an element.");
+			}
+			return new CPluginCustomization(element, null);
+		} catch (JAXBException jaxbex) {
+			throw new IllegalArgumentException(
+					"Could not marhsall object into an element.", jaxbex);
+
+		}
+	}
+
+	public static CPluginCustomization addCustomization(
+			CCustomizable customizable, JAXBContext context, QName name,
+			Object object) {
+		final CPluginCustomization customization = marshal(context, name,
+				object);
+		customizable.getCustomizations().add(customization);
+		return customization;
+	}
 }
