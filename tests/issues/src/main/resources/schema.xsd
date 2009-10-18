@@ -1,45 +1,55 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
 	xmlns:copyable="http://jaxb2-commons.dev.java.net/basic/copyable"
 	xmlns:equals="http://jaxb2-commons.dev.java.net/basic/equals"
 	xmlns:hashCode="http://jaxb2-commons.dev.java.net/basic/hashCode"
 	xmlns:mergeable="http://jaxb2-commons.dev.java.net/basic/mergeable"
 	xmlns:toString="http://jaxb2-commons.dev.java.net/basic/toString"
+	xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
 	jaxb:version="2.1"
-	jaxb:extensionBindingPrefixes="basic copyable equals hashCode mergeable toString">
+	jaxb:extensionBindingPrefixes="basic copyable equals hashCode mergeable toString inheritance">
 
 	<xs:annotation>
 		<xs:appinfo>
-			<jaxb:globalBindings generateIsSetMethod="true"/>
+			<jaxb:globalBindings generateIsSetMethod="true" />
 			<jaxb:schemaBindings>
-				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues"/>
+				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues" />
 			</jaxb:schemaBindings>
 		</xs:appinfo>
 	</xs:annotation>
 
-	<xs:element name="issue16" type="issue16Type"/>
+	<xs:element name="issue16" type="issue16Type" />
 
 	<xs:complexType name="issue16Type">
 		<xs:sequence>
-			<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="1"/>
+			<xs:any namespace="##any" processContents="lax" minOccurs="0"
+				maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="issueJIIB1" type="issueJIIB1Type"/>
+	<xs:element name="issueJIIB1" type="issueJIIB1Type" />
 
 	<xs:complexType name="issueJIIB1Type">
+		<xs:annotation>
+			<xs:appinfo>
+				<inheritance:implements>java.lang.Cloneable</inheritance:implements>
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="notIgnored" type="xs:string"/>
+			<xs:element name="notIgnored" type="xs:string" />
 			<xs:element name="ignored" type="xs:string">
 				<xs:annotation>
-					<xs:appinfo><basic:ignored/></xs:appinfo>
+					<xs:appinfo>
+						<basic:ignored />
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="alsoIgnored" type="xs:string">
 				<xs:annotation>
-					<xs:appinfo><copyable:ignored/></xs:appinfo>
+					<xs:appinfo>
+						<copyable:ignored />
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -47,12 +57,17 @@
 
 	<xs:complexType name="issueJIIB2Type">
 		<xs:sequence>
-			<xs:element name="strings" type="xs:string" maxOccurs="unbounded"/>
+			<xs:element name="strings" type="xs:string" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="issueJIIB3Type">
-		<xs:attribute name="optionalIntAttribute" type="xs:int" use="optional"/>
+		<xs:attribute name="optionalIntAttribute" type="xs:int"
+			use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="issueJIIB5Type">
+		<xs:attribute name="boolean" type="xs:boolean" use="optional" />
 	</xs:complexType>
 
 </xs:schema>

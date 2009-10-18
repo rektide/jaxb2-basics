@@ -3,6 +3,7 @@ package org.jvnet.jaxb2_commons.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -95,6 +96,31 @@ public class CustomizationUtils {
 			customization.markAsAcknowledged();
 		}
 		return customization;
+	}
+
+	public static List<CPluginCustomization> findCustomizations(
+			ClassOutline classOutline, QName name) {
+		return findCustomizations(classOutline.target, name);
+	}
+
+	public static List<CPluginCustomization> findCustomizations(
+			CClassInfo classInfo, QName name) {
+		final CCustomizations customizations = CustomizationUtils
+				.getCustomizations(classInfo);
+
+		final List<CPluginCustomization> pluginCustomizations = new LinkedList<CPluginCustomization>();
+
+		for (CPluginCustomization pluginCustomization : customizations) {
+			if (fixNull(pluginCustomization.element.getNamespaceURI()).equals(
+					name.getNamespaceURI())
+					&& fixNull(pluginCustomization.element.getLocalName())
+							.equals(name.getLocalPart())) {
+				pluginCustomization.markAsAcknowledged();
+				pluginCustomizations.add(pluginCustomization);
+			}
+		}
+
+		return pluginCustomizations;
 	}
 
 	public static CPluginCustomization findCustomization(CClassInfo classInfo,
@@ -320,6 +346,14 @@ public class CustomizationUtils {
 			return ((CCustomizable) _enumConstant).getCustomizations();
 		} else {
 			return CCustomizations.EMPTY;
+		}
+	}
+
+	private static String fixNull(String s) {
+		if (s == null) {
+			return "";
+		} else {
+			return s;
 		}
 	}
 
