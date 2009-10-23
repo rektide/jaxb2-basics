@@ -12,7 +12,7 @@
 
 	<xs:annotation>
 		<xs:appinfo>
-			<jaxb:globalBindings generateIsSetMethod="true" />
+			<jaxb:globalBindings generateIsSetMethod="true" localScoping="toplevel"/>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues" />
 			</jaxb:schemaBindings>
@@ -68,6 +68,23 @@
 
 	<xs:complexType name="issueJIIB5Type">
 		<xs:attribute name="boolean" type="xs:boolean" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="issueJIIB6Type">
+		<xs:sequence>
+			<xs:element name="nested" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:annotation>
+						<xs:appinfo>
+							<!--jaxb:class name="IssueJIIB6TypeNested"/-->
+						</xs:appinfo>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="value" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 </xs:schema>

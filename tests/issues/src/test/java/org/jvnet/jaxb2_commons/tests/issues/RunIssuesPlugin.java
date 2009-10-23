@@ -12,6 +12,7 @@ public class RunIssuesPlugin extends RunXJC2Mojo {
 	protected void configureMojo(AbstractXJC2Mojo mojo) {
 		super.configureMojo(mojo);
 		mojo.setExtension(true);
+		mojo.setForceRegenerate(true);
 	}
 
 	@Override
