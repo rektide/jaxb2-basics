@@ -7,6 +7,7 @@
 	<packaging>pom</packaging>
 	<version>0.5.2</version>
 	<name>JAXB2 Basics - Project</name>
+	<url>http://static.highsource.org/jaxb2-basics</url>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
 	<issueManagement>
 		<system>JIRA</system>
@@ -43,10 +44,18 @@
 			<timezone></timezone>
 		</contributor-->
 	</contributors>
+	<licenses>
+		<license>
+			<name>BSD-Style License</name>
+			<url>http://confluence.highsource.org/display/J2B/License</url>
+			<distribution>repo</distribution>
+			<comments>JAXB2 Basics license is the 3-clause BSD license which is compatible with GPL. JAXB2 Basics license does not require you to include any acknowledgments for JAXB2 Basics in advertising materials for your software.</comments>
+		</license>
+	</licenses>
 	<scm>
-		<connection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn</connection>
-		<developerConnection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn</developerConnection>
-		<url>https://jaxb2-commons-svn.dev.java.net/source/browse/jaxb2-commons-svn</url>
+		<connection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn/trunk/basics/</connection>
+		<developerConnection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn/trunk/basics/</developerConnection>
+		<url>https://jaxb2-commons-svn.dev.java.net/source/browse/jaxb2-commons-svn/trunk/basics/</url>
 	</scm>
 	<organization>
 		<name>Sun Microsystems</name>
