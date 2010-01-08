@@ -16,6 +16,7 @@
 		<module>po</module>
 		<module>basic</module>
 		<module>modular-ant</module>
+		<module>annotate</module>
 	</modules>
 	<build>
 		<defaultGoal>install</defaultGoal>
