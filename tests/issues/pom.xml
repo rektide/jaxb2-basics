@@ -12,11 +12,11 @@
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [issues]</name>
 	<dependencies>
-		<!--dependency>
+		<dependency>
 			<groupId>org.jvnet.jaxb2.maven2</groupId>
 			<artifactId>maven-jaxb2-plugin-testing</artifactId>
 			<scope>test</scope>
-		</dependency-->
+		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics</artifactId>
