@@ -12,7 +12,8 @@
 
 	<xs:annotation>
 		<xs:appinfo>
-			<jaxb:globalBindings generateIsSetMethod="true" localScoping="toplevel"/>
+			<jaxb:globalBindings generateIsSetMethod="true"
+				localScoping="toplevel" />
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues" />
 			</jaxb:schemaBindings>
@@ -80,10 +81,16 @@
 						</xs:appinfo>
 					</xs:annotation>
 					<xs:sequence>
-						<xs:element name="value" type="xs:string"/>
+						<xs:element name="value" type="xs:string" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="issueJIIB8Type">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 

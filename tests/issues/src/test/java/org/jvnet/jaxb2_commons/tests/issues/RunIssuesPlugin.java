@@ -24,6 +24,7 @@ public class RunIssuesPlugin extends RunXJC2Mojo {
 		args.add("-Xcopyable");
 		args.add("-Xmergeable");
 		args.add("-Xinheritance");
+		args.add("-Xsetters");
 		return args;
 	}
 

@@ -5,3 +5,4 @@ org.jvnet.jaxb2_commons.plugin.hashcode.HashCodePlugin
 org.jvnet.jaxb2_commons.plugin.copyable.CopyablePlugin
 org.jvnet.jaxb2_commons.plugin.mergeable.MergeablePlugin
 org.jvnet.jaxb2_commons.plugin.inheritance.InheritancePlugin
+org.jvnet.jaxb2_commons.plugin.setters.SettersPlugin
