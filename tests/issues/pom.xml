@@ -39,6 +39,7 @@
 						<arg>-Xmergeable</arg>
 						<arg>-Xinheritance</arg>
 						<arg>-Xsetters</arg>
+						<arg>-Xwildcard</arg>
 					</args>
 					<plugins>
 						<plugin>
