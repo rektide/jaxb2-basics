@@ -131,6 +131,27 @@ public class CustomizationUtils {
 
 		return pluginCustomizations;
 	}
+	
+	public static List<CPluginCustomization> findCustomizations(
+			Model model, QName name) {
+		final CCustomizations customizations = CustomizationUtils
+				.getCustomizations(model);
+
+		final List<CPluginCustomization> pluginCustomizations = new LinkedList<CPluginCustomization>();
+
+		for (CPluginCustomization pluginCustomization : customizations) {
+			if (fixNull(pluginCustomization.element.getNamespaceURI()).equals(
+					name.getNamespaceURI())
+					&& fixNull(pluginCustomization.element.getLocalName())
+							.equals(name.getLocalPart())) {
+				pluginCustomization.markAsAcknowledged();
+				pluginCustomizations.add(pluginCustomization);
+			}
+		}
+
+		return pluginCustomizations;
+	}
+
 
 	public static CPluginCustomization findCustomization(CClassInfo classInfo,
 			QName name) {

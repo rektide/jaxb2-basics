@@ -134,7 +134,13 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		final JMethod copyTo$copyTo = generateCopyTo$CopyTo(classOutline,
 				theClass);
 		@SuppressWarnings("unused")
+		final JMethod copyTo$copyTo1 = generateCopyTo$CopyTo1(classOutline,
+				theClass);
+		@SuppressWarnings("unused")
 		final JMethod copyable$copyTo = generateCopyable$CopyTo(classOutline,
+				theClass);
+		@SuppressWarnings("unused")
+		final JMethod copyable$copyTo1 = generateCopyable$CopyTo1(classOutline,
 				theClass);
 
 		// @SuppressWarnings("unused")
