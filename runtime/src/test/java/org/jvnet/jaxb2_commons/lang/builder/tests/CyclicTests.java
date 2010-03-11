@@ -13,13 +13,13 @@ public class CyclicTests extends TestCase {
 	
 	public interface CopyToInstance extends CopyTo
 	{
-		public Object createCopy();
+		public Object createNewInstance();
 	}
 
 	public static class A implements CopyToInstance {
 		public B b;
 		
-		public Object createCopy() {
+		public Object createNewInstance() {
 			return new A();
 		}
 
@@ -34,7 +34,7 @@ public class CyclicTests extends TestCase {
 	public static class B implements CopyToInstance {
 		public A a;
 		
-		public Object createCopy()
+		public Object createNewInstance()
 		{
 			return new B();
 		}
@@ -67,7 +67,7 @@ public class CyclicTests extends TestCase {
 					if (object instanceof CopyToInstance)
 					{
 						final CopyToInstance source = (CopyToInstance) object;
-						final Object newCopy = source.createCopy();
+						final Object newCopy = source.createNewInstance();
 						copies.put(object, newCopy);
 						source.copyTo(newCopy, this);
 						return newCopy;

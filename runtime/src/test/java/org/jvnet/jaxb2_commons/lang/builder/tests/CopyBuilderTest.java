@@ -44,7 +44,7 @@ public class CopyBuilderTest extends TestCase {
 		try {
 			A a = (A) context.createUnmarshaller().unmarshal(is);
 
-			a.copyTo(a.createCopy());
+			a.copyTo(a.createNewInstance());
 		} finally {
 			IOUtils.closeQuietly(is);
 		}
@@ -64,12 +64,12 @@ public class CopyBuilderTest extends TestCase {
 			this.any = any;
 		}
 
-		public Object createCopy() {
+		public Object createNewInstance() {
 			return new A();
 		}
 
 		public Object copyTo(Object target, CopyBuilder copyBuilder) {
-			final A copy = ((target == null) ? ((A) createCopy())
+			final A copy = ((target == null) ? ((A) createNewInstance())
 					: ((A) target));
 			{
 				Object sourceAny;
@@ -81,8 +81,9 @@ public class CopyBuilderTest extends TestCase {
 		}
 
 		public Object copyTo(Object target) {
-			final CopyBuilder copyBuilder = new JAXBCopyBuilder();
+			final CopyBuilder copyBuilder = JAXBCopyBuilder.INSTANCE;
 			return copyTo(target, copyBuilder);
 		}
+
 	}
 }

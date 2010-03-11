@@ -21,13 +21,15 @@ public class JAXBCopyBuilder extends CopyBuilder {
 			return copy((List) object);
 		} else if (object instanceof Set) {
 			return copy((Set) object);
-		} else if (object instanceof CopyTo)
-			return ((CopyTo) object).copyTo(((CopyTo) object).createCopy(), this);
-		else if (object instanceof Copyable)
-			return ((Copyable) object).copyTo(((Copyable) object).createCopy());
-		else if (object instanceof Node)
+		} else if (object instanceof CopyTo) {
+			return ((CopyTo) object).copyTo(((CopyTo) object).createNewInstance(),
+					this);
+		} else if (object instanceof Copyable) {
+			return ((Copyable) object).copyTo(((Copyable) object)
+					.createNewInstance());
+		} else if (object instanceof Node) {
 			return ((Node) object).cloneNode(true);
-		else if (object instanceof JAXBElement) {
+		} else if (object instanceof JAXBElement) {
 			final JAXBElement sourceElement = (JAXBElement) object;
 			final Object sourceObject = sourceElement.getValue();
 			final Object copyObject = copy(sourceObject);
@@ -59,4 +61,6 @@ public class JAXBCopyBuilder extends CopyBuilder {
 		}
 		return copy;
 	}
+
+	public static JAXBCopyBuilder INSTANCE = new JAXBCopyBuilder();
 }

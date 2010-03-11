@@ -10,6 +10,18 @@
 	<artifactId>jaxb2-basics-test-one</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [one]</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.jvnet.jaxb2.maven2</groupId>
+			<artifactId>maven-jaxb2-plugin-testing</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics</artifactId>
+			<version>0.5.3-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
