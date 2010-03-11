@@ -12,6 +12,8 @@ import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.jvnet.jaxb2_commons.lang.Copyable;
 import org.jvnet.jaxb2_commons.lang.builder.CopyBuilder;
 import org.jvnet.jaxb2_commons.lang.builder.JAXBCopyBuilder;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
@@ -170,22 +172,59 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 			final JVar target = copyable$copyTo.param(Object.class, "target");
 			final JBlock body = copyable$copyTo.body();
 
-			final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(CopyBuilder.class), "copyBuilder",
-					createCopyBuilder(theClass.owner()));
-
-			body._return(JExpr.invoke("copyTo").arg(target).arg(copyBuilder));
+			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target));
 		}
 		return copyable$copyTo;
 	}
 
-	protected JMethod generateCopyTo$CopyTo(ClassOutline classOutline,
+	protected JMethod generateCopyable$CopyTo1(final ClassOutline classOutline,
+			final JDefinedClass theClass) {
+		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
+
+		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
+				.owner().ref(Object.class), "copyTo");
+		{
+			final JVar locator = copyable$copyTo.param(ObjectLocator.class,
+					"locator");
+			final JVar target = copyable$copyTo.param(Object.class, "target");
+			final JBlock body = copyable$copyTo.body();
+
+			final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
+					.ref(CopyBuilder.class), "copyBuilder",
+					createCopyBuilder(theClass.owner()));
+
+			body._return(JExpr.invoke("copyTo").arg(locator).arg(target).arg(
+					copyBuilder));
+		}
+		return copyable$copyTo;
+	}
+
+	protected JMethod generateCopyTo$CopyTo(final ClassOutline classOutline,
+			final JDefinedClass theClass) {
+		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
+
+		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
+				.owner().ref(Object.class), "copyTo");
+		{
+			final JVar target = copyable$copyTo.param(Object.class, "target");
+			final JVar copyBuilder = copyable$copyTo.param(CopyBuilder.class,
+					"copyBuilder");
+			final JBlock body = copyable$copyTo.body();
+
+			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target)
+					.arg(copyBuilder));
+		}
+		return copyable$copyTo;
+	}
+
+	protected JMethod generateCopyTo$CopyTo1(ClassOutline classOutline,
 			final JDefinedClass theClass) {
 		ClassUtils._implements(theClass, theClass.owner().ref(CopyTo.class));
 
 		final JMethod copyTo = theClass.method(JMod.PUBLIC, theClass.owner()
 				.ref(Object.class), "copyTo");
 		{
+			final JVar locator = copyTo.param(ObjectLocator.class, "locator");
 			final JVar target = copyTo.param(Object.class, "target");
 			final JVar copyBuilder = copyTo.param(CopyBuilder.class,
 					"copyBuilder");
@@ -217,8 +256,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 			if (classOutline.target.getBaseClass() != null
 					|| classOutline.target.getRefBaseClass() != null) {
-				body.invoke(JExpr._super(), "copyTo").arg(draftCopy).arg(
-						copyBuilder);
+				body.invoke(JExpr._super(), "copyTo").arg(locator).arg(
+						draftCopy).arg(copyBuilder);
 			}
 
 			final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
@@ -262,7 +301,13 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 						sourceFieldAccessor.toRawValue(setValueBlock,
 								sourceField);
 						final JExpression builtCopy = JExpr.invoke(copyBuilder,
-								"copy").arg(sourceField);
+								"copy").arg(
+								theClass.owner().ref(LocatorUtils.class)
+										.staticInvoke("field").arg(locator)
+										.arg(
+												fieldOutline.getPropertyInfo()
+														.getName(false))).arg(
+								sourceField);
 						final JVar copyField = setValueBlock.decl(
 								copyFieldType, "copy"
 										+ fieldOutline.getPropertyInfo()

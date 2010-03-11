@@ -15,6 +15,7 @@ import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.jvnet.jaxb2_commons.lang.Copyable;
 import org.jvnet.jaxb2_commons.lang.builder.CopyBuilder;
 import org.jvnet.jaxb2_commons.lang.builder.JAXBCopyBuilder;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -33,7 +34,7 @@ public class CopyBuilderTest extends TestCase {
 
 		polygon.clone();
 
-		new JAXBCopyBuilder().copy(polygon);
+		new JAXBCopyBuilder().copy(null, polygon);
 
 	}
 
@@ -69,20 +70,31 @@ public class CopyBuilderTest extends TestCase {
 		}
 
 		public Object copyTo(Object target, CopyBuilder copyBuilder) {
+			return copyTo(null, target, copyBuilder);
+		}
+
+		public Object copyTo(Object target) {
+			return copyTo(null, target);
+		}
+
+		@Override
+		public Object copyTo(ObjectLocator locator, Object target,
+				CopyBuilder copyBuilder) {
 			final A copy = ((target == null) ? ((A) createNewInstance())
 					: ((A) target));
 			{
 				Object sourceAny;
 				sourceAny = this.getAny();
-				Object copyAny = ((Object) copyBuilder.copy(sourceAny));
+				Object copyAny = ((Object) copyBuilder.copy(null, sourceAny));
 				copy.setAny(copyAny);
 			}
 			return copy;
 		}
 
-		public Object copyTo(Object target) {
+		@Override
+		public Object copyTo(ObjectLocator locator, Object target) {
 			final CopyBuilder copyBuilder = JAXBCopyBuilder.INSTANCE;
-			return copyTo(target, copyBuilder);
+			return copyTo(null, target, copyBuilder);
 		}
 
 	}
