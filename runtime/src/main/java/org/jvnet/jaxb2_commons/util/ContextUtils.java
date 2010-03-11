@@ -10,7 +10,7 @@ import org.apache.commons.lang.Validate;
 
 public class ContextUtils {
 
-	public static String getContextPath(Class... classes) {
+	public static String getContextPath(Class<?>... classes) {
 		Validate.noNullElements(classes);
 
 		final StringBuffer contextPath = new StringBuffer();
