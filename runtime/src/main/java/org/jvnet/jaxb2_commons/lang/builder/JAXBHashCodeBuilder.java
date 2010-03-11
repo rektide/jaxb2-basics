@@ -12,7 +12,7 @@ public class JAXBHashCodeBuilder extends HashCodeBuilder {
 			appendSuper(0);
 			return this;
 		} else {
-			final Class theClass = object.getClass();
+			final Class<?> theClass = object.getClass();
 			if (theClass.isArray()) {
 				super.append(object);
 			} else {
