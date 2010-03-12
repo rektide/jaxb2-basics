@@ -16,7 +16,7 @@ public class CopyableTest extends AbstractSamplesTest {
 		final Object object = createContext().createUnmarshaller().unmarshal(
 				sample);
 		final JAXBCopyBuilder builder = new JAXBCopyBuilder();
-		final Object copy = builder.copy(object);
+		final Object copy = builder.copy(null, object);
 		final JAXBEqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
 		Assert.assertTrue("Source and copy must be equal.", equalsBuilder
 				.append(object, copy).isEquals());
