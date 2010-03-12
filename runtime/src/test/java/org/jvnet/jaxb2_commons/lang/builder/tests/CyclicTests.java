@@ -15,7 +15,6 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 public class CyclicTests extends TestCase {
 
 	public interface CopyToInstance extends CopyTo {
-		public Object createNewInstance();
 	}
 
 	public static class A implements CopyToInstance {
@@ -29,7 +28,6 @@ public class CyclicTests extends TestCase {
 			return copyTo(null, target, copyBuilder);
 		}
 
-		@Override
 		public Object copyTo(ObjectLocator locator, Object target,
 				CopyBuilder copyBuilder) {
 			final A that = (A) target;

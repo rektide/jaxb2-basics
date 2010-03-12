@@ -77,7 +77,6 @@ public class CopyBuilderTest extends TestCase {
 			return copyTo(null, target);
 		}
 
-		@Override
 		public Object copyTo(ObjectLocator locator, Object target,
 				CopyBuilder copyBuilder) {
 			final A copy = ((target == null) ? ((A) createNewInstance())
@@ -91,7 +90,6 @@ public class CopyBuilderTest extends TestCase {
 			return copy;
 		}
 
-		@Override
 		public Object copyTo(ObjectLocator locator, Object target) {
 			final CopyBuilder copyBuilder = JAXBCopyBuilder.INSTANCE;
 			return copyTo(null, target, copyBuilder);
