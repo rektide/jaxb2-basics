@@ -37,22 +37,41 @@ public abstract class AbstractPlugin extends Plugin {
 	public boolean run(Outline outline, Options options,
 			ErrorHandler errorHandler) throws SAXException {
 		/*
-		 * try { init(options); } catch (Exception ex) { SAXParseException saxex =
-		 * new SAXParseException( "Could not initialize Spring context.", null,
-		 * ex); errorHandler.fatalError(saxex); throw saxex; }
+		 * try { init(options); } catch (Exception ex) { SAXParseException saxex
+		 * = new SAXParseException( "Could not initialize Spring context.",
+		 * null, ex); errorHandler.fatalError(saxex); throw saxex; }
 		 */
 		try {
+			beforeRun(outline, options);
 			return run(outline, options);
 		} catch (Exception ex) {
 			final SAXParseException saxex = new SAXParseException(
 					"Error during plugin execution.", null, ex);
 			errorHandler.error(saxex);
 			throw saxex;
+		} finally {
+			try {
+				afterRun(outline, options);
+			} catch (Exception ex) {
+				final SAXParseException saxex = new SAXParseException(
+						"Error during plugin execution.", null, ex);
+				errorHandler.error(saxex);
+				throw saxex;
+
+			}
 		}
+	}
+
+	protected void beforeRun(Outline outline, Options options) throws Exception {
+
 	}
 
 	protected boolean run(Outline outline, Options options) throws Exception {
 		return true;
+	}
+
+	protected void afterRun(Outline outline, Options options) throws Exception {
+
 	}
 
 	protected void init(Options options) throws Exception {
