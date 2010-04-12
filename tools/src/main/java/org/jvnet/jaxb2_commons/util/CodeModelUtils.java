@@ -61,27 +61,25 @@ public class CodeModelUtils {
 	// theClass._i
 	// }
 
-	public static String getClassName(final JDefinedClass theClass) {
+	public static String getClassName(final JClass theClass) {
 		return (theClass.outer() == null ? theClass.fullName()
-				: getClassName((JDefinedClass) theClass.outer()) + "$"
+				: getClassName(theClass.outer()) + "$" + theClass.name());
+	}
+
+	public static String getLocalClassName(final JClass theClass) {
+		return (theClass.outer() == null ? theClass.name()
+				: getLocalClassName(theClass.outer()) + "$" + theClass.name());
+	}
+
+	public static String getDottedLocalClassName(final JClass theClass) {
+		return (theClass.outer() == null ? theClass.name()
+				: getDottedLocalClassName(theClass.outer()) + "."
 						+ theClass.name());
 	}
 
-	public static String getLocalClassName(final JDefinedClass theClass) {
-		return (theClass.outer() == null ? theClass.name()
-				: getLocalClassName((JDefinedClass) theClass.outer()) + "$"
-						+ theClass.name());
-	}
-
-	public static String getDottedLocalClassName(final JDefinedClass theClass) {
-		return (theClass.outer() == null ? theClass.name()
-				: getDottedLocalClassName((JDefinedClass) theClass.outer())
-						+ "." + theClass.name());
-	}
-
-	public static String getPackagedClassName(final JDefinedClass theClass) {
+	public static String getPackagedClassName(final JClass theClass) {
 		return (theClass.outer() == null ? theClass.fullName()
-				: getPackagedClassName((JDefinedClass) theClass.outer()) + "$"
+				: getPackagedClassName(theClass.outer()) + "$"
 						+ theClass.name());
 	}
 
