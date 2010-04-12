@@ -10,6 +10,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.outline.Outline;
 
 public abstract class AbstractSpringConfigurablePlugin extends
 		AbstractParameterizablePlugin {
@@ -46,6 +47,11 @@ public abstract class AbstractSpringConfigurablePlugin extends
 
 	public void init(Options options) throws Exception {
 
+	}
+
+	@Override
+	protected void beforeRun(Outline outline, Options options) throws Exception {
+		super.beforeRun(outline, options);
 		final String[] configLocations = getConfigLocations();
 		if (!ArrayUtils.isEmpty(configLocations)) {
 			final String configLocationsString = ArrayUtils
@@ -55,8 +61,8 @@ public abstract class AbstractSpringConfigurablePlugin extends
 			try {
 				applicationContext = new FileSystemXmlApplicationContext(
 						configLocations, false);
-				applicationContext.setClassLoader(
-						Thread.currentThread().getContextClassLoader());
+				applicationContext.setClassLoader(Thread.currentThread()
+						.getContextClassLoader());
 				applicationContext.refresh();
 				if (getAutowireMode() != AutowireCapableBeanFactory.AUTOWIRE_NO) {
 					applicationContext.getBeanFactory().autowireBeanProperties(
