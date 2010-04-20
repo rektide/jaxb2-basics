@@ -26,6 +26,9 @@
 						<annox:annotate target="setter">
 							<jl:Deprecated/>
 						</annox:annotate>
+						<annox:annotate target="setter-parameter">
+							<jl:Deprecated/>
+						</annox:annotate>
 						<annox:annotate target="getter">
 							<jl:Deprecated/>
 						</annox:annotate>
