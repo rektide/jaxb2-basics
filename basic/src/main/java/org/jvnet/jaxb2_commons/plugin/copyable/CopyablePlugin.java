@@ -274,12 +274,17 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 			for (final FieldOutline fieldOutline : classOutline
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
-					final JBlock block = bl.block();
 
 					final FieldAccessorEx sourceFieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, JExpr._this());
 					final FieldAccessorEx copyFieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, copy);
+
+					if (sourceFieldAccessor.isConstant()) {
+						continue;
+					}
+
+					final JBlock block = bl.block();
 
 					final JBlock setValueBlock;
 					final JBlock unsetValueBlock;

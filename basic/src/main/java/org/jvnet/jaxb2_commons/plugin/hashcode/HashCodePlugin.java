@@ -40,13 +40,13 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class hashCodeBuilder = JAXBHashCodeBuilder.class;
+	private Class<?> hashCodeBuilder = JAXBHashCodeBuilder.class;
 
-	public void setHashCodeBuilder(Class equalsBuilderClass) {
+	public void setHashCodeBuilder(Class<?> equalsBuilderClass) {
 		this.hashCodeBuilder = equalsBuilderClass;
 	}
 
-	public Class getHashCodeBuilder() {
+	public Class<?> getHashCodeBuilder() {
 		return hashCodeBuilder;
 	}
 
@@ -130,9 +130,12 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			for (final FieldOutline fieldOutline : classOutline
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
-					final JBlock block = body.block();
 					final FieldAccessorEx fieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, JExpr._this());
+					if (fieldAccessor.isConstant()) {
+						continue;
+					}
+					final JBlock block = body.block();
 
 					final JVar theValue = block.decl(fieldAccessor.getType(),
 							"the"

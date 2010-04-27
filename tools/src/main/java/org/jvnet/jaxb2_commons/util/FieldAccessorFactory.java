@@ -4,8 +4,11 @@ import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -17,8 +20,8 @@ public class FieldAccessorFactory {
 
 	}
 
-	public static FieldAccessorEx createFieldAccessor(FieldOutline fieldOutline,
-			JExpression targetObject) {
+	public static FieldAccessorEx createFieldAccessor(
+			FieldOutline fieldOutline, JExpression targetObject) {
 		return new PropertyFieldAccessor(fieldOutline, targetObject);
 
 	}
@@ -27,10 +30,12 @@ public class FieldAccessorFactory {
 		private static final JType[] ABSENT = new JType[0];
 		private final FieldOutline fieldOutline;
 		private final JExpression targetObject;
+		private final JDefinedClass theClass;
 		private final JMethod isSetter;
 		private final JMethod unSetter;
 		private final JMethod getter;
 		private final JMethod setter;
+		private final JFieldVar constantField;
 		private FieldAccessor fieldAccessor;
 		private final JType type;
 
@@ -42,12 +47,23 @@ public class FieldAccessorFactory {
 			this.fieldAccessor = fieldOutline.create(targetObject);
 			final String publicName = fieldOutline.getPropertyInfo().getName(
 					true);
-			final JDefinedClass theClass = fieldOutline.parent().implClass;
-			final String getterName = "get" + publicName;
+			this.theClass = fieldOutline.parent().implClass;
 			final String setterName = "set" + publicName;
-			this.getter = theClass.getMethod(getterName, ABSENT);
+			final JMethod getGetter = theClass.getMethod("get" + publicName,
+					ABSENT);
+			final JMethod isGetter = theClass.getMethod("is" + publicName,
+					ABSENT);
+			this.getter = getGetter != null ? getGetter
+					: (isGetter != null ? isGetter : null);
 			this.type = this.getter != null ? this.getter.type() : fieldOutline
 					.getRawType();
+
+			final JFieldVar field = theClass.fields().get(publicName);
+			this.constantField = field != null
+					&& ((field.mods().getValue() & JMod.PUBLIC) != 0)
+					&& ((field.mods().getValue() & JMod.STATIC) != 0)
+					&& ((field.mods().getValue() & JMod.FINAL) != 0) ? field
+					: null;
 			// fieldOutline.getRawType();
 			final JType rawType = fieldOutline.getRawType();
 			final JMethod boxifiedSetter = theClass.getMethod(setterName,
@@ -59,9 +75,14 @@ public class FieldAccessorFactory {
 			this.isSetter = theClass.getMethod("isSet" + publicName, ABSENT);
 			this.unSetter = theClass.getMethod("unset" + publicName, ABSENT);
 		}
-		
+
 		public JType getType() {
 			return type;
+		}
+
+		@Override
+		public boolean isConstant() {
+			return constantField != null;
 		}
 
 		public FieldOutline owner() {
@@ -73,7 +94,9 @@ public class FieldAccessorFactory {
 		}
 
 		public JExpression hasSetValue() {
-			if (isSetter != null) {
+			if (constantField != null) {
+				return JExpr.TRUE;
+			} else if (isSetter != null) {
 				return targetObject.invoke(isSetter);
 			} else {
 				return fieldAccessor.hasSetValue();
@@ -81,7 +104,9 @@ public class FieldAccessorFactory {
 		}
 
 		public void unsetValues(JBlock body) {
-			if (unSetter != null) {
+			if (constantField != null) {
+
+			} else if (unSetter != null) {
 				body.invoke(targetObject, unSetter);
 			} else {
 
@@ -91,7 +116,9 @@ public class FieldAccessorFactory {
 
 		public void fromRawValue(JBlock block, String uniqueName,
 				JExpression $var) {
-			if (setter != null) {
+			if (constantField != null) {
+
+			} else if (setter != null) {
 				block.invoke(targetObject, setter).arg($var);
 			} else {
 				unsetValues(block);
@@ -100,7 +127,9 @@ public class FieldAccessorFactory {
 		}
 
 		public void toRawValue(JBlock block, JVar $var) {
-			if (getter != null) {
+			if (constantField != null) {
+				block.assign($var, theClass.staticRef(this.constantField));
+			} else if (getter != null) {
 				block.assign($var, targetObject.invoke(getter));
 			} else {
 				fieldAccessor.toRawValue(block, $var);

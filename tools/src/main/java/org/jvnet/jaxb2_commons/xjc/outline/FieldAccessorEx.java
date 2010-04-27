@@ -7,4 +7,5 @@ public interface FieldAccessorEx extends FieldAccessor {
 
 	public JType getType();
 
+	public boolean isConstant();
 }
