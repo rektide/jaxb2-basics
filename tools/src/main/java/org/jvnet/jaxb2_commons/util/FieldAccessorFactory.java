@@ -80,7 +80,6 @@ public class FieldAccessorFactory {
 			return type;
 		}
 
-		@Override
 		public boolean isConstant() {
 			return constantField != null;
 		}
