@@ -14,7 +14,8 @@
 	<xs:annotation>
 		<xs:appinfo>
 			<jaxb:globalBindings generateIsSetMethod="true"
-				localScoping="toplevel" />
+				localScoping="toplevel"
+				fixedAttributeAsConstantProperty="true"/>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues" />
 			</jaxb:schemaBindings>
@@ -106,5 +107,10 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType> 
+
+	<xs:complexType name="issueJIIB9Type">
+		<xs:attribute name="value" type="xs:string" fixed="test" />
+	</xs:complexType>
+
 
 </xs:schema>
