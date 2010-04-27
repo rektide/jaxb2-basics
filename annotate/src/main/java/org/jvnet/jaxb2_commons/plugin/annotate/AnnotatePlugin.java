@@ -22,6 +22,7 @@ import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JAnnotatable;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
@@ -223,29 +224,76 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 				if ("class".equals(target)) {
 					annotatable = fieldOutline.parent().ref;
 				} else if ("getter".equals(target)) {
-					annotatable = FieldAccessorUtils.getter(fieldOutline);
-				} else if ("setter".equals(target)) {
-					annotatable = FieldAccessorUtils.setter(fieldOutline);
-				} else if ("setter-parameter".equals(target)) {
-					final JMethod setter = FieldAccessorUtils
-							.setter(fieldOutline);
-					final JVar[] params = setter.listParams();
-					if (params.length != 1) {
+					final JMethod _getter = FieldAccessorUtils
+							.getter(fieldOutline);
+					if (_getter == null) {
 						logger
 								.error(MessageFormat
 										.format(
-												"Could not annotate the setter parameter of the field outline [{0}], setter method must have a single parameter(this setter has {1}).",
+												"Could not annotate the getter of the field outline [{0}], getter method could not be found.",
 
 												OutlineUtils
-														.getFieldName(fieldOutline),
-												params.length));
+														.getFieldName(fieldOutline)));
+
+					}
+					annotatable = _getter;
+				} else if ("setter".equals(target)) {
+					final JMethod _setter = FieldAccessorUtils
+							.setter(fieldOutline);
+					if (_setter == null) {
+						logger
+								.error(MessageFormat
+										.format(
+												"Could not annotate the setter of the field outline [{0}], setter method could not be found.",
+
+												OutlineUtils
+														.getFieldName(fieldOutline)));
+					}
+					annotatable = _setter;
+				} else if ("setter-parameter".equals(target)) {
+					final JMethod _setter = FieldAccessorUtils
+							.setter(fieldOutline);
+
+					if (_setter == null) {
+						logger
+								.error(MessageFormat
+										.format(
+												"Could not annotate the setter parameter of the field outline [{0}], setter method could not be found.",
+
+												OutlineUtils
+														.getFieldName(fieldOutline)));
 						annotatable = null;
 					} else {
-						annotatable = FieldAccessorUtils.setter(fieldOutline)
-								.listParams()[0];
+						final JVar[] params = _setter.listParams();
+						if (params.length != 1) {
+							logger
+									.error(MessageFormat
+											.format(
+													"Could not annotate the setter parameter of the field outline [{0}], setter method must have a single parameter(this setter has {1}).",
+
+													OutlineUtils
+															.getFieldName(fieldOutline),
+													params.length));
+							annotatable = null;
+						} else {
+							annotatable = FieldAccessorUtils.setter(
+									fieldOutline).listParams()[0];
+						}
 					}
 				} else if ("field".equals(target)) {
-					annotatable = FieldAccessorUtils.field(fieldOutline);
+					// Ok
+					final JFieldVar _field = FieldAccessorUtils
+							.field(fieldOutline);
+					if (_field == null) {
+						logger
+								.error(MessageFormat
+										.format(
+												"Could not annotate the field of the field outline [{0}] since it could not be found.",
+
+												OutlineUtils
+														.getFieldName(fieldOutline)));
+					}
+					annotatable = _field;
 
 				} else {
 					logger.error("Invalid annotation target [" + target + "].");

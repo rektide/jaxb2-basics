@@ -13,7 +13,8 @@ import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
-import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
+import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
+import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
@@ -150,27 +151,25 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 				for (final FieldOutline fieldOutline : classOutline
 						.getDeclaredFields())
 					if (!getIgnoring().isIgnored(fieldOutline)) {
-						// final JBlock block = body.block();
-						//				
-						// final JVar lhsValue =
-						// block.decl(fieldOutline.getRawType(),
-						// "lhs" +
-						// fieldOutline.getPropertyInfo().getName(true));
-						// FieldAccessorFactory.createFieldAccessor(fieldOutline,
-						// JExpr._this()).toRawValue(block, lhsValue);
-						//
-						// final JVar rhsValue =
-						// block.decl(fieldOutline.getRawType(),
-						// "rhs" +
-						// fieldOutline.getPropertyInfo().getName(true));
-						// FieldAccessorFactory.createFieldAccessor(fieldOutline,
-						// that)
-						// .toRawValue(block, rhsValue);
-						body.invoke(equalsBuilder, "append").arg(
-								FieldAccessorUtils.get(_this, fieldOutline))
-								.arg(
-										FieldAccessorUtils.get(_that,
-												fieldOutline));
+						final JBlock block = body.block();
+
+						final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
+								.createFieldAccessor(fieldOutline, JExpr
+										._this());
+						final String name = fieldOutline.getPropertyInfo()
+								.getName(true);
+						final JVar lhsValue = block.decl(leftFieldAccessor
+								.getType(), "lhs" + name);
+						leftFieldAccessor.toRawValue(block, lhsValue);
+
+						final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
+								.createFieldAccessor(fieldOutline, _that);
+						final JVar rhsValue = block.decl(rightFieldAccessor
+								.getType(), "rhs" + name);
+						rightFieldAccessor.toRawValue(block, rhsValue);
+
+						block.invoke(equalsBuilder, "append").arg(lhsValue).arg(
+								rhsValue);
 					}
 			}
 		}
