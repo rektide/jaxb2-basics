@@ -41,13 +41,13 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class mergeBuilderClass = MergeBuilder.class;
+	private Class<?> mergeBuilderClass = MergeBuilder.class;
 
-	public void setMergeBuilderClass(final Class mergeBuilderClass) {
+	public void setMergeBuilderClass(final Class<?> mergeBuilderClass) {
 		this.mergeBuilderClass = mergeBuilderClass;
 	}
 
-	public Class getMergeBuilderClass() {
+	public Class<?> getMergeBuilderClass() {
 		return mergeBuilderClass;
 	}
 
@@ -74,9 +74,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline,
-			@SuppressWarnings("unused") Options opt,
-			@SuppressWarnings("unused") ErrorHandler errorHandler) {
+	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 				processClassOutline(classOutline);

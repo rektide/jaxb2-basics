@@ -195,7 +195,7 @@ public class Annotator {
 			final JAnnotationArrayMember array = use
 					.paramArray(field.getName());
 
-			for (final Enum value : field.getValue()) {
+			for (final Enum<?> value : field.getValue()) {
 
 				final JAnnotationValue annotationValue = new JAnnotationValue() {
 					public void generate(JFormatter f) {

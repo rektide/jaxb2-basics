@@ -36,10 +36,13 @@ public class CodeModelUtils {
 	 *            property file name.
 	 * @return Property file.
 	 */
+
 	public static JPropertyFile getOrCreatePropertyFile(JPackage thePackage,
 			String name) {
 		JPropertyFile propertyFile = null;
-		for (Iterator iterator = thePackage.propertyFiles(); iterator.hasNext()
+		for (@SuppressWarnings("unchecked")
+		Iterator<JResourceFile> iterator = thePackage.propertyFiles(); iterator
+				.hasNext()
 				&& (null == propertyFile);) {
 			final JResourceFile resourceFile = (JResourceFile) iterator.next();
 			if (resourceFile instanceof JPropertyFile

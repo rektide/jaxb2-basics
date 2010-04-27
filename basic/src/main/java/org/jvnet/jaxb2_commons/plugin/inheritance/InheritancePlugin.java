@@ -35,9 +35,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline,
-			@SuppressWarnings("unused") Options opt,
-			@SuppressWarnings("unused") ErrorHandler errorHandler) {
+	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses()) {
 			processClassOutline(classOutline);
 		}

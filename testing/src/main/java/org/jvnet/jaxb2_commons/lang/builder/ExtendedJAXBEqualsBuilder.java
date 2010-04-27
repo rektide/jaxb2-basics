@@ -23,7 +23,7 @@ public class ExtendedJAXBEqualsBuilder extends JAXBEqualsBuilder {
       this.setEquals(false);
       return this;
     }
-    final Class lhsClass = lhs.getClass();
+    final Class<?> lhsClass = lhs.getClass();
     if (lhsClass.isArray()) {
       super.append(lhs, rhs);
     }

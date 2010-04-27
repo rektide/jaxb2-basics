@@ -73,9 +73,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline,
-			@SuppressWarnings("unused") Options opt,
-			@SuppressWarnings("unused") ErrorHandler errorHandler) {
+	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 

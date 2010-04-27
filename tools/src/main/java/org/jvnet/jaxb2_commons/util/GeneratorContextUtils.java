@@ -19,7 +19,7 @@ public class GeneratorContextUtils {
   public static JDefinedClass generateContextPathAwareClass(
       Outline outline,
       String name,
-      Class theClass) {
+      Class<?> theClass) {
 
     return generateContextPathAwareClass(outline, name, theClass == null ? null : outline
         .getCodeModel()

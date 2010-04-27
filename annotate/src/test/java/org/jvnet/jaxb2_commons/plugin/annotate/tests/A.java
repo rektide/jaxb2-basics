@@ -28,7 +28,7 @@ public @interface A {
 
 	E enumField();
 
-	Class classField();
+	Class<?> classField();
 
 	B annotationField();
 }

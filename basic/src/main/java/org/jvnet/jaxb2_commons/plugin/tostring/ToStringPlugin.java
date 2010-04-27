@@ -43,16 +43,16 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 				+ JAXBToStringBuilder.class.getName() + ".";
 	}
 
-	private Class toStringBuilder = JAXBToStringBuilder.class;
+	private Class<?> toStringBuilder = JAXBToStringBuilder.class;
 
-	public void setToStringBuilder(Class equalsBuilderClass) {
+	public void setToStringBuilder(Class<?> equalsBuilderClass) {
 		if (!ToStringBuilder.class.isAssignableFrom(equalsBuilderClass))
 			throw new IllegalArgumentException("The class must extend ["
 					+ ToStringBuilder.class.getName() + "].");
 		this.toStringBuilder = equalsBuilderClass;
 	}
 
-	public Class getToStringBuilder() {
+	public Class<?> getToStringBuilder() {
 		return toStringBuilder;
 	}
 
@@ -79,9 +79,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 	}
 
 	@Override
-	public boolean run(Outline outline,
-			@SuppressWarnings("unused") Options opt,
-			@SuppressWarnings("unused") ErrorHandler errorHandler) {
+	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
 		for (final ClassOutline classOutline : outline.getClasses())
 			if (!getIgnoring().isIgnored(classOutline)) {
 				processClassOutline(classOutline);

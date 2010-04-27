@@ -29,7 +29,7 @@ public @interface B {
 
 	E[] enumArrayField();
 
-	Class[] classArrayField();
+	Class<?>[] classArrayField();
 
 	B.C[] annotationArrayField();
 	

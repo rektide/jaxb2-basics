@@ -37,8 +37,9 @@ public class ClassUtils {
 
 	public static boolean isImplementing(JDefinedClass theClass,
 			JClass theInterface) {
-		for (Iterator iterator = theClass._implements(); iterator.hasNext();) {
-			final JClass implementedInterface = (JClass) iterator.next();
+		for (Iterator<JClass> iterator = theClass._implements(); iterator
+				.hasNext();) {
+			final JClass implementedInterface = iterator.next();
 			if (theInterface.equals(implementedInterface)) {
 				return true;
 			}
