@@ -15,6 +15,7 @@
 	<modules>
 		<module>annotate</module>
 		<module>annox</module>
+		<module>episodes</module>
 		<module>one</module>
 		<module>issues</module>
 		<module>zj</module>
