@@ -5,19 +5,23 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.jvnet.jaxb2_commons.lang.Equals;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBEqualsBuilder;
+import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
 import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -43,14 +47,19 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<?> equalsBuilderClass = JAXBEqualsBuilder.class;
+	private Class<?> equalsStrategyClass = JAXBEqualsStrategy.class;
 
-	public void setEqualsBuilderClass(Class<?> equalsBuilderClass) {
-		this.equalsBuilderClass = equalsBuilderClass;
+	public void setEqualsStrategyClass(Class<?> equalsStrategyClass) {
+		this.equalsStrategyClass = equalsStrategyClass;
 	}
 
-	public Class<?> getEqualsBuilderClass() {
-		return equalsBuilderClass;
+	public Class<?> getEqualsStrategyClass() {
+		return equalsStrategyClass;
+	}
+
+	public JExpression createEqualsStrategy(JCodeModel codeModel) {
+		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
+				getEqualsStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -87,59 +96,92 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 	protected void processClassOutline(ClassOutline classOutline) {
 		final JDefinedClass theClass = classOutline.implClass;
+		ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
 
+		// @SuppressWarnings("unused")
+		// final JMethod equals0 = generateEquals$Equals0(classOutline,
+		// theClass);
 		@SuppressWarnings("unused")
-		final JMethod equals = generateEquals$Equals(classOutline, theClass);
+		final JMethod equals = generateEquals$equals(classOutline, theClass);
 		@SuppressWarnings("unused")
-		final JMethod objectEquals = generateObject$Equals(classOutline,
+		final JMethod objectEquals = generateObject$equals(classOutline,
 				theClass);
 	}
 
-	protected JMethod generateObject$Equals(final ClassOutline classOutline,
+	protected JMethod generateObject$equals(final ClassOutline classOutline,
 			final JDefinedClass theClass) {
-		final JMethod objectEquals = theClass.method(JMod.PUBLIC, theClass
-				.owner().BOOLEAN, "equals");
+		final JCodeModel codeModel = theClass.owner();
+		final JMethod objectEquals = theClass.method(JMod.PUBLIC,
+				codeModel.BOOLEAN, "equals");
 		{
 			final JVar object = objectEquals.param(Object.class, "object");
 			final JBlock body = objectEquals.body();
-
-			body._if(JOp.not(object._instanceof(theClass)))._then()._return(
-					JExpr.FALSE);
-			body._if(JExpr._this().eq(object))._then()._return(JExpr.TRUE);
-
-			final JVar equalsBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(EqualsBuilder.class), "equalsBuilder", JExpr
-					._new(theClass.owner().ref(getEqualsBuilderClass())));
-			body.invoke("equals").arg(object).arg(equalsBuilder);
-			body._return(equalsBuilder.invoke("isEquals"));
+			final JVar equalsStrategy = body.decl(JMod.FINAL, codeModel
+					.ref(EqualsStrategy.class), "equalsStrategy",
+					createEqualsStrategy(codeModel));
+			body._return(JExpr.invoke("equals").arg(JExpr._null()).arg(
+					JExpr._null()).arg(object).arg(equalsStrategy));
 		}
 		return objectEquals;
 	}
 
-	protected JMethod generateEquals$Equals(ClassOutline classOutline,
-			final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
+	// protected JMethod generateEquals$Equals0(final ClassOutline classOutline,
+	// final JDefinedClass theClass) {
+	// final JMethod equalsEquals0 = theClass.method(JMod.PUBLIC, theClass
+	// .owner().BOOLEAN, "equals");
+	// {
+	// final JVar object = equalsEquals0.param(Object.class, "object");
+	// final JVar equalsStrategy = equalsEquals0.param(
+	// EqualsStrategy.class, "equalsStrategy");
+	// final JBlock body = equalsEquals0.body();
+	//
+	// body._return(JExpr.invoke("equals").arg(JExpr._null()).arg(
+	// JExpr._null()).arg(object).arg(equalsStrategy));
+	// }
+	// return equalsEquals0;
+	// }
 
-		final JMethod equals = theClass.method(JMod.PUBLIC,
-				theClass.owner().VOID, "equals");
+	protected JMethod generateEquals$equals(ClassOutline classOutline,
+			final JDefinedClass theClass) {
+
+		final JCodeModel codeModel = theClass.owner();
+		final JMethod equals = theClass.method(JMod.PUBLIC, codeModel.BOOLEAN,
+				"equals");
 		{
 			final JBlock body = equals.body();
+			final JVar leftLocator = equals.param(ObjectLocator.class,
+					"thisLocator");
+			final JVar rightLocator = equals.param(ObjectLocator.class,
+					"thatLocator");
 			final JVar object = equals.param(Object.class, "object");
-			final JVar equalsBuilder = equals.param(EqualsBuilder.class,
-					"equalsBuilder");
+			final JVar equalsStrategy = equals.param(EqualsStrategy.class,
+					"equalsStrategy");
 
 			final JConditional ifNotInstanceof = body._if(JOp.not(object
 					._instanceof(theClass)));
-			ifNotInstanceof._then().invoke(equalsBuilder, "appendSuper").arg(
-					JExpr.FALSE);
-			ifNotInstanceof._then()._return();
-			body._if(JExpr._this().eq(object))._then()._return();
+			ifNotInstanceof._then()._return(JExpr.FALSE);
 
-			if (classOutline.target.getBaseClass() != null
-					|| classOutline.target.getRefBaseClass() != null) {
-				body.invoke(JExpr._super(), "equals").arg(object).arg(
-						equalsBuilder);
+			// 
+			body._if(JExpr._this().eq(object))._then()._return(JExpr.TRUE);
+
+			final Boolean superClassImplementsEquals = StrategyClassUtils
+					.superClassImplements(classOutline, getIgnoring(),
+							Equals.class);
+
+			if (superClassImplementsEquals == null) {
+				// No superclass
+			} else if (superClassImplementsEquals.booleanValue()) {
+				body._if(
+						JOp.not(JExpr._super().invoke("equals")
+								.arg(leftLocator).arg(rightLocator).arg(object)
+								.arg(equalsStrategy)))._then()._return(
+						JExpr.FALSE);
+
+			} else {
+				body._if(JOp.not(JExpr._super().invoke("equals").arg(object)))
+						._then()._return(JExpr.FALSE);
 			}
+
 			final JExpression _this = JExpr._this();
 
 			if (classOutline.getDeclaredFields().length > 0) {
@@ -155,7 +197,8 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 						final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
 								.createFieldAccessor(fieldOutline, _that);
 
-						if (leftFieldAccessor.isConstant()) {
+						if (leftFieldAccessor.isConstant()
+								|| rightFieldAccessor.isConstant()) {
 							continue;
 						}
 
@@ -172,10 +215,23 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 								.getType(), "rhs" + name);
 						rightFieldAccessor.toRawValue(block, rhsValue);
 
-						block.invoke(equalsBuilder, "append").arg(lhsValue)
-								.arg(rhsValue);
+						final JExpression leftFieldLocator = codeModel.ref(
+								LocatorUtils.class).staticInvoke("field").arg(
+								leftLocator).arg(
+								fieldOutline.getPropertyInfo().getName(false));
+						final JExpression rightFieldLocator = codeModel.ref(
+								LocatorUtils.class).staticInvoke("field").arg(
+								rightLocator).arg(
+								fieldOutline.getPropertyInfo().getName(false));
+						block._if(
+								JOp.not(JExpr.invoke(equalsStrategy, "equals")
+										.arg(leftFieldLocator).arg(
+												rightFieldLocator)
+										.arg(lhsValue).arg(rhsValue)))._then()
+								._return(JExpr.FALSE);
 					}
 			}
+			body._return(JExpr.TRUE);
 		}
 		return equals;
 	}

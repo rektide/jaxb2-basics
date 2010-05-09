@@ -1,23 +1,20 @@
 package org.jvnet.jaxb2_commons.plugin.copyable;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.jvnet.jaxb2_commons.lang.CopyStrategy;
 import org.jvnet.jaxb2_commons.lang.CopyTo;
-import org.jvnet.jaxb2_commons.lang.Copyable;
-import org.jvnet.jaxb2_commons.lang.builder.CopyBuilder;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBCopyBuilder;
+import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
 import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
@@ -52,47 +49,19 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<? extends CopyBuilder> copyBuilderClass = JAXBCopyBuilder.class;
+	private Class<? extends CopyStrategy> copyStrategy = JAXBCopyStrategy.class;
 
-	public void setCopyBuilderClass(
-			final Class<? extends CopyBuilder> copyBuilderClass) {
-		this.copyBuilderClass = copyBuilderClass;
+	public void setCopyStrategy(final Class<? extends CopyStrategy> copyStrategy) {
+		this.copyStrategy = copyStrategy;
 	}
 
-	public Class<? extends CopyBuilder> getCopyBuilderClass() {
-		return copyBuilderClass;
+	public Class<? extends CopyStrategy> getCopyStrategy() {
+		return copyStrategy;
 	}
 
-	public JExpression createCopyBuilder(JCodeModel codeModel) {
-		final Class<? extends CopyBuilder> copyBuilderClass = getCopyBuilderClass();
-		final JClass copyBuilderJClass = codeModel.ref(copyBuilderClass);
-		try {
-			Method getInstanceMethod = copyBuilderClass.getMethod(
-					"getInstance", new Class<?>[0]);
-			if (getInstanceMethod != null
-					&& CopyBuilder.class.isAssignableFrom(getInstanceMethod
-							.getReturnType())
-					&& Modifier.isStatic(getInstanceMethod.getModifiers())
-					&& Modifier.isPublic(getInstanceMethod.getModifiers())) {
-				return copyBuilderJClass.staticInvoke("getInstance");
-			}
-
-		} catch (Exception ignored) {
-			// Nothing to do
-		}
-		try {
-			final Field instanceField = copyBuilderClass.getField("INSTANCE");
-			if (instanceField != null
-					&& CopyBuilder.class.isAssignableFrom(instanceField
-							.getType())
-					&& Modifier.isStatic(instanceField.getModifiers())
-					&& Modifier.isPublic(instanceField.getModifiers())) {
-				return copyBuilderJClass.staticRef("INSTANCE");
-			}
-		} catch (Exception ignored) {
-			// Nothing to do
-		}
-		return JExpr._new(copyBuilderJClass);
+	public JExpression createCopyStrategy(JCodeModel codeModel) {
+		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
+				getCopyStrategy());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -130,18 +99,25 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	protected void processClassOutline(ClassOutline classOutline) {
 		final JDefinedClass theClass = classOutline.implClass;
 
+		ClassUtils._implements(theClass, theClass.owner().ref(Cloneable.class));
 		@SuppressWarnings("unused")
-		final JMethod copyTo$copyTo = generateCopyTo$CopyTo(classOutline,
+		final JMethod object$clone = generateObject$clone(classOutline,
+				theClass);
+		ClassUtils._implements(theClass, theClass.owner().ref(CopyTo.class));
+
+		@SuppressWarnings("unused")
+		final JMethod copyTo$copyTo = generateCopyTo$copyTo(classOutline,
 				theClass);
 		@SuppressWarnings("unused")
-		final JMethod copyTo$copyTo1 = generateCopyTo$CopyTo1(classOutline,
+		final JMethod copyTo$copyTo1 = generateCopyTo$copyTo1(classOutline,
 				theClass);
-		@SuppressWarnings("unused")
-		final JMethod copyable$copyTo = generateCopyable$CopyTo(classOutline,
-				theClass);
-		@SuppressWarnings("unused")
-		final JMethod copyable$copyTo1 = generateCopyable$CopyTo1(classOutline,
-				theClass);
+		// @SuppressWarnings("unused")
+		// final JMethod copyable$copyTo = generateCopyable$CopyTo(classOutline,
+		// theClass);
+		// @SuppressWarnings("unused")
+		// final JMethod copyable$copyTo1 =
+		// generateCopyable$CopyTo1(classOutline,
+		// theClass);
 
 		// @SuppressWarnings("unused")
 		// final JMethod copyFrom$copyFrom = generateCopyFrom$CopyFrom(
@@ -151,12 +127,13 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		// classOutline, theClass);
 		if (!classOutline.target.isAbstract()) {
 			@SuppressWarnings("unused")
-			final JMethod createCopy = generate$createNewInstance(classOutline,
-					theClass);
+			final JMethod createCopy = generateCopyTo$createNewInstance(
+					classOutline, theClass);
+
 		}
 	}
 
-	protected JMethod generate$createNewInstance(
+	protected JMethod generateCopyTo$createNewInstance(
 			final ClassOutline classOutline, final JDefinedClass theClass) {
 
 		final JMethod createCopy = theClass.method(JMod.PUBLIC, theClass
@@ -168,62 +145,78 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return createCopy;
 	}
 
-	protected JMethod generateCopyable$CopyTo(final ClassOutline classOutline,
+	protected JMethod generateObject$clone(final ClassOutline classOutline,
 			final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
 
-		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-				.owner().ref(Object.class), "copyTo");
+		final JMethod clone = theClass.method(JMod.PUBLIC, theClass.owner()
+				.ref(Object.class), "clone");
 		{
-			final JVar target = copyable$copyTo.param(Object.class, "target");
-			final JBlock body = copyable$copyTo.body();
-
-			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target));
+			final JBlock body = clone.body();
+			body._return(JExpr.invoke("copyTo").arg(
+					JExpr.invoke("createNewInstance")));
 		}
-		return copyable$copyTo;
+		return clone;
 	}
 
-	protected JMethod generateCopyable$CopyTo1(final ClassOutline classOutline,
+	// protected JMethod generateCopyable$copyTo(final ClassOutline
+	// classOutline,
+	// final JDefinedClass theClass) {
+	//
+	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
+	// .owner().ref(Object.class), "copyTo");
+	// {
+	// final JVar target = copyable$copyTo.param(Object.class, "target");
+	// final JBlock body = copyable$copyTo.body();
+	//
+	// body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target));
+	// }
+	// return copyable$copyTo;
+	// }
+
+	// protected JMethod generateCopyable$CopyTo1(final ClassOutline
+	// classOutline,
+	// final JDefinedClass theClass) {
+	// ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
+	//
+	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
+	// .owner().ref(Object.class), "copyTo");
+	// {
+	// final JVar locator = copyable$copyTo.param(ObjectLocator.class,
+	// "locator");
+	// final JVar target = copyable$copyTo.param(Object.class, "target");
+	// final JBlock body = copyable$copyTo.body();
+	//
+	// final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
+	// .ref(CopyBuilder.class), "copyBuilder",
+	// createCopyBuilder(theClass.owner()));
+	//
+	// body._return(JExpr.invoke("copyTo").arg(locator).arg(target).arg(
+	// copyBuilder));
+	// }
+	// return copyable$copyTo;
+	// }
+
+	protected JMethod generateCopyTo$copyTo(final ClassOutline classOutline,
 			final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
 
-		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-				.owner().ref(Object.class), "copyTo");
+		final JCodeModel codeModel = theClass.owner();
+		final JMethod copyTo$copyTo = theClass.method(JMod.PUBLIC, codeModel
+				.ref(Object.class), "copyTo");
 		{
-			final JVar locator = copyable$copyTo.param(ObjectLocator.class,
-					"locator");
-			final JVar target = copyable$copyTo.param(Object.class, "target");
-			final JBlock body = copyable$copyTo.body();
+			final JVar target = copyTo$copyTo.param(Object.class, "target");
 
-			final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(CopyBuilder.class), "copyBuilder",
-					createCopyBuilder(theClass.owner()));
-
-			body._return(JExpr.invoke("copyTo").arg(locator).arg(target).arg(
-					copyBuilder));
-		}
-		return copyable$copyTo;
-	}
-
-	protected JMethod generateCopyTo$CopyTo(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
-
-		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-				.owner().ref(Object.class), "copyTo");
-		{
-			final JVar target = copyable$copyTo.param(Object.class, "target");
-			final JVar copyBuilder = copyable$copyTo.param(CopyBuilder.class,
-					"copyBuilder");
-			final JBlock body = copyable$copyTo.body();
+			final JBlock body = copyTo$copyTo.body();
+			final JVar copyStrategy = body.decl(JMod.FINAL, codeModel
+					.ref(CopyStrategy.class), "copyStrategy",
+					createCopyStrategy(codeModel));
 
 			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target)
-					.arg(copyBuilder));
+					.arg(copyStrategy));
 		}
-		return copyable$copyTo;
+		return copyTo$copyTo;
 	}
 
-	protected JMethod generateCopyTo$CopyTo1(ClassOutline classOutline,
+	protected JMethod generateCopyTo$copyTo1(ClassOutline classOutline,
 			final JDefinedClass theClass) {
 		ClassUtils._implements(theClass, theClass.owner().ref(CopyTo.class));
 
@@ -232,8 +225,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		{
 			final JVar locator = copyTo.param(ObjectLocator.class, "locator");
 			final JVar target = copyTo.param(Object.class, "target");
-			final JVar copyBuilder = copyTo.param(CopyBuilder.class,
-					"copyBuilder");
+			final JVar copyStrategy = copyTo.param(CopyStrategy.class,
+					"copyStrategy");
 
 			final JBlock body = copyTo.body();
 
@@ -260,10 +253,18 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 				draftCopy = target;
 			}
 
-			if (classOutline.target.getBaseClass() != null
-					|| classOutline.target.getRefBaseClass() != null) {
+			Boolean superClassImplementsCopyTo = StrategyClassUtils
+					.superClassImplements(classOutline, getIgnoring(),
+							CopyTo.class);
+
+			if (superClassImplementsCopyTo == null) {
+
+			} else if (superClassImplementsCopyTo.booleanValue()) {
 				body.invoke(JExpr._super(), "copyTo").arg(locator).arg(
-						draftCopy).arg(copyBuilder);
+						draftCopy).arg(copyStrategy);
+
+			} else {
+
 			}
 
 			final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
@@ -311,8 +312,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 												.getName(true));
 						sourceFieldAccessor.toRawValue(setValueBlock,
 								sourceField);
-						final JExpression builtCopy = JExpr.invoke(copyBuilder,
-								"copy").arg(
+						final JExpression builtCopy = JExpr.invoke(
+								copyStrategy, "copy").arg(
 								theClass.owner().ref(LocatorUtils.class)
 										.staticInvoke("field").arg(locator)
 										.arg(
@@ -346,24 +347,24 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return copyTo;
 	}
 
-	protected JMethod generateCopyable$CopyFrom(
-			final ClassOutline classOutline, final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
-
-		final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-				.owner().ref(Object.class), "copyFrom");
-		{
-			final JVar source = copyable$copyTo.param(Object.class, "source");
-			final JBlock body = copyable$copyTo.body();
-
-			final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(CopyBuilder.class), "copyBuilder",
-					createCopyBuilder(theClass.owner()));
-
-			body._return(body.invoke("copyFrom").arg(source).arg(copyBuilder));
-		}
-		return copyable$copyTo;
-	}
+	// protected JMethod generateCopyable$CopyFrom(
+	// final ClassOutline classOutline, final JDefinedClass theClass) {
+	// ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
+	//
+	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
+	// .owner().ref(Object.class), "copyFrom");
+	// {
+	// final JVar source = copyable$copyTo.param(Object.class, "source");
+	// final JBlock body = copyable$copyTo.body();
+	//
+	// final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
+	// .ref(CopyBuilder.class), "copyBuilder",
+	// createCopyBuilder(theClass.owner()));
+	//
+	// body._return(body.invoke("copyFrom").arg(source).arg(copyBuilder));
+	// }
+	// return copyable$copyTo;
+	// }
 
 	// protected JMethod generateCopyFrom$CopyFrom(ClassOutline classOutline,
 	// final JDefinedClass theClass) {
@@ -373,7 +374,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	// .ref(Object.class), "copyFrom");
 	// {
 	// final JVar source = copyTo.param(Object.class, "source");
-	// final JVar copyBuilder = copyTo.param(CopyBuilder.class,
+	// final JVar copyBuilder = copyTo.param(CopyStrategy.class,
 	// "copyBuilder");
 	//
 	// final JBlock body = copyTo.body();

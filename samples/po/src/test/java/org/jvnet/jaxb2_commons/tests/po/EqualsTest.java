@@ -2,7 +2,7 @@ package org.jvnet.jaxb2_commons.tests.po;
 
 import java.io.File;
 
-import org.jvnet.jaxb2_commons.lang.builder.JAXBEqualsBuilder;
+import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
 import org.jvnet.jaxb2_commons.test.AbstractSamplesTest;
 
 public class EqualsTest extends AbstractSamplesTest {
@@ -12,7 +12,6 @@ public class EqualsTest extends AbstractSamplesTest {
 
     final Object lhs = createContext().createUnmarshaller().unmarshal(sample);
     final Object rhs = createContext().createUnmarshaller().unmarshal(sample);
-    final JAXBEqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-    assertTrue("Values must be equal.", equalsBuilder.append(lhs, rhs).isEquals());
+    assertTrue("Values must be equal.", JAXBEqualsStrategy.INSTANCE.equals(null, null, lhs, rhs));
   }
 }

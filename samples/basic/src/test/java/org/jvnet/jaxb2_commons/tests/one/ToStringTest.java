@@ -3,7 +3,7 @@ package org.jvnet.jaxb2_commons.tests.one;
 import java.io.File;
 
 import org.jvnet.jaxb2_commons.test.AbstractSamplesTest;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBToStringBuilder;
+import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
 
 public class ToStringTest extends AbstractSamplesTest {
 
@@ -11,8 +11,7 @@ public class ToStringTest extends AbstractSamplesTest {
   protected void checkSample(File sample) throws Exception {
     
     final Object object = createContext().createUnmarshaller().unmarshal(sample);
-    final JAXBToStringBuilder builder = new JAXBToStringBuilder(null);
-    logger.debug(builder.append(object).toString());
+    logger.debug(JAXBToStringStrategy.INSTANCE.append(null, new StringBuffer(), object).toString());
   }
 
 }

@@ -2,8 +2,8 @@ package org.jvnet.jaxb2_commons.tests.one;
 
 import java.io.File;
 
+import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBCopyBuilder;
 import org.jvnet.jaxb2_commons.test.AbstractSamplesTest;
 
 public class HashCodeTest extends AbstractSamplesTest {
@@ -15,8 +15,7 @@ public class HashCodeTest extends AbstractSamplesTest {
 				sample);
 		final Object rhs = createContext().createUnmarshaller().unmarshal(
 				sample);
-		final JAXBCopyBuilder builder = new JAXBCopyBuilder();
-		final Object chs = builder.copy(null, rhs);
+		final Object chs = JAXBCopyStrategy.INSTANCE.copy(null, rhs);
 		final int leftHashCode = JAXBHashCodeStrategy.INSTANCE.hashCode(null,
 				0, lhs);
 		final int rightHashCode = JAXBHashCodeStrategy.INSTANCE.hashCode(null,

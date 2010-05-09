@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jvnet.jaxb2.maven2.AbstractXJC2Mojo;
 import org.jvnet.jaxb2.maven2.test.RunXJC2Mojo;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBToStringBuilder;
+import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
 
 public class RunToStringPlugin extends RunXJC2Mojo {
 
@@ -25,8 +25,8 @@ public class RunToStringPlugin extends RunXJC2Mojo {
 	public List<String> getArgs() {
 		final List<String> args = new ArrayList<String>(super.getArgs());
 		args.add("-XtoString");
-		args.add("-XtoString-toStringBuilder="
-				+ JAXBToStringBuilder.class.getName());
+		args.add("-XtoString-toStringStrategy="
+				+ JAXBToStringStrategy.class.getName());
 		return args;
 	}
 

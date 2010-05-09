@@ -5,21 +5,26 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jvnet.jaxb2_commons.lang.HashCode;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBHashCodeBuilder;
+import org.jvnet.jaxb2_commons.lang.HashCodeStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
 import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
@@ -40,14 +45,20 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<?> hashCodeBuilder = JAXBHashCodeBuilder.class;
+	private Class<? extends HashCodeStrategy> hashCodeStrategy = JAXBHashCodeStrategy.class;
 
-	public void setHashCodeBuilder(Class<?> equalsBuilderClass) {
-		this.hashCodeBuilder = equalsBuilderClass;
+	public void setHashCodeStrategy(
+			Class<? extends HashCodeStrategy> hashCodeStrategy) {
+		this.hashCodeStrategy = hashCodeStrategy;
 	}
 
-	public Class<?> getHashCodeBuilder() {
-		return hashCodeBuilder;
+	public Class<? extends HashCodeStrategy> getHashCodeStrategy() {
+		return hashCodeStrategy;
+	}
+
+	public JExpression createHashCodeStrategy(JCodeModel codeModel) {
+		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
+				getHashCodeStrategy());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -84,7 +95,11 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	protected void processClassOutline(ClassOutline classOutline) {
 		final JDefinedClass theClass = classOutline.implClass;
+		ClassUtils._implements(theClass, theClass.owner().ref(HashCode.class));
 
+		// @SuppressWarnings("unused")
+		// final JMethod hashCode$hashCode0 = generateHashCode$hashCode0(
+		// classOutline, theClass);
 		@SuppressWarnings("unused")
 		final JMethod hashCode$hashCode = generateHashCode$hashCode(
 				classOutline, theClass);
@@ -99,31 +114,60 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 				.owner().INT, "hashCode");
 		{
 			final JBlock body = object$hashCode.body();
-
 			final JVar hashCodeBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(HashCodeBuilder.class), "hashCodeBuilder", JExpr
-					._new(theClass.owner().ref(getHashCodeBuilder())));
-			body.invoke("hashCode").arg(hashCodeBuilder);
-			body._return(hashCodeBuilder.invoke("toHashCode"));
+					.ref(HashCodeStrategy.class), "hashCodeStrategy",
+					createHashCodeStrategy(theClass.owner()));
+			body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
+					.arg(hashCodeBuilder));
 		}
 		return object$hashCode;
 	}
 
+	// protected JMethod generateHashCode$hashCode0(ClassOutline classOutline,
+	// final JDefinedClass theClass) {
+	//
+	// final JMethod hashCode$hashCode = theClass.method(JMod.PUBLIC, theClass
+	// .owner().INT, "hashCode");
+	// {
+	// final JVar hashCodeBuilder = hashCode$hashCode.param(
+	// HashCodeStrategy.class, "hashCodeStrategy");
+	// final JBlock body = hashCode$hashCode.body();
+	// body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
+	// .arg(hashCodeBuilder));
+	// }
+	// return hashCode$hashCode;
+	// }
+
 	protected JMethod generateHashCode$hashCode(ClassOutline classOutline,
 			final JDefinedClass theClass) {
-		ClassUtils._implements(theClass, theClass.owner().ref(HashCode.class));
 
-		final JMethod hashCode$hashCode = theClass.method(JMod.PUBLIC, theClass
-				.owner().VOID, "hashCode");
+		JCodeModel codeModel = theClass.owner();
+		final JMethod hashCode$hashCode = theClass.method(JMod.PUBLIC,
+				codeModel.INT, "hashCode");
 		{
-			final JVar hashCodeBuilder = hashCode$hashCode.param(
-					HashCodeBuilder.class, "hashCodeBuilder");
+			final JVar locator = hashCode$hashCode.param(ObjectLocator.class,
+					"locator");
+			final JVar hashCodeStrategy = hashCode$hashCode.param(
+					HashCodeStrategy.class, "hashCodeStrategy");
 			final JBlock body = hashCode$hashCode.body();
 
-			if (classOutline.target.getBaseClass() != null
-					|| classOutline.target.getRefBaseClass() != null) {
-				body.invoke(JExpr._super(), "hashCode").arg(hashCodeBuilder);
+			final JExpression currentHashCodeExpression;
+
+			final Boolean superClassImplementsHashCode = StrategyClassUtils
+					.superClassImplements(classOutline, ignoring,
+							HashCode.class);
+
+			if (superClassImplementsHashCode == null) {
+				currentHashCodeExpression = JExpr.lit(1);
+			} else if (superClassImplementsHashCode.booleanValue()) {
+				currentHashCodeExpression = JExpr._super().invoke("hashCode")
+						.arg(locator).arg(hashCodeStrategy);
+			} else {
+				currentHashCodeExpression = JExpr._super().invoke("hashCode");
 			}
+
+			final JVar currentHashCode = body.decl(codeModel.INT,
+					"currentHashCode", currentHashCodeExpression);
 
 			for (final FieldOutline fieldOutline : classOutline
 					.getDeclaredFields())
@@ -142,8 +186,17 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 					fieldAccessor.toRawValue(block, theValue);
 
-					block.invoke(hashCodeBuilder, "append").arg(theValue);
+					// hashCode(LocatorUtils.field("field"), currentHashCode,
+					// value)
+					block.assign(currentHashCode, hashCodeStrategy.invoke(
+							"hashCode").arg(
+							codeModel.ref(LocatorUtils.class).staticInvoke(
+									"field").arg(locator).arg(
+									fieldOutline.getPropertyInfo().getName(
+											false))).arg(currentHashCode).arg(
+							theValue));
 				}
+			body._return(currentHashCode);
 		}
 		return hashCode$hashCode;
 	}
