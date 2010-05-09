@@ -1,41 +1,60 @@
-package org.jvnet.jaxb2_commons.lang.builder;
+package org.jvnet.jaxb2_commons.lang;
 
 import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.jvnet.jaxb2_commons.lang.CopyTo;
-import org.jvnet.jaxb2_commons.lang.Copyable;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
-public class CopyBuilder {
+public class DefaultCopyStrategy implements CopyStrategy {
 
-	public Object copy(ObjectLocator locator, Object object) {
+	protected Object copyInternal(ObjectLocator locator, Object object) {
 		if (object == null) {
 			return null;
 		} else if (object instanceof String) {
 			return object;
 		} else if (object instanceof Number) {
 			return object;
-		} else if (object instanceof List<?>) {
-			return copy(locator, (List<?>) object);
-		} else if (object instanceof Set<?>) {
-			return copy(locator, (Set<?>) object);
 		} else if (object instanceof CopyTo) {
-			final Object newInstance = ((CopyTo) object).createNewInstance();
-			return ((CopyTo) object).copyTo(newInstance, this);
-		} else if (object instanceof Copyable) {
-			final Object newInstance = ((Copyable) object).createNewInstance();
-			return ((Copyable) object).copyTo(newInstance);
+			return ((CopyTo) object).copyTo(locator, ((CopyTo) object)
+					.createNewInstance(), this);
 		} else if (object instanceof Cloneable) {
-			return cloneCloneable((Cloneable) object);
+			return copyInternal(locator, (Cloneable) object);
 		} else {
 			return object;
+		}
+	}
+
+	public Object copy(ObjectLocator locator, Object value) {
+		if (value == null) {
+			return null;
+		}
+		Class<?> lhsClass = value.getClass();
+		if (!lhsClass.isArray()) {
+			return copyInternal(locator, value);
+		}
+		// 'Switch' on type of array, to dispatch to the correct handler
+		// This handles multi dimensional arrays of the same depth
+		else if (value instanceof long[]) {
+			return copy(locator, (long[]) value);
+		} else if (value instanceof int[]) {
+			return copy(locator, (int[]) value);
+		} else if (value instanceof short[]) {
+			return copy(locator, (short[]) value);
+		} else if (value instanceof char[]) {
+			return copy(locator, (char[]) value);
+		} else if (value instanceof byte[]) {
+			return copy(locator, (byte[]) value);
+		} else if (value instanceof double[]) {
+			return copy(locator, (double[]) value);
+		} else if (value instanceof float[]) {
+			return copy(locator, (float[]) value);
+		} else if (value instanceof boolean[]) {
+			return copy(locator, (boolean[]) value);
+		} else {
+			// Not an array of primitives
+			return copy(locator, (Object[]) value);
 		}
 	}
 
@@ -72,6 +91,9 @@ public class CopyBuilder {
 	}
 
 	public Object[] copy(ObjectLocator locator, Object[] array) {
+		if (array == null) {
+			return null;
+		}
 		final Object[] copy = new Object[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final Object element = array[index];
@@ -82,54 +104,110 @@ public class CopyBuilder {
 	}
 
 	public long[] copy(ObjectLocator locator, long[] array) {
+		if (array == null) {
+			return null;
+		}
 		final long[] copy = new long[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final long element = array[index];
+			final long elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public int[] copy(ObjectLocator locator, int[] array) {
+		if (array == null) {
+			return null;
+		}
 		final int[] copy = new int[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final int element = array[index];
+			final int elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public short[] copy(ObjectLocator locator, short[] array) {
+		if (array == null) {
+			return null;
+		}
 		final short[] copy = new short[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final short element = array[index];
+			final short elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public char[] copy(ObjectLocator locator, char[] array) {
+		if (array == null) {
+			return null;
+		}
 		final char[] copy = new char[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final char element = array[index];
+			final char elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public byte[] copy(ObjectLocator locator, byte[] array) {
+		if (array == null) {
+			return null;
+		}
 		final byte[] copy = new byte[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final byte element = array[index];
+			final byte elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public double[] copy(ObjectLocator locator, double[] array) {
+		if (array == null) {
+			return null;
+		}
 		final double[] copy = new double[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final double element = array[index];
+			final double elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public float[] copy(ObjectLocator locator, float[] array) {
+		if (array == null) {
+			return null;
+		}
 		final float[] copy = new float[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final float element = array[index];
+			final float elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
 	public boolean[] copy(ObjectLocator locator, boolean[] array) {
+		if (array == null) {
+			return null;
+		}
 		final boolean[] copy = new boolean[array.length];
-		System.arraycopy(array, 0, copy, 0, array.length);
+		for (int index = 0; index < array.length; index++) {
+			final boolean element = array[index];
+			final boolean elementCopy = copy(entry(locator, index), element);
+			copy[index] = elementCopy;
+		}
 		return copy;
 	}
 
-	private Object cloneCloneable(Cloneable object) {
+	protected Object copyInternal(ObjectLocator locator, Cloneable object) {
 		Method method = null;
 
 		try {
@@ -178,25 +256,5 @@ public class CopyBuilder {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public Object copy(ObjectLocator locator, List list) {
-		final List copy = new ArrayList(list.size());
-		int index = 0;
-		for (final Object element : list) {
-			final Object copyElement = copy(entry(locator, index++), element);
-			copy.add(copyElement);
-		}
-		return copy;
-	}
-
-	@SuppressWarnings("unchecked")
-	public Object copy(ObjectLocator locator, Set set) {
-		final Set copy = new HashSet(set.size());
-		int index = 0;
-		for (final Object element : set) {
-			final Object copyElement = copy(entry(locator, index++), element);
-			copy.add(copyElement);
-		}
-		return copy;
-	}
+	public static final CopyStrategy INSTANCE = new DefaultCopyStrategy();
 }

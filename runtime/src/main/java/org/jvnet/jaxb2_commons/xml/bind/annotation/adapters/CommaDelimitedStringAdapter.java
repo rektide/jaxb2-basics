@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.apache.commons.lang.StringUtils;
+import org.jvnet.jaxb2_commons.lang.StringUtils;
 
 public class CommaDelimitedStringAdapter extends
 		XmlAdapter<String, List<String>> {
@@ -14,9 +14,7 @@ public class CommaDelimitedStringAdapter extends
 	public String marshal(List<String> value) throws Exception {
 		if (value == null) {
 			return null;
-		} else
-
-		{
+		} else {
 			return StringUtils.join(value.iterator(), ", ");
 		}
 	}

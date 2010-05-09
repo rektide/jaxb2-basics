@@ -1,9 +1,8 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface HashCode {
 
-	public void hashCode(HashCodeBuilder hashCodeBuilder);
-
+	public int hashCode(ObjectLocator locator, HashCodeStrategy hashCodeStrategy);
 }

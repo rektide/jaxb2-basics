@@ -1,9 +1,9 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface Equals {
 
-  public void equals(Object object, EqualsBuilder equalsBuilder);
-
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator,
+			Object that, EqualsStrategy equalsStrategy);
 }

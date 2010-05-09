@@ -5,9 +5,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.jvnet.jaxb2_commons.lang.CopyStrategy;
 import org.jvnet.jaxb2_commons.lang.CopyTo;
-import org.jvnet.jaxb2_commons.lang.builder.CopyBuilder;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBCopyBuilder;
+import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
 import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
@@ -24,14 +24,14 @@ public class CyclicTests extends TestCase {
 			return new A();
 		}
 
-		public Object copyTo(Object target, CopyBuilder copyBuilder) {
-			return copyTo(null, target, copyBuilder);
+		public Object copyTo(Object target) {
+			return copyTo(null, target, JAXBCopyStrategy.INSTANCE);
 		}
 
 		public Object copyTo(ObjectLocator locator, Object target,
-				CopyBuilder copyBuilder) {
+				CopyStrategy copyStrategy) {
 			final A that = (A) target;
-			that.b = (B) copyBuilder.copy(LocatorUtils.field(locator, "b"),
+			that.b = (B) copyStrategy.copy(LocatorUtils.field(locator, "b"),
 					this.b);
 			return that;
 		}
@@ -45,14 +45,14 @@ public class CyclicTests extends TestCase {
 			return new B();
 		}
 
-		public Object copyTo(Object target, CopyBuilder copyBuilder) {
-			return copyTo(null, target, copyBuilder);
+		public Object copyTo(Object target) {
+			return copyTo(null, target, JAXBCopyStrategy.INSTANCE);
 		}
 
 		public Object copyTo(ObjectLocator locator, Object target,
-				CopyBuilder copyBuilder) {
+				CopyStrategy copyStrategy) {
 			final B that = (B) target;
-			that.a = (A) copyBuilder.copy(LocatorUtils.field(locator, "a"),
+			that.a = (A) copyStrategy.copy(LocatorUtils.field(locator, "a"),
 					this.a);
 			return that;
 		}
@@ -64,7 +64,7 @@ public class CyclicTests extends TestCase {
 		a.b = b;
 		b.a = a;
 
-		final A a1 = (A) new JAXBCopyBuilder() {
+		final A a1 = (A) new JAXBCopyStrategy() {
 			private Map<Object, Object> copies = new IdentityHashMap<Object, Object>();
 
 			@Override
@@ -77,7 +77,7 @@ public class CyclicTests extends TestCase {
 						final CopyToInstance source = (CopyToInstance) object;
 						final Object newCopy = source.createNewInstance();
 						copies.put(object, newCopy);
-						source.copyTo(newCopy, this);
+						source.copyTo(locator, newCopy, this);
 						return newCopy;
 					} else {
 						final Object newCopy = super.copy(locator, object);

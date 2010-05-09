@@ -18,10 +18,10 @@
 			<artifactId>jaxb-impl</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
