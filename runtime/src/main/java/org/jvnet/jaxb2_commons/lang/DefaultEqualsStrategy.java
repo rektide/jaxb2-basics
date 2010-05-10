@@ -123,8 +123,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -143,8 +143,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -163,8 +163,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -183,8 +183,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -203,8 +203,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -223,8 +223,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -243,8 +243,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -263,8 +263,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}
@@ -283,8 +283,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i), entry(rightLocator, i), left[i],
-					right[i])) {
+			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+					right[i]), left[i], right[i])) {
 				return false;
 			}
 		}

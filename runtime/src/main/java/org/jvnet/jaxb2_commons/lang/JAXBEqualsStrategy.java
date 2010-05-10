@@ -37,8 +37,9 @@ public class JAXBEqualsStrategy extends DefaultEqualsStrategy {
 		while (e1.hasNext() && e2.hasNext()) {
 			Object o1 = e1.next();
 			Object o2 = e2.next();
-			if (!(o1 == null ? o2 == null : equals(entry(leftLocator, index),
-					entry(rightLocator, index), o1, o2))) {
+			if (!(o1 == null ? o2 == null : equals(
+					entry(leftLocator, index, o1), entry(rightLocator, index,
+							o2), o1, o2))) {
 				return false;
 			}
 			index = index + 1;
@@ -51,12 +52,13 @@ public class JAXBEqualsStrategy extends DefaultEqualsStrategy {
 			final JAXBElement<?> right) {
 		return
 		//
-		equals(field(leftLocator, "name"), field(rightLocator, "name"), left
-				.getName(), right.getName())
+		equals(field(leftLocator, "name", left.getName()), field(rightLocator,
+				"name", right.getName()), left.getName(), right.getName())
 				&&
 				//
-				equals(field(leftLocator, "name"), field(rightLocator, "name"),
-						left.getName(), right.getName());
+				equals(field(leftLocator, "value", left.getValue()), field(
+						rightLocator, "name", right.getValue()), left
+						.getValue(), right.getValue());
 	}
 
 	public static EqualsStrategy INSTANCE = new JAXBEqualsStrategy();

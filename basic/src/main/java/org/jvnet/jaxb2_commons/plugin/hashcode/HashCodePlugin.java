@@ -193,8 +193,8 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 							codeModel.ref(LocatorUtils.class).staticInvoke(
 									"field").arg(locator).arg(
 									fieldOutline.getPropertyInfo().getName(
-											false))).arg(currentHashCode).arg(
-							theValue));
+											false)).arg(theValue)).arg(
+							currentHashCode).arg(theValue));
 				}
 			body._return(currentHashCode);
 		}

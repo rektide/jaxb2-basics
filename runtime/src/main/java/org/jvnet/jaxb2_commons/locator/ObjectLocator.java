@@ -10,8 +10,8 @@ public interface ObjectLocator extends ValidationEventLocator, Reportable {
 
 	public ObjectLocator[] getPath();
 
-	public FieldObjectLocator field(String name);
+	public FieldObjectLocator field(String name, Object value);
 
-	public ListEntryObjectLocator entry(int index);
+	public ListEntryObjectLocator entry(int index, Object value);
 
 }

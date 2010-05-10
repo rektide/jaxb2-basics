@@ -318,7 +318,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 										.staticInvoke("field").arg(locator)
 										.arg(
 												fieldOutline.getPropertyInfo()
-														.getName(false))).arg(
+														.getName(false)).arg(sourceField)).arg(
 								sourceField);
 						final JVar copyField = setValueBlock.decl(
 								copyFieldType, "copy"

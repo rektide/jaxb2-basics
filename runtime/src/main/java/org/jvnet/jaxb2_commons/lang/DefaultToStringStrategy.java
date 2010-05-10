@@ -274,8 +274,8 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 		buffer.append(sizeEndText);
 	}
 
-	public StringBuilder appendStart(ObjectLocator parentLocator, Object object,
-			StringBuilder buffer) {
+	public StringBuilder appendStart(ObjectLocator parentLocator,
+			Object object, StringBuilder buffer) {
 		if (object != null) {
 			appendClassName(buffer, object);
 			appendIdentityHashCode(buffer, object);
@@ -296,82 +296,83 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, Object value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, Object value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, boolean value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, boolean value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, byte value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, byte value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, char value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, char value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, double value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, double value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, float value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, float value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, long value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, long value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, int value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, int value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, short value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, short value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, Object[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer,
+			Object[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -380,71 +381,73 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder append(ObjectLocator parentLocator, Object parent,
 			String fieldName, StringBuilder buffer, Collection value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, boolean[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer,
+			boolean[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, byte[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, byte[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, char[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, char[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, double[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer,
+			double[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, float[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, float[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, long[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, long[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, int[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, int[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
 
-	public StringBuilder appendField(ObjectLocator parentLocator, Object parent,
-			String fieldName, StringBuilder buffer, short[] value) {
+	public StringBuilder appendField(ObjectLocator parentLocator,
+			Object parent, String fieldName, StringBuilder buffer, short[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName), buffer, value);
+		append(field(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -754,7 +757,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -767,7 +770,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -780,7 +783,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -793,7 +796,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -806,7 +809,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -819,7 +822,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -832,7 +835,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -845,7 +848,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i), buffer, array[i]);
+			append(entry(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -863,7 +866,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 				appendNullText(buffer);
 
 			} else {
-				append(entry(locator, i), buffer, array[i]);
+				append(entry(locator, i, array[i]), buffer, array[i]);
 			}
 		}
 		buffer.append(arrayEnd);
@@ -879,7 +882,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				appendArraySeparator(buffer);
 			}
-			append(entry(locator, i), buffer, item);
+			append(entry(locator, i, item), buffer, item);
 			i = i + 1;
 		}
 		appendArrayEnd(buffer);

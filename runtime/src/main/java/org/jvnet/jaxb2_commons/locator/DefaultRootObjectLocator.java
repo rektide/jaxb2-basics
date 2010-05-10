@@ -1,23 +1,22 @@
 package org.jvnet.jaxb2_commons.locator;
 
+import java.text.MessageFormat;
+
 public final class DefaultRootObjectLocator extends AbstractObjectLocator
-    implements
-    RootObjectLocator {
+		implements RootObjectLocator {
 
-  public DefaultRootObjectLocator(Object object) {
-    super(null, object);
-  }
+	public DefaultRootObjectLocator(Object rootObject) {
+		super(null, rootObject);
+	}
 
-  public boolean equals(Object object) {
-    if (this == object)
-      return true;
-    if (object == null)
-      return false;
-    if (object instanceof RootObjectLocator) {
-      return ((RootObjectLocator) object).getObject() == getObject();
-    }
-    else {
-      return false;
-    }
-  }
+	public Object[] getMessageParameters() {
+		return new Object[] { getObject() };
+	}
+
+	@Override
+	protected String getDefaultMessage() {
+		return MessageFormat
+				.format("Root object: {0}.", getMessageParameters());
+	}
+
 }

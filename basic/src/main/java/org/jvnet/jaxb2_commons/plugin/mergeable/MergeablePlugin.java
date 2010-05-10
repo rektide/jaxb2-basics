@@ -187,11 +187,13 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					final JExpression leftFieldLocator = codeModel.ref(
 							LocatorUtils.class).staticInvoke("field").arg(
 							leftLocator).arg(
-							fieldOutline.getPropertyInfo().getName(false));
+							fieldOutline.getPropertyInfo().getName(false)).arg(
+							leftField);
 					final JExpression rightFieldLocator = codeModel.ref(
 							LocatorUtils.class).staticInvoke("field").arg(
 							rightLocator).arg(
-							fieldOutline.getPropertyInfo().getName(false));
+							fieldOutline.getPropertyInfo().getName(false)).arg(
+							rightField);
 
 					final FieldAccessorEx targetFieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, target);

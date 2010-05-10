@@ -35,14 +35,14 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode,
 			final JAXBElement<?> element) {
 		int currentHashCode = hashCode;
-		currentHashCode = hashCode(field(locator, "name"), currentHashCode,
-				element.getName());
-		currentHashCode = hashCode(field(locator, "declaredType"),
-				currentHashCode, element.getDeclaredType());
-		currentHashCode = hashCode(field(locator, "scope"), currentHashCode,
-				element.getScope());
-		currentHashCode = hashCode(field(locator, "value"), currentHashCode,
-				element.getValue());
+		currentHashCode = hashCode(field(locator, "name", element.getName()),
+				currentHashCode, element.getName());
+		currentHashCode = hashCode(field(locator, "declaredType", element
+				.getDeclaredType()), currentHashCode, element.getDeclaredType());
+		currentHashCode = hashCode(field(locator, "scope", element.getScope()),
+				currentHashCode, element.getScope());
+		currentHashCode = hashCode(field(locator, "value", element.getValue()),
+				currentHashCode, element.getValue());
 		return currentHashCode;
 	}
 
@@ -51,8 +51,8 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
 		int currentHashCode = hashCode;
 		for (int index = 0; index < list.size(); index++) {
 			final Object item = list.get(index);
-			currentHashCode = hashCode(entry(locator, index), currentHashCode,
-					item);
+			currentHashCode = hashCode(entry(locator, index, item),
+					currentHashCode, item);
 		}
 		return currentHashCode;
 	}

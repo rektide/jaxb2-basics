@@ -218,11 +218,13 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 						final JExpression leftFieldLocator = codeModel.ref(
 								LocatorUtils.class).staticInvoke("field").arg(
 								leftLocator).arg(
-								fieldOutline.getPropertyInfo().getName(false));
+								fieldOutline.getPropertyInfo().getName(false))
+								.arg(lhsValue);
 						final JExpression rightFieldLocator = codeModel.ref(
 								LocatorUtils.class).staticInvoke("field").arg(
 								rightLocator).arg(
-								fieldOutline.getPropertyInfo().getName(false));
+								fieldOutline.getPropertyInfo().getName(false))
+								.arg(rhsValue);
 						block._if(
 								JOp.not(JExpr.invoke(equalsStrategy, "equals")
 										.arg(leftFieldLocator).arg(

@@ -110,18 +110,20 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	public String getMessageCode() {
 		return getClass().getName();
 	}
+	
+	protected abstract String getDefaultMessage();
 
-	public Object[] getMessageParameters() {
-		return new Object[] { getObject() };
-	}
-
+//	public Object[] getMessageParameters() {
+//		return new Object[] { getObject() };
+//	}
+//
 	public String getMessage(ResourceBundle bundle) {
 		try {
 			final String messageTemplate = bundle.getString(getMessageCode());
 			return MessageFormat
 					.format(messageTemplate, getMessageParameters());
 		} catch (MissingResourceException mrex) {
-			return MessageFormat.format("Object: {0}.", getMessageParameters());
+			return getDefaultMessage();
 		}
 	}
 
@@ -136,24 +138,17 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 				+ ".messages"));
 	}
 
-	public int hashCode() {
-		int hashCode = getObject().hashCode();
-		return hashCode;
+//	public int hashCode() {
+//		int hashCode = getObject().hashCode();
+//		return hashCode;
+//	}
+
+	public ListEntryObjectLocator entry(int index, Object value) {
+		return new DefaultListEntryObjectLocator(this, index, value);
 	}
 
-	public ListEntryObjectLocator entry(int index) {
-		return new DefaultListEntryObjectLocator(this, index);
+	public FieldObjectLocator field(String name, Object value) {
+		return new DefaultFieldObjectLocator(this, name, value);
 	}
 
-	public ListEntryObjectLocator entry(Object object, int index) {
-		return new DefaultListEntryObjectLocator(this, object, index);
-	}
-
-	public FieldObjectLocator field(String name) {
-		return new DefaultFieldObjectLocator(this, name);
-	}
-
-	public FieldObjectLocator field(Object object, String name) {
-		return new DefaultFieldObjectLocator(this, object, name);
-	}
 }

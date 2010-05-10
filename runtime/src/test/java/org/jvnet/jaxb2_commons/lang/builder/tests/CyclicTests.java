@@ -31,8 +31,8 @@ public class CyclicTests extends TestCase {
 		public Object copyTo(ObjectLocator locator, Object target,
 				CopyStrategy copyStrategy) {
 			final A that = (A) target;
-			that.b = (B) copyStrategy.copy(LocatorUtils.field(locator, "b"),
-					this.b);
+			that.b = (B) copyStrategy.copy(LocatorUtils.field(locator, "b",
+					this.b), this.b);
 			return that;
 		}
 
@@ -52,8 +52,8 @@ public class CyclicTests extends TestCase {
 		public Object copyTo(ObjectLocator locator, Object target,
 				CopyStrategy copyStrategy) {
 			final B that = (B) target;
-			that.a = (A) copyStrategy.copy(LocatorUtils.field(locator, "a"),
-					this.a);
+			that.a = (A) copyStrategy.copy(LocatorUtils.field(locator, "a",
+					this.a), this.a);
 			return that;
 		}
 	}
