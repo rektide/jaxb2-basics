@@ -47,19 +47,20 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<?> equalsStrategyClass = JAXBEqualsStrategy.class;
+	private Class<? extends EqualsStrategy> equalsStrategyClass = JAXBEqualsStrategy.class;
 
-	public void setEqualsStrategyClass(Class<?> equalsStrategyClass) {
+	public void setEqualsStrategyClass(
+			Class<? extends EqualsStrategy> equalsStrategyClass) {
 		this.equalsStrategyClass = equalsStrategyClass;
 	}
 
-	public Class<?> getEqualsStrategyClass() {
+	public Class<? extends EqualsStrategy> getEqualsStrategyClass() {
 		return equalsStrategyClass;
 	}
 
 	public JExpression createEqualsStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				getEqualsStrategyClass());
+				EqualsStrategy.class, getEqualsStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

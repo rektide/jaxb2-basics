@@ -14,13 +14,13 @@ import com.sun.tools.xjc.outline.ClassOutline;
 
 public class StrategyClassUtils {
 	public static <T> JExpression createStrategyInstanceExpression(
-			JCodeModel codeModel, final Class<? extends T> strategyClass) {
+			JCodeModel codeModel, final Class<? extends T> strategyInterface, final Class<? extends T> strategyClass) {
 		final JClass copyBuilderJClass = codeModel.ref(strategyClass);
 		try {
 			final Method getInstanceMethod = strategyClass.getMethod(
 					"getInstance", new Class<?>[0]);
 			if (getInstanceMethod != null
-					&& strategyClass.isAssignableFrom(getInstanceMethod
+					&& strategyInterface.isAssignableFrom(getInstanceMethod
 							.getReturnType())
 					&& Modifier.isStatic(getInstanceMethod.getModifiers())
 					&& Modifier.isPublic(getInstanceMethod.getModifiers())) {
@@ -33,7 +33,7 @@ public class StrategyClassUtils {
 		try {
 			final Field instanceField = strategyClass.getField("INSTANCE");
 			if (instanceField != null
-					&& strategyClass.isAssignableFrom(instanceField.getType())
+					&& strategyInterface.isAssignableFrom(instanceField.getType())
 					&& Modifier.isStatic(instanceField.getModifiers())
 					&& Modifier.isPublic(instanceField.getModifiers())) {
 				return copyBuilderJClass.staticRef("INSTANCE");

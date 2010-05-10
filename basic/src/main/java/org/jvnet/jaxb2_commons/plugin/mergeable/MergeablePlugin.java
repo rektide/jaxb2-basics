@@ -45,19 +45,20 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<?> mergeStrategyClass = JAXBMergeStrategy.class;
+	private Class<? extends MergeStrategy> mergeStrategyClass = JAXBMergeStrategy.class;
 
-	public void setMergeStrategyClass(final Class<?> mergeStrategyClass) {
+	public void setMergeStrategyClass(
+			final Class<? extends MergeStrategy> mergeStrategyClass) {
 		this.mergeStrategyClass = mergeStrategyClass;
 	}
 
-	public Class<?> getMergeStrategyClass() {
+	public Class<? extends MergeStrategy> getMergeStrategyClass() {
 		return mergeStrategyClass;
 	}
 
 	public JExpression createMergeStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				getMergeStrategyClass());
+				MergeStrategy.class, getMergeStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

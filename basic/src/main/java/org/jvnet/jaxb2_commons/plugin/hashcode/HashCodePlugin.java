@@ -58,7 +58,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	public JExpression createHashCodeStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				getHashCodeStrategy());
+				HashCodeStrategy.class, getHashCodeStrategy());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

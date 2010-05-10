@@ -61,7 +61,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 	public JExpression createCopyStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				getCopyStrategy());
+				CopyStrategy.class, getCopyStrategy());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -318,8 +318,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 										.staticInvoke("field").arg(locator)
 										.arg(
 												fieldOutline.getPropertyInfo()
-														.getName(false)).arg(sourceField)).arg(
-								sourceField);
+														.getName(false)).arg(
+												sourceField)).arg(sourceField);
 						final JVar copyField = setValueBlock.decl(
 								copyFieldType, "copy"
 										+ fieldOutline.getPropertyInfo()

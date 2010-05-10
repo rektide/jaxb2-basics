@@ -44,22 +44,23 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<?> toStringStrategy = JAXBToStringStrategy.class;
+	private Class<? extends ToStringStrategy> toStringStrategy = JAXBToStringStrategy.class;
 
-	public void setToStringStrategy(Class<?> toStringStrategy) {
+	public void setToStringStrategy(
+			Class<? extends ToStringStrategy> toStringStrategy) {
 		if (!ToStringStrategy.class.isAssignableFrom(toStringStrategy))
 			throw new IllegalArgumentException("The class must extend ["
 					+ ToStringStrategy.class.getName() + "].");
 		this.toStringStrategy = toStringStrategy;
 	}
 
-	public Class<?> getToStringStrategy() {
+	public Class<? extends ToStringStrategy> getToStringStrategy() {
 		return toStringStrategy;
 	}
 
 	public JExpression createToStringStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				getToStringStrategy());
+				ToStringStrategy.class, getToStringStrategy());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -119,13 +120,11 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 			final JVar toStringStrategy =
 
 			body.decl(JMod.FINAL, codeModel.ref(ToStringStrategy.class),
-					"strategy", StrategyClassUtils
-							.createStrategyInstanceExpression(codeModel,
-									getToStringStrategy()));
+					"strategy", createToStringStrategy(codeModel));
 
 			final JVar buffer = body.decl(JMod.FINAL, codeModel
-					.ref(StringBuilder.class), "buffer", JExpr
-					._new(codeModel.ref(StringBuilder.class)));
+					.ref(StringBuilder.class), "buffer", JExpr._new(codeModel
+					.ref(StringBuilder.class)));
 			body.invoke("append").arg(JExpr._null()).arg(buffer).arg(
 					toStringStrategy);
 			body._return(buffer.invoke("toString"));
@@ -203,8 +202,8 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 					block.invoke(toStringStrategy, "appendField").arg(locator)
 							.arg(JExpr._this()).arg(
 									JExpr.lit(fieldOutline.getPropertyInfo()
-											.getName(false))).arg(buffer)
-							.arg(theValue);
+											.getName(false))).arg(buffer).arg(
+									theValue);
 				}
 			body._return(buffer);
 		}
