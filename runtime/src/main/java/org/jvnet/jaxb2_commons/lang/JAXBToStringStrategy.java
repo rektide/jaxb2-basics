@@ -10,37 +10,37 @@ public class JAXBToStringStrategy extends DefaultToStringStrategy {
 
 	private String jaxbElementEnd = ">";
 
-	protected void appendJAXBElementStart(StringBuffer stringBuffer) {
-		stringBuffer.append(jaxbElementStart);
+	protected void appendJAXBElementStart(StringBuilder stringBuilder) {
+		stringBuilder.append(jaxbElementStart);
 	}
 
-	protected void appendJAXBElementEnd(StringBuffer stringBuffer) {
-		stringBuffer.append(jaxbElementEnd);
+	protected void appendJAXBElementEnd(StringBuilder stringBuilder) {
+		stringBuilder.append(jaxbElementEnd);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected StringBuffer appendInternal(ObjectLocator locator,
-			StringBuffer stringBuffer, Object value) {
+	protected StringBuilder appendInternal(ObjectLocator locator,
+			StringBuilder stringBuilder, Object value) {
 		if (value instanceof JAXBElement) {
 			final JAXBElement jaxbElement = (JAXBElement) value;
-			appendInternal(locator, stringBuffer, jaxbElement);
+			appendInternal(locator, stringBuilder, jaxbElement);
 		} else {
-			super.appendInternal(locator, stringBuffer, value);
+			super.appendInternal(locator, stringBuilder, value);
 		}
-		return stringBuffer;
+		return stringBuilder;
 	}
 
 	@SuppressWarnings("unchecked")
-	protected StringBuffer appendInternal(ObjectLocator locator,
-			StringBuffer stringBuffer, JAXBElement value) {
-		appendJAXBElementStart(stringBuffer);
-		stringBuffer.append(value.getName());
-		appendContentStart(stringBuffer);
-		append(locator, stringBuffer, value.getValue());
-		appendContentEnd(stringBuffer);
-		appendJAXBElementEnd(stringBuffer);
-		return stringBuffer;
+	protected StringBuilder appendInternal(ObjectLocator locator,
+			StringBuilder stringBuilder, JAXBElement value) {
+		appendJAXBElementStart(stringBuilder);
+		stringBuilder.append(value.getName());
+		appendContentStart(stringBuilder);
+		append(locator, stringBuilder, value.getValue());
+		appendContentEnd(stringBuilder);
+		appendJAXBElementEnd(stringBuilder);
+		return stringBuilder;
 	}
 	
 	public static final ToStringStrategy INSTANCE = new JAXBToStringStrategy();

@@ -24,7 +24,7 @@ public class JaxbIndexPlugin extends com.sun.tools.xjc.Plugin {
 
 		for (final PackageOutline packageOutline : outline
 				.getAllPackageContexts()) {
-			final StringBuffer sb = new StringBuffer();
+			final StringBuilder sb = new StringBuilder();
 			for (final ClassOutline classOutline : packageOutline.getClasses()) {
 				sb.append(CodeModelUtils.getLocalClassName(classOutline.ref));
 				sb.append("\n");

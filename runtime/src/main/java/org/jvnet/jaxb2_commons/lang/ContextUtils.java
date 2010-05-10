@@ -18,7 +18,7 @@ public class ContextUtils {
             }
         }
 
-		final StringBuffer contextPath = new StringBuffer();
+		final StringBuilder contextPath = new StringBuilder();
 
 		for (int index = 0; index < classes.length; index++) {
 			if (index > 0) {

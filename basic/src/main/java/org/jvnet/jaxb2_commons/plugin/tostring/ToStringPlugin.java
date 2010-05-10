@@ -123,12 +123,12 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 							.createStrategyInstanceExpression(codeModel,
 									getToStringStrategy()));
 
-			final JVar stringBuffer = body.decl(JMod.FINAL, codeModel
-					.ref(StringBuffer.class), "stringBuffer", JExpr
-					._new(codeModel.ref(StringBuffer.class)));
-			body.invoke("append").arg(JExpr._null()).arg(stringBuffer).arg(
+			final JVar buffer = body.decl(JMod.FINAL, codeModel
+					.ref(StringBuilder.class), "buffer", JExpr
+					._new(codeModel.ref(StringBuilder.class)));
+			body.invoke("append").arg(JExpr._null()).arg(buffer).arg(
 					toStringStrategy);
-			body._return(stringBuffer.invoke("toString"));
+			body._return(buffer.invoke("toString"));
 		}
 		return object$toString;
 	}
@@ -137,25 +137,25 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 			final JDefinedClass theClass) {
 		final JCodeModel codeModel = theClass.owner();
 		final JMethod toString$append = theClass.method(JMod.PUBLIC, codeModel
-				.ref(StringBuffer.class), "append");
+				.ref(StringBuilder.class), "append");
 		{
 
 			final JVar locator = toString$append.param(ObjectLocator.class,
 					"locator");
-			final JVar stringBuffer = toString$append.param(StringBuffer.class,
-					"stringBuffer");
+			final JVar buffer = toString$append.param(StringBuilder.class,
+					"buffer");
 			final JVar toStringStrategy = toString$append.param(
 					ToStringStrategy.class, "toStringStrategy");
 
 			final JBlock body = toString$append.body();
 
 			body.invoke(toStringStrategy, "appendStart").arg(locator).arg(
-					JExpr._this()).arg(stringBuffer);
-			body.invoke("appendFields").arg(locator).arg(stringBuffer).arg(
+					JExpr._this()).arg(buffer);
+			body.invoke("appendFields").arg(locator).arg(buffer).arg(
 					toStringStrategy);
 			body.invoke(toStringStrategy, "appendEnd").arg(locator).arg(
-					JExpr._this()).arg(stringBuffer);
-			body._return(stringBuffer);
+					JExpr._this()).arg(buffer);
+			body._return(buffer);
 		}
 		return toString$append;
 	}
@@ -165,12 +165,12 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 		final JCodeModel codeModel = theClass.owner();
 
 		final JMethod toString$appendFields = theClass.method(JMod.PUBLIC,
-				codeModel.ref(StringBuffer.class), "appendFields");
+				codeModel.ref(StringBuilder.class), "appendFields");
 		{
 			final JVar locator = toString$appendFields.param(
 					ObjectLocator.class, "locator");
-			final JVar stringBuffer = toString$appendFields.param(
-					StringBuffer.class, "stringBuffer");
+			final JVar buffer = toString$appendFields.param(
+					StringBuilder.class, "buffer");
 			final JVar toStringStrategy = toString$appendFields.param(
 					ToStringStrategy.class, "toStringStrategy");
 			final JBlock body = toString$appendFields.body();
@@ -183,7 +183,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 				// No superclass
 			} else if (superClassImplementsToString.booleanValue()) {
 				body.invoke(JExpr._super(), "appendFields").arg(locator).arg(
-						stringBuffer).arg(toStringStrategy);
+						buffer).arg(toStringStrategy);
 			} else {
 				// Superclass does not implement ToString
 			}
@@ -203,10 +203,10 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 					block.invoke(toStringStrategy, "appendField").arg(locator)
 							.arg(JExpr._this()).arg(
 									JExpr.lit(fieldOutline.getPropertyInfo()
-											.getName(false))).arg(stringBuffer)
+											.getName(false))).arg(buffer)
 							.arg(theValue);
 				}
-			body._return(stringBuffer);
+			body._return(buffer);
 		}
 		return toString$appendFields;
 	}

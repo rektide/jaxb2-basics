@@ -70,7 +70,7 @@ public class StringUtils {
 		}
 
 		// two or more elements
-		StringBuffer buf = new StringBuffer(256); // Java default is 16,
+		StringBuilder buf = new StringBuilder(256); // Java default is 16,
 		// probably too small
 		if (first != null) {
 			buf.append(first);

@@ -28,7 +28,7 @@ public class OutlineUtils {
 	}
 
 	public static String getContextPath(Outline context) {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 
 		for (final Iterator<? extends PackageOutline> packageOutlines = context
 				.getAllPackageContexts().iterator(); packageOutlines.hasNext();) {

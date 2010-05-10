@@ -4,10 +4,10 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface ToString {
 
-	public StringBuffer append(ObjectLocator locator, StringBuffer stringBuffer,
+	public StringBuilder append(ObjectLocator locator, StringBuilder stringBuilder,
 			ToStringStrategy toStringStrategy);
 
-	public StringBuffer appendFields(ObjectLocator locator, StringBuffer stringBuffer,
+	public StringBuilder appendFields(ObjectLocator locator, StringBuilder stringBuilder,
 			ToStringStrategy toStringStrategy);
 
 }

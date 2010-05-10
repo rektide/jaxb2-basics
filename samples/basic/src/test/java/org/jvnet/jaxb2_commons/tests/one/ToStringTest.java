@@ -11,7 +11,7 @@ public class ToStringTest extends AbstractSamplesTest {
   protected void checkSample(File sample) throws Exception {
     
     final Object object = createContext().createUnmarshaller().unmarshal(sample);
-    logger.debug(JAXBToStringStrategy.INSTANCE.append(null, new StringBuffer(), object).toString());
+    logger.debug(JAXBToStringStrategy.INSTANCE.append(null, new StringBuilder(), object).toString());
   }
 
 }
