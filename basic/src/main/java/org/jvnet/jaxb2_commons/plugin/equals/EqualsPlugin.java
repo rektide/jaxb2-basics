@@ -117,7 +117,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 			final JVar object = objectEquals.param(Object.class, "object");
 			final JBlock body = objectEquals.body();
 			final JVar equalsStrategy = body.decl(JMod.FINAL, codeModel
-					.ref(EqualsStrategy.class), "equalsStrategy",
+					.ref(EqualsStrategy.class), "strategy",
 					createEqualsStrategy(codeModel));
 			body._return(JExpr.invoke("equals").arg(JExpr._null()).arg(
 					JExpr._null()).arg(object).arg(equalsStrategy));
@@ -132,7 +132,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 	// {
 	// final JVar object = equalsEquals0.param(Object.class, "object");
 	// final JVar equalsStrategy = equalsEquals0.param(
-	// EqualsStrategy.class, "equalsStrategy");
+	// EqualsStrategy.class, "strategy");
 	// final JBlock body = equalsEquals0.body();
 	//
 	// body._return(JExpr.invoke("equals").arg(JExpr._null()).arg(
@@ -155,7 +155,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 					"thatLocator");
 			final JVar object = equals.param(Object.class, "object");
 			final JVar equalsStrategy = equals.param(EqualsStrategy.class,
-					"equalsStrategy");
+					"strategy");
 
 			final JConditional ifNotInstanceof = body._if(JOp.not(object
 					._instanceof(theClass)));

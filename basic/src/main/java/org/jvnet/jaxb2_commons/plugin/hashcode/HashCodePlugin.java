@@ -115,7 +115,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 		{
 			final JBlock body = object$hashCode.body();
 			final JVar hashCodeBuilder = body.decl(JMod.FINAL, theClass.owner()
-					.ref(HashCodeStrategy.class), "hashCodeStrategy",
+					.ref(HashCodeStrategy.class), "strategy",
 					createHashCodeStrategy(theClass.owner()));
 			body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
 					.arg(hashCodeBuilder));
@@ -130,7 +130,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 	// .owner().INT, "hashCode");
 	// {
 	// final JVar hashCodeBuilder = hashCode$hashCode.param(
-	// HashCodeStrategy.class, "hashCodeStrategy");
+	// HashCodeStrategy.class, "strategy");
 	// final JBlock body = hashCode$hashCode.body();
 	// body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
 	// .arg(hashCodeBuilder));
@@ -148,7 +148,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			final JVar locator = hashCode$hashCode.param(ObjectLocator.class,
 					"locator");
 			final JVar hashCodeStrategy = hashCode$hashCode.param(
-					HashCodeStrategy.class, "hashCodeStrategy");
+					HashCodeStrategy.class, "strategy");
 			final JBlock body = hashCode$hashCode.body();
 
 			final JExpression currentHashCodeExpression;

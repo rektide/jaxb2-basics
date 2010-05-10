@@ -119,7 +119,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 			final JVar toStringStrategy =
 
 			body.decl(JMod.FINAL, codeModel.ref(ToStringStrategy.class),
-					"toStringStrategy", StrategyClassUtils
+					"strategy", StrategyClassUtils
 							.createStrategyInstanceExpression(codeModel,
 									getToStringStrategy()));
 
@@ -145,7 +145,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 			final JVar buffer = toString$append.param(StringBuilder.class,
 					"buffer");
 			final JVar toStringStrategy = toString$append.param(
-					ToStringStrategy.class, "toStringStrategy");
+					ToStringStrategy.class, "strategy");
 
 			final JBlock body = toString$append.body();
 
@@ -172,7 +172,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 			final JVar buffer = toString$appendFields.param(
 					StringBuilder.class, "buffer");
 			final JVar toStringStrategy = toString$appendFields.param(
-					ToStringStrategy.class, "toStringStrategy");
+					ToStringStrategy.class, "strategy");
 			final JBlock body = toString$appendFields.body();
 
 			final Boolean superClassImplementsToString = StrategyClassUtils

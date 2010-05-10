@@ -207,7 +207,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 			final JBlock body = copyTo$copyTo.body();
 			final JVar copyStrategy = body.decl(JMod.FINAL, codeModel
-					.ref(CopyStrategy.class), "copyStrategy",
+					.ref(CopyStrategy.class), "strategy",
 					createCopyStrategy(codeModel));
 
 			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target)
@@ -226,7 +226,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 			final JVar locator = copyTo.param(ObjectLocator.class, "locator");
 			final JVar target = copyTo.param(Object.class, "target");
 			final JVar copyStrategy = copyTo.param(CopyStrategy.class,
-					"copyStrategy");
+					"strategy");
 
 			final JBlock body = copyTo.body();
 

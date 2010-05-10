@@ -114,7 +114,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 			final JBlock body = mergeFrom$mergeFrom.body();
 
 			final JVar mergeStrategy = body.decl(JMod.FINAL, codeModel
-					.ref(MergeStrategy.class), "mergeStrategy",
+					.ref(MergeStrategy.class), "strategy",
 					createMergeStrategy(codeModel));
 
 			body.invoke("mergeFrom").arg(JExpr._null()).arg(JExpr._null()).arg(
@@ -137,7 +137,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 			final JVar that = mergeFrom.param(Object.class, "that");
 
 			final JVar mergeStrategy = mergeFrom.param(MergeStrategy.class,
-					"mergeStrategy");
+					"strategy");
 
 			final JBlock methodBody = mergeFrom.body();
 
