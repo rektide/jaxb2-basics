@@ -28,6 +28,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElement;
+import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CEnumConstant;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
@@ -38,9 +39,11 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.ElementOutline;
 import com.sun.tools.xjc.outline.EnumConstantOutline;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 public class CustomizationUtils {
 
@@ -131,9 +134,9 @@ public class CustomizationUtils {
 
 		return pluginCustomizations;
 	}
-	
-	public static List<CPluginCustomization> findCustomizations(
-			Model model, QName name) {
+
+	public static List<CPluginCustomization> findCustomizations(Model model,
+			QName name) {
 		final CCustomizations customizations = CustomizationUtils
 				.getCustomizations(model);
 
@@ -151,7 +154,6 @@ public class CustomizationUtils {
 
 		return pluginCustomizations;
 	}
-
 
 	public static CPluginCustomization findCustomization(CClassInfo classInfo,
 			QName name) {
@@ -289,6 +291,16 @@ public class CustomizationUtils {
 		}
 	}
 
+	public static CCustomizations getCustomizations(
+			ElementOutline elementOutline) {
+		return getCustomizations(elementOutline.target);
+	}
+
+	public static CCustomizations getCustomizations(
+			final CElementInfo elementInfo) {
+		return elementInfo.getCustomizations();
+	}
+
 	public static CCustomizations getCustomizations(EnumOutline enumOutline) {
 		return getCustomizations(enumOutline.target);
 	}
@@ -333,8 +345,11 @@ public class CustomizationUtils {
 								info.getElements().size());
 
 						for (CElement element : info.getElements()) {
-							elementCustomizations.add(element
-									.getCustomizations());
+							if (!(element instanceof CElementInfo && ((CElementInfo) element)
+									.hasClass())) {
+								elementCustomizations.add(element
+										.getCustomizations());
+							}
 						}
 
 						return elementCustomizations;

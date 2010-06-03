@@ -27,8 +27,10 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CCustomizations;
+import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.ElementOutline;
 import com.sun.tools.xjc.outline.EnumConstantOutline;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -86,14 +88,33 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 	@Override
 	public boolean run(Outline outline, Options options,
 			ErrorHandler errorHandler) {
-		for (final ClassOutline classOutline : outline.getClasses()) {
 
+		for (final CElementInfo elementInfo : outline.getModel()
+				.getAllElements()) {
+			final ElementOutline elementOutline = outline
+					.getElement(elementInfo);
+			if (elementOutline != null) {
+				processElementOutline(elementOutline, options, errorHandler);
+			}
+		}
+
+		for (final ClassOutline classOutline : outline.getClasses()) {
 			processClassOutline(classOutline, options, errorHandler);
 		}
 		for (final EnumOutline enumOutline : outline.getEnums()) {
 			processEnumOutline(enumOutline, options, errorHandler);
 		}
 		return true;
+	}
+
+	protected void processElementOutline(ElementOutline elementOutline,
+			Options options, ErrorHandler errorHandler) {
+
+		final CCustomizations customizations = CustomizationUtils
+				.getCustomizations(elementOutline);
+
+		annotateElementOutline(elementOutline.implClass.owner(), elementOutline,
+				customizations, errorHandler);
 	}
 
 	protected void processEnumOutline(EnumOutline enumOutline, Options options,
@@ -130,8 +151,9 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 			FieldOutline fieldOutline, Options options,
 			ErrorHandler errorHandler) {
 
-		final CCustomizations customizations = CustomizationUtils
-				.getCustomizations(fieldOutline);
+		final CCustomizations customizations =
+//			fieldOutline.getPropertyInfo().getCustomizations();
+			CustomizationUtils.getCustomizations(fieldOutline);
 		annotate(fieldOutline.parent().ref.owner(), fieldOutline,
 				customizations, errorHandler);
 	}
@@ -145,6 +167,24 @@ public class AnnotatePlugin extends AbstractParameterizablePlugin {
 
 		annotateEnumConstantOutline(enumOutline.parent().getCodeModel(),
 				enumConstantOutline, customizations, errorHandler);
+	}
+
+	protected void annotateElementOutline(final JCodeModel codeModel,
+			final ElementOutline elementOutline,
+			final CCustomizations customizations,
+			final ErrorHandler errorHandler) {
+		for (final CPluginCustomization customization : customizations) {
+			final Element element = customization.element;
+			final String namespaceURI = element.getNamespaceURI();
+			if (Constants.NAMESPACE_URI.equals(namespaceURI)) {
+				customization.markAsAcknowledged();
+
+				final JAnnotatable annotatable = elementOutline.implClass;
+
+				annotate(codeModel, errorHandler, customization, element,
+						annotatable);
+			}
+		}
 	}
 
 	protected void annotateEnumOutline(final JCodeModel codeModel,
