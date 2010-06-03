@@ -13,7 +13,7 @@ public class DefaultMergeStrategy implements MergeStrategy {
 		} else {
 			if (leftValue instanceof MergeFrom) {
 				((MergeFrom) leftValue).mergeFrom(leftLocator, rightLocator,
-						rightValue, this);
+						leftValue, rightValue, this);
 				return leftValue;
 			} else {
 				return leftValue;

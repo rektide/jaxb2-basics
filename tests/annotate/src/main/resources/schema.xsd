@@ -55,7 +55,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
-							<jl:Override/>
+							<jl:SuppressWarnings/>
 						</annox:annotate>
 					</xsd:appinfo>
 				</xsd:annotation>
@@ -64,7 +64,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
-							<jl:Override/>
+							<jl:SuppressWarnings/>
 						</annox:annotate>
 					</xsd:appinfo>
 				</xsd:annotation>

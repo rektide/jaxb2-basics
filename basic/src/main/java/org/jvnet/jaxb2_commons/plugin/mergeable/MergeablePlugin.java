@@ -111,7 +111,8 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 		final JMethod mergeFrom$mergeFrom = theClass.method(JMod.PUBLIC,
 				codeModel.VOID, "mergeFrom");
 		{
-			final JVar that = mergeFrom$mergeFrom.param(Object.class, "that");
+			final JVar left = mergeFrom$mergeFrom.param(Object.class, "left");
+			final JVar right = mergeFrom$mergeFrom.param(Object.class, "right");
 			final JBlock body = mergeFrom$mergeFrom.body();
 
 			final JVar mergeStrategy = body.decl(JMod.FINAL, codeModel
@@ -119,7 +120,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					createMergeStrategy(codeModel));
 
 			body.invoke("mergeFrom").arg(JExpr._null()).arg(JExpr._null()).arg(
-					that).arg(mergeStrategy);
+					left).arg(right).arg(mergeStrategy);
 		}
 		return mergeFrom$mergeFrom;
 	}
@@ -135,7 +136,8 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					"leftLocator");
 			final JVar rightLocator = mergeFrom.param(ObjectLocator.class,
 					"rightLocator");
-			final JVar that = mergeFrom.param(Object.class, "that");
+			final JVar left = mergeFrom.param(Object.class, "left");
+			final JVar right = mergeFrom.param(Object.class, "right");
 
 			final JVar mergeStrategy = mergeFrom.param(MergeStrategy.class,
 					"strategy");
@@ -150,26 +152,27 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 
 			} else if (superClassImplementsMergeFrom.booleanValue()) {
 				methodBody.invoke(JExpr._super(), "mergeFrom").arg(leftLocator)
-						.arg(rightLocator).arg(that).arg(mergeStrategy);
+						.arg(rightLocator).arg(left).arg(right).arg(mergeStrategy);
 			} else {
 
 			}
 
-			final JBlock body = methodBody._if(that._instanceof(theClass))
+			final JBlock body = methodBody._if(right._instanceof(theClass))
 					._then();
 
 			JVar target = body.decl(JMod.FINAL, theClass, "target", JExpr
 					._this());
-			JVar left = body.decl(JMod.FINAL, theClass, "left", JExpr._this());
-			JVar right = body.decl(JMod.FINAL, theClass, "right", JExpr.cast(
-					theClass, that));
+			JVar leftObject = body.decl(JMod.FINAL, theClass, "leftObject",
+					JExpr.cast(theClass, left));
+			JVar rightObject = body.decl(JMod.FINAL, theClass, "rightObject",
+					JExpr.cast(theClass, right));
 			for (final FieldOutline fieldOutline : classOutline
 					.getDeclaredFields())
 				if (!getIgnoring().isIgnored(fieldOutline)) {
 					final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
-							.createFieldAccessor(fieldOutline, left);
+							.createFieldAccessor(fieldOutline, leftObject);
 					final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
-							.createFieldAccessor(fieldOutline, right);
+							.createFieldAccessor(fieldOutline, rightObject);
 					if (leftFieldAccessor.isConstant()
 							|| rightFieldAccessor.isConstant()) {
 						continue;
