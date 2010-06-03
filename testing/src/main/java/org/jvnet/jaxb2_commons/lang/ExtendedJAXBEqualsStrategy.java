@@ -15,20 +15,31 @@ public class ExtendedJAXBEqualsStrategy extends JAXBEqualsStrategy {
 			ObjectLocator rightLocator, Object lhs, Object rhs) {
 
 		if (lhs instanceof Node && rhs instanceof Node) {
-			final Diff diff = new Diff(new DOMSource((Node) lhs),
-					new DOMSource((Node) rhs));
-			return diff.identical();
+			return equalsInternal(leftLocator, rightLocator, (Node) lhs,
+					(Node) rhs);
 		} else if (lhs instanceof XMLGregorianCalendar
 				&& rhs instanceof XMLGregorianCalendar) {
-			return equals(leftLocator, rightLocator,
-					((XMLGregorianCalendar) lhs).normalize()
-							.toGregorianCalendar().getTimeInMillis(),
-					((XMLGregorianCalendar) rhs).normalize()
-							.toGregorianCalendar().getTimeInMillis());
+			return equalsInternal(leftLocator, rightLocator,
+					(XMLGregorianCalendar) lhs, (XMLGregorianCalendar) rhs);
 
 		} else {
 			return super.equalsInternal(leftLocator, rightLocator, lhs, rhs);
 		}
+	}
+
+	protected boolean equalsInternal(ObjectLocator leftLocator,
+			ObjectLocator rightLocator, XMLGregorianCalendar left,
+			XMLGregorianCalendar right) {
+		return equals(leftLocator, rightLocator, left.normalize()
+				.toGregorianCalendar().getTimeInMillis(), right.normalize()
+				.toGregorianCalendar().getTimeInMillis());
+	}
+
+	protected boolean equalsInternal(ObjectLocator leftLocator,
+			ObjectLocator rightLocator, Node lhs, Node rhs) {
+		final Diff diff = new Diff(new DOMSource((Node) lhs), new DOMSource(
+				(Node) rhs));
+		return diff.identical();
 	}
 
 }
