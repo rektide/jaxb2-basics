@@ -74,16 +74,17 @@
 	</xs:complexType>
 	<xs:complexType name="sequenceType">
 		<xs:sequence>
-			<xs:element name="a" type="xs:string"/>
-			<xs:element name="b" type="xs:long"/>
+			<xs:element name="a" type="xs:string" minOccurs="0"/>
+			<xs:element name="b" type="xs:long" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:element name="extendedSequence" type="extendedSequenceType"/>
 	<xs:complexType name="extendedSequenceType">
 		<xs:complexContent>
 		    <xs:extension base="sequenceType">
 				<xs:sequence>
-					<xs:element name="c" type="xs:dateTime"/>
-					<xs:element name="d" type="xs:base64Binary"/>
+					<xs:element name="c" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="d" type="xs:base64Binary" minOccurs="0"/>
 				</xs:sequence>
 		    </xs:extension>
 		</xs:complexContent>

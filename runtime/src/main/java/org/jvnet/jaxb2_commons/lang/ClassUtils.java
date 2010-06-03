@@ -1,7 +1,7 @@
 package org.jvnet.jaxb2_commons.lang;
 
 public class ClassUtils {
-	
+
 	private ClassUtils() {
 	}
 
@@ -53,10 +53,11 @@ public class ClassUtils {
 			if (chars[i] == PACKAGE_SEPARATOR_CHAR) {
 				lastDot = i + 1;
 			} else if (chars[i] == INNER_CLASS_SEPARATOR_CHAR) { // handle inner
-																	// classes
+				// classes
 				chars[i] = PACKAGE_SEPARATOR_CHAR;
 			}
 		}
 		return new String(chars, lastDot, chars.length - lastDot);
 	}
+
 }

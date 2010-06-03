@@ -14,7 +14,8 @@ import com.sun.tools.xjc.outline.ClassOutline;
 
 public class StrategyClassUtils {
 	public static <T> JExpression createStrategyInstanceExpression(
-			JCodeModel codeModel, final Class<? extends T> strategyInterface, final Class<? extends T> strategyClass) {
+			JCodeModel codeModel, final Class<? extends T> strategyInterface,
+			final Class<? extends T> strategyClass) {
 		final JClass copyBuilderJClass = codeModel.ref(strategyClass);
 		try {
 			final Method getInstanceMethod = strategyClass.getMethod(
@@ -33,7 +34,8 @@ public class StrategyClassUtils {
 		try {
 			final Field instanceField = strategyClass.getField("INSTANCE");
 			if (instanceField != null
-					&& strategyInterface.isAssignableFrom(instanceField.getType())
+					&& strategyInterface.isAssignableFrom(instanceField
+							.getType())
 					&& Modifier.isStatic(instanceField.getModifiers())
 					&& Modifier.isPublic(instanceField.getModifiers())) {
 				return copyBuilderJClass.staticRef("INSTANCE");
@@ -63,7 +65,8 @@ public class StrategyClassUtils {
 					return Boolean.FALSE;
 				}
 			} catch (ClassNotFoundException ignored) {
-				return Boolean.FALSE;
+				// We'll assume it does implement
+				return Boolean.TRUE;
 			}
 		} else {
 			return null;
