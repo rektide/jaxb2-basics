@@ -39,11 +39,6 @@
                                                 	<artifactId>jaxb2-basics</artifactId>
 							<version>0.5.3-SNAPSHOT</version>
 						</plugin>
-						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics-test-episodes-a</artifactId>
-							<version>0.5.3-SNAPSHOT</version>
-						</plugin>
 					</plugins>
 					<episodes>
 						<episode>
