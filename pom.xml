@@ -9,6 +9,21 @@
 	<name>JAXB2 Basics - Project</name>
 	<url>http://static.highsource.org/jaxb2-basics</url>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>java.net-maven2-repository</id>
+			<url>${dev.java.net-releases.deploy.url}</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.snapshots</id>
+			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<url>${sftp.static.highsource.org}/jaxb2-basics</url>
+		</site>
+	</distributionManagement>
 	<issueManagement>
 		<system>JIRA</system>
 		<url>http://jira.highsource.org/browse/JIIB</url>
@@ -115,20 +130,6 @@
 			<layout>legacy</layout>
 		</pluginRepository>
 	</pluginRepositories>
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>java.net-maven2-repository</id>
-			<url>${dev.java.net-releases.deploy.url}</url>
-		</repository>
-		<snapshotRepository>
-			<id>java.net-maven2-snapshotRepository</id>
-			<url>${dev.java.net-snapshots.deploy.url}</url>
-		</snapshotRepository>
-		<site>
-			<url>${sftp.static.highsource.org}/jaxb2-basics</url>
-		</site>
-	</distributionManagement>
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
