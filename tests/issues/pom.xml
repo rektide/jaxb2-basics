@@ -40,6 +40,10 @@
 						<arg>-Xinheritance</arg>
 						<arg>-Xsetters</arg>
 						<arg>-Xwildcard</arg>
+						<arg>-XautoInheritance</arg>
+						<arg>-XautoInheritance-globalElementsExtend=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseClass</arg>
+						<arg>-XautoInheritance-globalElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceOne</arg>
+						<arg>-XautoInheritance-globalElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceTwo</arg>
 					</args>
 					<plugins>
 						<plugin>

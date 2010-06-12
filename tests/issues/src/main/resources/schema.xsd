@@ -112,5 +112,16 @@
 		<xs:attribute name="value" type="xs:string" fixed="test" />
 	</xs:complexType>
 
+	<xs:element name="issueJIIB14">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="IssueJIIB14Element"/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
 
 </xs:schema>

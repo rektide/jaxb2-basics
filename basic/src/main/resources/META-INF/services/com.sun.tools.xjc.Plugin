@@ -7,3 +7,4 @@ org.jvnet.jaxb2_commons.plugin.mergeable.MergeablePlugin
 org.jvnet.jaxb2_commons.plugin.inheritance.InheritancePlugin
 org.jvnet.jaxb2_commons.plugin.setters.SettersPlugin
 org.jvnet.jaxb2_commons.plugin.wildcard.WildcardPlugin
+org.jvnet.jaxb2_commons.plugin.autoinheritance.AutoInheritancePlugin
