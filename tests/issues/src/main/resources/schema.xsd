@@ -123,5 +123,13 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="issueJIIB14JAXBElement" type="xs:string">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="IssueJIIB14JAXBElement"/>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
 
 </xs:schema>

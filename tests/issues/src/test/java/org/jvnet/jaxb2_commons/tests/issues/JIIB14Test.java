@@ -12,5 +12,9 @@ public class JIIB14Test extends TestCase {
 				.isAssignableFrom(IssueJIIB14Element.class));
 		Assert.assertTrue(IssueJIIB14BaseInterfaceTwo.class
 				.isAssignableFrom(IssueJIIB14Element.class));
+		Assert.assertTrue(IssueJIIB14BaseInterfaceThree.class
+				.isAssignableFrom(IssueJIIB14JAXBElement.class));
+		Assert.assertTrue(IssueJIIB14BaseInterfaceFour.class
+				.isAssignableFrom(IssueJIIB14JAXBElement.class));
 	}
 }

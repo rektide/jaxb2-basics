@@ -9,7 +9,9 @@ import org.xml.sax.ErrorHandler;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.ElementOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
@@ -19,6 +21,8 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
 	private String globalComplexTypesExtend = null;
 	private List<String> globalComplexTypesImplement = new LinkedList<String>();
+
+	private List<String> globalJAXBElementsImplement = new LinkedList<String>();
 
 	public String getGlobalElementsExtend() {
 		return globalElementsExtend;
@@ -52,6 +56,16 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 			String globalComplexTypesImplement) {
 		this.globalComplexTypesImplement.add(globalComplexTypesImplement);
 	}
+	
+	public String getGlobalJAXBElementsImplement() {
+		return globalJAXBElementsImplement.toString();
+	}
+
+	public void setGlobalJAXBElementsImplement(
+			String globalJAXBElementsImplement) {
+		this.globalJAXBElementsImplement.add(globalJAXBElementsImplement);
+	}
+	
 
 	@Override
 	public String getOptionName() {
@@ -72,6 +86,14 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 				processGlobalComplexType(classOutline);
 			}
 		}
+		for (final CElementInfo elementInfo : outline.getModel()
+				.getAllElements()) {
+			final ElementOutline elementOutline = outline
+					.getElement(elementInfo);
+			if (elementOutline != null) {
+				processGlobalJAXBElement(elementOutline);
+			}
+		}
 		return true;
 	}
 
@@ -79,6 +101,12 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
 		generateExtends(classOutline.implClass, globalElementsExtend);
 		generateImplements(classOutline.implClass, globalElementsImplement);
+
+	}
+
+	protected void processGlobalJAXBElement(ElementOutline elementOutline) {
+
+		generateImplements(elementOutline.implClass, globalJAXBElementsImplement);
 
 	}
 
