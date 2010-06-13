@@ -16,56 +16,53 @@ import com.sun.tools.xjc.outline.Outline;
 
 public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
-	private String globalElementsExtend = null;
-	private List<String> globalElementsImplement = new LinkedList<String>();
+	private String xmlRootElementsExtend = null;
+	private List<String> xmlRootElementsImplement = new LinkedList<String>();
 
-	private String globalComplexTypesExtend = null;
-	private List<String> globalComplexTypesImplement = new LinkedList<String>();
+	private String xmlTypesExtend = null;
+	private List<String> xmlTypesImplement = new LinkedList<String>();
 
-	private List<String> globalJAXBElementsImplement = new LinkedList<String>();
+	private List<String> jaxbElementsImplement = new LinkedList<String>();
 
-	public String getGlobalElementsExtend() {
-		return globalElementsExtend;
+	public String getXmlRootElementsExtend() {
+		return xmlRootElementsExtend;
 	}
 
-	public void setGlobalElementsExtend(String globalElementsExtend) {
-		this.globalElementsExtend = globalElementsExtend;
+	public void setXmlRootElementsExtend(String globalElementsExtend) {
+		this.xmlRootElementsExtend = globalElementsExtend;
 	}
 
-	public String getGlobalElementsImplement() {
-		return globalElementsImplement.toString();
+	public String getXmlRootElementsImplement() {
+		return xmlRootElementsImplement.toString();
 	}
 
-	public void setGlobalElementsImplement(String globalElementsImplement) {
-		this.globalElementsImplement.add(globalElementsImplement);
+	public void setXmlRootElementsImplement(String xmlRootElementsImplement) {
+		this.xmlRootElementsImplement.add(xmlRootElementsImplement);
 	}
 
-	public String getGlobalComplexTypesExtend() {
-		return globalComplexTypesExtend;
+	public String getXmlTypesExtend() {
+		return xmlTypesExtend;
 	}
 
-	public void setGlobalComplexTypesExtend(String globalComplexTypesExtend) {
-		this.globalComplexTypesExtend = globalComplexTypesExtend;
+	public void setXmlTypesExtend(String globalComplexTypesExtend) {
+		this.xmlTypesExtend = globalComplexTypesExtend;
 	}
 
-	public String getGlobalComplexTypesImplement() {
-		return globalComplexTypesImplement.toString();
+	public String getXmlTypesImplement() {
+		return xmlTypesImplement.toString();
 	}
 
-	public void setGlobalComplexTypesImplement(
-			String globalComplexTypesImplement) {
-		this.globalComplexTypesImplement.add(globalComplexTypesImplement);
-	}
-	
-	public String getGlobalJAXBElementsImplement() {
-		return globalJAXBElementsImplement.toString();
+	public void setXmlTypesImplement(String xmlTypesImplement) {
+		this.xmlTypesImplement.add(xmlTypesImplement);
 	}
 
-	public void setGlobalJAXBElementsImplement(
-			String globalJAXBElementsImplement) {
-		this.globalJAXBElementsImplement.add(globalJAXBElementsImplement);
+	public String getJaxbElementsImplement() {
+		return jaxbElementsImplement.toString();
 	}
-	
+
+	public void setJaxbElementsImplement(String jaxbElementsImplement) {
+		this.jaxbElementsImplement.add(jaxbElementsImplement);
+	}
 
 	@Override
 	public String getOptionName() {
@@ -99,21 +96,21 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
 	protected void processGlobalElement(ClassOutline classOutline) {
 
-		generateExtends(classOutline.implClass, globalElementsExtend);
-		generateImplements(classOutline.implClass, globalElementsImplement);
+		generateExtends(classOutline.implClass, xmlRootElementsExtend);
+		generateImplements(classOutline.implClass, xmlRootElementsImplement);
 
 	}
 
 	protected void processGlobalJAXBElement(ElementOutline elementOutline) {
 
-		generateImplements(elementOutline.implClass, globalJAXBElementsImplement);
+		generateImplements(elementOutline.implClass, jaxbElementsImplement);
 
 	}
 
 	protected void processGlobalComplexType(ClassOutline classOutline) {
 
-		generateExtends(classOutline.implClass, globalComplexTypesExtend);
-		generateImplements(classOutline.implClass, globalComplexTypesImplement);
+		generateExtends(classOutline.implClass, xmlTypesExtend);
+		generateImplements(classOutline.implClass, xmlTypesImplement);
 
 	}
 

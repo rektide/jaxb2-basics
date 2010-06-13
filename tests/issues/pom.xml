@@ -41,11 +41,11 @@
 						<arg>-Xsetters</arg>
 						<arg>-Xwildcard</arg>
 						<arg>-XautoInheritance</arg>
-						<arg>-XautoInheritance-globalElementsExtend=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseClass</arg>
-						<arg>-XautoInheritance-globalElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceOne</arg>
-						<arg>-XautoInheritance-globalElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceTwo</arg>
-						<arg>-XautoInheritance-globalJAXBElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceThree</arg>
-						<arg>-XautoInheritance-globalJAXBElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceFour</arg>
+						<arg>-XautoInheritance-xmlRootElementsExtend=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseClass</arg>
+						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceOne</arg>
+						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceTwo</arg>
+						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceThree</arg>
+						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceFour</arg>
 					</args>
 					<plugins>
 						<plugin>
