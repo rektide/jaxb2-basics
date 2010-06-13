@@ -14,6 +14,7 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
@@ -158,44 +159,6 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return clone;
 	}
 
-	// protected JMethod generateCopyable$copyTo(final ClassOutline
-	// classOutline,
-	// final JDefinedClass theClass) {
-	//
-	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-	// .owner().ref(Object.class), "copyTo");
-	// {
-	// final JVar target = copyable$copyTo.param(Object.class, "target");
-	// final JBlock body = copyable$copyTo.body();
-	//
-	// body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target));
-	// }
-	// return copyable$copyTo;
-	// }
-
-	// protected JMethod generateCopyable$CopyTo1(final ClassOutline
-	// classOutline,
-	// final JDefinedClass theClass) {
-	// ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
-	//
-	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-	// .owner().ref(Object.class), "copyTo");
-	// {
-	// final JVar locator = copyable$copyTo.param(ObjectLocator.class,
-	// "locator");
-	// final JVar target = copyable$copyTo.param(Object.class, "target");
-	// final JBlock body = copyable$copyTo.body();
-	//
-	// final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
-	// .ref(CopyBuilder.class), "copyBuilder",
-	// createCopyBuilder(theClass.owner()));
-	//
-	// body._return(JExpr.invoke("copyTo").arg(locator).arg(target).arg(
-	// copyBuilder));
-	// }
-	// return copyable$copyTo;
-	// }
-
 	protected JMethod generateCopyTo$copyTo(final ClassOutline classOutline,
 			final JDefinedClass theClass) {
 
@@ -267,14 +230,18 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 			}
 
-			final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
+			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+					classOutline.getDeclaredFields(), getIgnoring());
 
-			final JVar copy = bl.decl(JMod.FINAL, theClass, "copy", JExpr.cast(
-					theClass, draftCopy));
+			if (declaredFields.length > 0) {
 
-			for (final FieldOutline fieldOutline : classOutline
-					.getDeclaredFields())
-				if (!getIgnoring().isIgnored(fieldOutline)) {
+				final JBlock bl = body._if(draftCopy._instanceof(theClass))
+						._then();
+
+				final JVar copy = bl.decl(JMod.FINAL, theClass, "copy", JExpr
+						.cast(theClass, draftCopy));
+
+				for (final FieldOutline fieldOutline : declaredFields) {
 
 					final FieldAccessorEx sourceFieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, JExpr._this());
@@ -341,137 +308,11 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 					}
 				}
+			}
 
 			body._return(draftCopy);
 		}
 		return copyTo;
 	}
-
-	// protected JMethod generateCopyable$CopyFrom(
-	// final ClassOutline classOutline, final JDefinedClass theClass) {
-	// ClassUtils._implements(theClass, theClass.owner().ref(Copyable.class));
-	//
-	// final JMethod copyable$copyTo = theClass.method(JMod.PUBLIC, theClass
-	// .owner().ref(Object.class), "copyFrom");
-	// {
-	// final JVar source = copyable$copyTo.param(Object.class, "source");
-	// final JBlock body = copyable$copyTo.body();
-	//
-	// final JVar copyBuilder = body.decl(JMod.FINAL, theClass.owner()
-	// .ref(CopyBuilder.class), "copyBuilder",
-	// createCopyBuilder(theClass.owner()));
-	//
-	// body._return(body.invoke("copyFrom").arg(source).arg(copyBuilder));
-	// }
-	// return copyable$copyTo;
-	// }
-
-	// protected JMethod generateCopyFrom$CopyFrom(ClassOutline classOutline,
-	// final JDefinedClass theClass) {
-	// ClassUtils._implements(theClass, theClass.owner().ref(CopyFrom.class));
-	//
-	// final JMethod copyTo = theClass.method(JMod.PUBLIC, theClass.owner()
-	// .ref(Object.class), "copyFrom");
-	// {
-	// final JVar source = copyTo.param(Object.class, "source");
-	// final JVar copyBuilder = copyTo.param(CopyStrategy.class,
-	// "copyBuilder");
-	//
-	// final JBlock body = copyTo.body();
-	//
-	// final JVar copy;
-	// if (!classOutline.target.isAbstract()) {
-	// copy = body.decl(JMod.FINAL, theClass, "copy",
-	//
-	// JOp.cond(JOp.eq(source, JExpr._null()), JExpr.cast(theClass,
-	// JExpr.invoke("createCopy")), JExpr.cast(theClass,
-	// source)));
-	// } else {
-	// body
-	// ._if(JExpr._null().eq(source))
-	// ._then()
-	// ._throw(
-	// JExpr
-	// ._new(
-	// theClass
-	// .owner()
-	// .ref(
-	// IllegalArgumentException.class))
-	// .arg(
-	// "Target argument must not be null for abstract copyable classes."));
-	// copy = body.decl(JMod.FINAL, theClass, "copy", JExpr.cast(
-	// theClass, source));
-	// }
-	//
-	// if (classOutline.target.getBaseClass() != null
-	// || classOutline.target.getRefBaseClass() != null) {
-	// body.invoke(JExpr._super(), "copyFrom").arg(copy).arg(
-	// copyBuilder);
-	// }
-	//
-	// for (final FieldOutline fieldOutline : classOutline
-	// .getDeclaredFields())
-	// if (!getIgnoring().isIgnored(fieldOutline)) {
-	// final JBlock block = body.block();
-	//
-	// final FieldAccessorEx sourceFieldAccessor = FieldAccessorFactory
-	// .createFieldAccessor(fieldOutline, JExpr._this());
-	// final FieldAccessorEx copyFieldAccessor = FieldAccessorFactory
-	// .createFieldAccessor(fieldOutline, copy);
-	//
-	// final JBlock setValueBlock;
-	// final JBlock unsetValueBlock;
-	//
-	// final JExpression valueIsSet = copyFieldAccessor
-	// .hasSetValue();
-	//
-	// if (valueIsSet != null) {
-	// final JConditional ifValueIsSet = block._if(valueIsSet);
-	// setValueBlock = ifValueIsSet._then();
-	// unsetValueBlock = ifValueIsSet._else();
-	// } else {
-	// setValueBlock = block;
-	// unsetValueBlock = null;
-	// }
-	//
-	// if (setValueBlock != null) {
-	//
-	// final JType sourceFieldType = copyFieldAccessor
-	// .getType();
-	// final JVar sourceField = setValueBlock.decl(
-	// sourceFieldType, "target"
-	// + fieldOutline.getPropertyInfo()
-	// .getName(true));
-	// copyFieldAccessor
-	// .toRawValue(setValueBlock, sourceField);
-	// final JExpression builtCopy = JExpr.invoke(copyBuilder,
-	// "copy").arg(sourceField);
-	// final JVar copyField = setValueBlock.decl(
-	// sourceFieldType, "copy"
-	// + fieldOutline.getPropertyInfo()
-	// .getName(true), sourceFieldType
-	// .isPrimitive() ? builtCopy :
-	//
-	// JExpr.cast(sourceFieldType, builtCopy));
-	// if (sourceFieldType instanceof JClass
-	// && ((JClass) sourceFieldType).isParameterized()) {
-	// copyField.annotate(SuppressWarnings.class).param(
-	// "value", "unchecked");
-	// }
-	// sourceFieldAccessor.fromRawValue(setValueBlock,
-	// "unique"
-	// + fieldOutline.getPropertyInfo()
-	// .getName(true), copyField);
-	// }
-	// if (unsetValueBlock != null) {
-	// sourceFieldAccessor.unsetValues(unsetValueBlock);
-	//
-	// }
-	// }
-	//
-	// body._return(JExpr._this());
-	// }
-	// return copyTo;
-	// }
 
 }

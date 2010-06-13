@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JDefinedClass;
@@ -54,36 +55,38 @@ public class SettersPlugin extends AbstractParameterizablePlugin {
 	private void generateSetters(ClassOutline classOutline,
 			JDefinedClass theClass) {
 
-		for (final FieldOutline fieldOutline : classOutline.getDeclaredFields())
-			if (!getIgnoring().isIgnored(fieldOutline)) {
+		final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+				classOutline.getDeclaredFields(), getIgnoring());
 
-				final String publicName = fieldOutline.getPropertyInfo()
-						.getName(true);
+		for (final FieldOutline fieldOutline : declaredFields) {
 
-				final String getterName = "get" + publicName;
+			final String publicName = fieldOutline.getPropertyInfo().getName(
+					true);
 
-				final JMethod getter = theClass.getMethod(getterName, ABSENT);
+			final String getterName = "get" + publicName;
 
-				if (getter != null) {
-					final JType type = getter.type();
-					final JType rawType = fieldOutline.getRawType();
-					final String setterName = "set" + publicName;
-					final JMethod boxifiedSetter = theClass.getMethod(
-							setterName, new JType[] { rawType.boxify() });
-					final JMethod unboxifiedSetter = theClass.getMethod(
-							setterName, new JType[] { rawType.unboxify() });
-					final JMethod setter = boxifiedSetter != null ? boxifiedSetter
-							: unboxifiedSetter;
+			final JMethod getter = theClass.getMethod(getterName, ABSENT);
 
-					if (setter == null) {
-						final JMethod generatedSetter = theClass.method(
-								JMod.PUBLIC, theClass.owner().VOID, setterName);
-						final JVar value = generatedSetter.param(type, "value");
-						fieldOutline.create(JExpr._this()).fromRawValue(
-								generatedSetter.body(), "draft", value);
-					}
+			if (getter != null) {
+				final JType type = getter.type();
+				final JType rawType = fieldOutline.getRawType();
+				final String setterName = "set" + publicName;
+				final JMethod boxifiedSetter = theClass.getMethod(setterName,
+						new JType[] { rawType.boxify() });
+				final JMethod unboxifiedSetter = theClass.getMethod(setterName,
+						new JType[] { rawType.unboxify() });
+				final JMethod setter = boxifiedSetter != null ? boxifiedSetter
+						: unboxifiedSetter;
+
+				if (setter == null) {
+					final JMethod generatedSetter = theClass.method(
+							JMod.PUBLIC, theClass.owner().VOID, setterName);
+					final JVar value = generatedSetter.param(type, "value");
+					fieldOutline.create(JExpr._this()).fromRawValue(
+							generatedSetter.body(), "draft", value);
 				}
 			}
+		}
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

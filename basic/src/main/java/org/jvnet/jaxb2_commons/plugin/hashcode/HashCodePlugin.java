@@ -14,6 +14,7 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
@@ -169,9 +170,12 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			final JVar currentHashCode = body.decl(codeModel.INT,
 					"currentHashCode", currentHashCodeExpression);
 
-			for (final FieldOutline fieldOutline : classOutline
-					.getDeclaredFields())
-				if (!getIgnoring().isIgnored(fieldOutline)) {
+			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+					classOutline.getDeclaredFields(), getIgnoring());
+
+			if (declaredFields.length > 0) {
+
+				for (final FieldOutline fieldOutline : declaredFields) {
 					final FieldAccessorEx fieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, JExpr._this());
 					if (fieldAccessor.isConstant()) {
@@ -196,6 +200,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 											false)).arg(theValue)).arg(
 							currentHashCode).arg(theValue));
 				}
+			}
 			body._return(currentHashCode);
 		}
 		return hashCode$hashCode;

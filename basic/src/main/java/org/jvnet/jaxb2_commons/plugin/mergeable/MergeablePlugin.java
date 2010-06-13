@@ -15,6 +15,7 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
 import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
@@ -152,23 +153,27 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 
 			} else if (superClassImplementsMergeFrom.booleanValue()) {
 				methodBody.invoke(JExpr._super(), "mergeFrom").arg(leftLocator)
-						.arg(rightLocator).arg(left).arg(right).arg(mergeStrategy);
+						.arg(rightLocator).arg(left).arg(right).arg(
+								mergeStrategy);
 			} else {
 
 			}
 
-			final JBlock body = methodBody._if(right._instanceof(theClass))
-					._then();
+			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+					classOutline.getDeclaredFields(), getIgnoring());
 
-			JVar target = body.decl(JMod.FINAL, theClass, "target", JExpr
-					._this());
-			JVar leftObject = body.decl(JMod.FINAL, theClass, "leftObject",
-					JExpr.cast(theClass, left));
-			JVar rightObject = body.decl(JMod.FINAL, theClass, "rightObject",
-					JExpr.cast(theClass, right));
-			for (final FieldOutline fieldOutline : classOutline
-					.getDeclaredFields())
-				if (!getIgnoring().isIgnored(fieldOutline)) {
+			if (declaredFields.length > 0) {
+
+				final JBlock body = methodBody._if(right._instanceof(theClass))
+						._then();
+
+				JVar target = body.decl(JMod.FINAL, theClass, "target", JExpr
+						._this());
+				JVar leftObject = body.decl(JMod.FINAL, theClass, "leftObject",
+						JExpr.cast(theClass, left));
+				JVar rightObject = body.decl(JMod.FINAL, theClass,
+						"rightObject", JExpr.cast(theClass, right));
+				for (final FieldOutline fieldOutline : declaredFields) {
 					final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, leftObject);
 					final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
@@ -209,7 +214,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					mergeStrategy.invoke("merge").arg(leftFieldLocator).arg(
 							rightFieldLocator).arg(leftField).arg(rightField)));
 				}
-
+			}
 		}
 		return mergeFrom;
 	}

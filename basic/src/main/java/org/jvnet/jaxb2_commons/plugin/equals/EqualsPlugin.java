@@ -14,6 +14,7 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
@@ -185,54 +186,55 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 			final JExpression _this = JExpr._this();
 
-			if (classOutline.getDeclaredFields().length > 0) {
+			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+					classOutline.getDeclaredFields(), getIgnoring());
+
+			if (declaredFields.length > 0) {
+
 				final JVar _that = body.decl(JMod.FINAL, theClass, "that",
 						JExpr.cast(theClass, object));
 
-				for (final FieldOutline fieldOutline : classOutline
-						.getDeclaredFields())
-					if (!getIgnoring().isIgnored(fieldOutline)) {
+				for (final FieldOutline fieldOutline : declaredFields) {
 
-						final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
-								.createFieldAccessor(fieldOutline, _this);
-						final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
-								.createFieldAccessor(fieldOutline, _that);
+					final FieldAccessorEx leftFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, _this);
+					final FieldAccessorEx rightFieldAccessor = FieldAccessorFactory
+							.createFieldAccessor(fieldOutline, _that);
 
-						if (leftFieldAccessor.isConstant()
-								|| rightFieldAccessor.isConstant()) {
-							continue;
-						}
-
-						final JBlock block = body.block();
-
-						final String name = fieldOutline.getPropertyInfo()
-								.getName(true);
-
-						final JVar lhsValue = block.decl(leftFieldAccessor
-								.getType(), "lhs" + name);
-						leftFieldAccessor.toRawValue(block, lhsValue);
-
-						final JVar rhsValue = block.decl(rightFieldAccessor
-								.getType(), "rhs" + name);
-						rightFieldAccessor.toRawValue(block, rhsValue);
-
-						final JExpression leftFieldLocator = codeModel.ref(
-								LocatorUtils.class).staticInvoke("field").arg(
-								leftLocator).arg(
-								fieldOutline.getPropertyInfo().getName(false))
-								.arg(lhsValue);
-						final JExpression rightFieldLocator = codeModel.ref(
-								LocatorUtils.class).staticInvoke("field").arg(
-								rightLocator).arg(
-								fieldOutline.getPropertyInfo().getName(false))
-								.arg(rhsValue);
-						block._if(
-								JOp.not(JExpr.invoke(equalsStrategy, "equals")
-										.arg(leftFieldLocator).arg(
-												rightFieldLocator)
-										.arg(lhsValue).arg(rhsValue)))._then()
-								._return(JExpr.FALSE);
+					if (leftFieldAccessor.isConstant()
+							|| rightFieldAccessor.isConstant()) {
+						continue;
 					}
+
+					final JBlock block = body.block();
+
+					final String name = fieldOutline.getPropertyInfo().getName(
+							true);
+
+					final JVar lhsValue = block.decl(leftFieldAccessor
+							.getType(), "lhs" + name);
+					leftFieldAccessor.toRawValue(block, lhsValue);
+
+					final JVar rhsValue = block.decl(rightFieldAccessor
+							.getType(), "rhs" + name);
+					rightFieldAccessor.toRawValue(block, rhsValue);
+
+					final JExpression leftFieldLocator = codeModel.ref(
+							LocatorUtils.class).staticInvoke("field").arg(
+							leftLocator).arg(
+							fieldOutline.getPropertyInfo().getName(false)).arg(
+							lhsValue);
+					final JExpression rightFieldLocator = codeModel.ref(
+							LocatorUtils.class).staticInvoke("field").arg(
+							rightLocator).arg(
+							fieldOutline.getPropertyInfo().getName(false)).arg(
+							rhsValue);
+					block._if(
+							JOp.not(JExpr.invoke(equalsStrategy, "equals").arg(
+									leftFieldLocator).arg(rightFieldLocator)
+									.arg(lhsValue).arg(rhsValue)))._then()
+							._return(JExpr.FALSE);
+				}
 			}
 			body._return(JExpr.TRUE);
 		}

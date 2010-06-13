@@ -13,6 +13,7 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
 import org.jvnet.jaxb2_commons.plugin.Ignoring;
+import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
 import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
@@ -187,9 +188,12 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 				// Superclass does not implement ToString
 			}
 
-			for (final FieldOutline fieldOutline : classOutline
-					.getDeclaredFields())
-				if (!getIgnoring().isIgnored(fieldOutline)) {
+			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
+					classOutline.getDeclaredFields(), getIgnoring());
+
+			if (declaredFields.length > 0) {
+
+				for (final FieldOutline fieldOutline : declaredFields) {
 					final JBlock block = body.block();
 					final FieldAccessorEx fieldAccessor = FieldAccessorFactory
 							.createFieldAccessor(fieldOutline, JExpr._this());
@@ -205,6 +209,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 											.getName(false))).arg(buffer).arg(
 									theValue);
 				}
+			}
 			body._return(buffer);
 		}
 		return toString$appendFields;
