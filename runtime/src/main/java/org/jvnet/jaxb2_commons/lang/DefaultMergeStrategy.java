@@ -12,9 +12,17 @@ public class DefaultMergeStrategy implements MergeStrategy {
 			return leftValue;
 		} else {
 			if (leftValue instanceof MergeFrom) {
-				((MergeFrom) leftValue).mergeFrom(leftLocator, rightLocator,
+				final Object newInstance = ((MergeFrom) leftValue)
+						.createNewInstance();
+				((MergeFrom) newInstance).mergeFrom(leftLocator, rightLocator,
 						leftValue, rightValue, this);
-				return leftValue;
+				return newInstance;
+			} else if (rightValue instanceof MergeFrom) {
+				final Object newInstance = ((MergeFrom) rightValue)
+						.createNewInstance();
+				((MergeFrom) newInstance).mergeFrom(leftLocator, rightLocator,
+						leftValue, rightValue, this);
+				return newInstance;
 			} else {
 				return leftValue;
 			}
@@ -237,7 +245,7 @@ public class DefaultMergeStrategy implements MergeStrategy {
 			return rightValue;
 		}
 	}
-	
+
 	public static final MergeStrategy INSTANCE = new DefaultMergeStrategy();
 
 }

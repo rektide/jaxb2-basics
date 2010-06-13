@@ -137,13 +137,20 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	protected JMethod generateCopyTo$createNewInstance(
 			final ClassOutline classOutline, final JDefinedClass theClass) {
 
-		final JMethod createCopy = theClass.method(JMod.PUBLIC, theClass
-				.owner().ref(Object.class), "createNewInstance");
-		{
-			final JBlock body = createCopy.body();
-			body._return(JExpr._new(theClass));
+		final JMethod existingMethod = theClass.getMethod("createNewInstance",
+				new JType[0]);
+		if (existingMethod == null) {
+
+			final JMethod newMethod = theClass.method(JMod.PUBLIC, theClass
+					.owner().ref(Object.class), "createNewInstance");
+			{
+				final JBlock body = newMethod.body();
+				body._return(JExpr._new(theClass));
+			}
+			return newMethod;
+		} else {
+			return existingMethod;
 		}
-		return createCopy;
 	}
 
 	protected JMethod generateObject$clone(final ClassOutline classOutline,

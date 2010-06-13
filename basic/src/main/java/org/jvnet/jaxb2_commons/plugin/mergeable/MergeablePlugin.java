@@ -28,6 +28,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -103,6 +104,13 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 		@SuppressWarnings("unused")
 		final JMethod mergeFrom$mergeFrom = generateMergeFrom$mergeFrom(
 				classOutline, theClass);
+		
+		if (!classOutline.target.isAbstract()) {
+			@SuppressWarnings("unused")
+			final JMethod createCopy = generateMergeFrom$createNewInstance(
+					classOutline, theClass);
+
+		}
 	}
 
 	protected JMethod generateMergeFrom$mergeFrom0(
@@ -217,5 +225,24 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 			}
 		}
 		return mergeFrom;
+	}
+
+	protected JMethod generateMergeFrom$createNewInstance(
+			final ClassOutline classOutline, final JDefinedClass theClass) {
+
+		final JMethod existingMethod = theClass.getMethod("createNewInstance",
+				new JType[0]);
+		if (existingMethod == null) {
+
+			final JMethod newMethod = theClass.method(JMod.PUBLIC, theClass
+					.owner().ref(Object.class), "createNewInstance");
+			{
+				final JBlock body = newMethod.body();
+				body._return(JExpr._new(theClass));
+			}
+			return newMethod;
+		} else {
+			return existingMethod;
+		}
 	}
 }
