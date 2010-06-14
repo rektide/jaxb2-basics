@@ -1,8 +1,6 @@
 package org.jvnet.jaxb2_commons.locator;
 
 import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 /**
  * Validation event locator.
