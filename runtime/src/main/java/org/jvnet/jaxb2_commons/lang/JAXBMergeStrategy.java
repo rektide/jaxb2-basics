@@ -23,7 +23,7 @@ public class JAXBMergeStrategy extends DefaultMergeStrategy {
 	@SuppressWarnings("unchecked")
 	protected Object mergeInternal(ObjectLocator leftLocator,
 			ObjectLocator rightLocator, Collection leftCollection,
-			Object rightCollection) {
+			Collection rightCollection) {
 		return !leftCollection.isEmpty() ? leftCollection : rightCollection;
 	}
 
