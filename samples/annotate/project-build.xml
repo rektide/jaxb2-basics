@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="jaxb2-basics-sample-annotate-ant" default="install">
 	<property name="artifactId" value="jaxb2-basics-sample-annotate-ant"/>
-	<property name="version" value="0.5.3-SNAPSHOT"/>
+	<property name="version" value="0.5.3"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="jaxb-api-*.jar"/>

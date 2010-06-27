@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
 	<artifactId>jaxb2-basics-sample-annotate-maven</artifactId>
-	<version>0.5.3-SNAPSHOT</version>
+	<version>0.5.3</version>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Sample [annotate-maven]</name>
 	<dependencies>
@@ -61,7 +61,7 @@
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
 							<artifactId>jaxb2-basics-annotate</artifactId>
-							<version>0.5.3-SNAPSHOT</version>
+							<version>0.5.3</version>
 						</plugin>
 					</plugins>
 				</configuration>

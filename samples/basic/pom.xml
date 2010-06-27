@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
 		<artifactId>jaxb2-basics-samples</artifactId>
-		<version>0.5.3-SNAPSHOT</version>
+		<version>0.5.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<dependencies>
@@ -21,17 +21,17 @@
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics</artifactId>
-			<version>0.5.3-SNAPSHOT</version>
+			<version>0.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-testing</artifactId>
-			<version>0.5.3-SNAPSHOT</version>
+			<version>0.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-ant</artifactId>
-			<version>0.5.3-SNAPSHOT</version>
+			<version>0.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>

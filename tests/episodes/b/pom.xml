@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
 		<artifactId>jaxb2-basics-test-episodes</artifactId>
-		<version>0.5.3-SNAPSHOT</version>
+		<version>0.5.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>jaxb2-basics-test-episodes-b</artifactId>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-test-episodes-a</artifactId>
-			<version>0.5.3-SNAPSHOT</version>
+			<version>0.5.3</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -37,7 +37,7 @@
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
                                                 	<artifactId>jaxb2-basics</artifactId>
-							<version>0.5.3-SNAPSHOT</version>
+							<version>0.5.3</version>
 						</plugin>
 					</plugins>
 					<episodes>
