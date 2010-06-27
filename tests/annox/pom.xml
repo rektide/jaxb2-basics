@@ -13,7 +13,7 @@
 	<name>JAXB2 Basics - Test [annox]</name>
 	<modules>
 		<module>annotations</module>
-		<!--module>schema</module-->
+		<module>schema</module>
 	</modules>
 
 </project>
