@@ -115,29 +115,15 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 				.owner().INT, "hashCode");
 		{
 			final JBlock body = object$hashCode.body();
-			final JVar hashCodeBuilder = body.decl(JMod.FINAL, theClass.owner()
+			final JVar hashCodeStrategy = body.decl(JMod.FINAL, theClass.owner()
 					.ref(HashCodeStrategy.class), "strategy",
 					createHashCodeStrategy(theClass.owner()));
 			body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
-					.arg(hashCodeBuilder));
+					.arg(hashCodeStrategy));
 		}
 		return object$hashCode;
 	}
 
-	// protected JMethod generateHashCode$hashCode0(ClassOutline classOutline,
-	// final JDefinedClass theClass) {
-	//
-	// final JMethod hashCode$hashCode = theClass.method(JMod.PUBLIC, theClass
-	// .owner().INT, "hashCode");
-	// {
-	// final JVar hashCodeBuilder = hashCode$hashCode.param(
-	// HashCodeStrategy.class, "strategy");
-	// final JBlock body = hashCode$hashCode.body();
-	// body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
-	// .arg(hashCodeBuilder));
-	// }
-	// return hashCode$hashCode;
-	// }
 
 	protected JMethod generateHashCode$hashCode(ClassOutline classOutline,
 			final JDefinedClass theClass) {

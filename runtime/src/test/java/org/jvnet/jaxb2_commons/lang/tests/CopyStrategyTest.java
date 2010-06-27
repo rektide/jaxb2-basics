@@ -1,4 +1,4 @@
-package org.jvnet.jaxb2_commons.lang.builder.tests;
+package org.jvnet.jaxb2_commons.lang.tests;
 
 import java.io.InputStream;
 
@@ -20,13 +20,13 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
-public class CopyBuilderTest extends TestCase {
+public class CopyStrategyTest extends TestCase {
 
 	public void testPolygon() {
 		final GeometryFactory geometryFactory = new GeometryFactory();
-		final Polygon polygon = geometryFactory.createPolygon(geometryFactory
-				.createLinearRing(new Coordinate[] { new Coordinate(0, 0, 0),
-						new Coordinate(1, 1, 0),
+		final Polygon polygon = geometryFactory.createPolygon(
+				geometryFactory.createLinearRing(new Coordinate[] {
+						new Coordinate(0, 0, 0), new Coordinate(1, 1, 0),
 
 						new Coordinate(1, 0, 0), new Coordinate(0, 1, 0),
 						new Coordinate(0, 0, 0) }), null);
@@ -73,13 +73,13 @@ public class CopyBuilderTest extends TestCase {
 		}
 
 		public Object copyTo(ObjectLocator locator, Object target,
-				CopyStrategy copyBuilder) {
+				CopyStrategy copyStrategy) {
 			final A copy = ((target == null) ? ((A) createNewInstance())
 					: ((A) target));
 			{
 				Object sourceAny;
 				sourceAny = this.getAny();
-				Object copyAny = ((Object) copyBuilder.copy(null, sourceAny));
+				Object copyAny = ((Object) copyStrategy.copy(null, sourceAny));
 				copy.setAny(copyAny);
 			}
 			return copy;

@@ -1,4 +1,4 @@
-package org.jvnet.jaxb2_commons.lang.builder.tests;
+package org.jvnet.jaxb2_commons.lang.tests;
 
 import java.util.IdentityHashMap;
 import java.util.Map;

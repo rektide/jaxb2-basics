@@ -16,7 +16,7 @@ public class StrategyClassUtils {
 	public static <T> JExpression createStrategyInstanceExpression(
 			JCodeModel codeModel, final Class<? extends T> strategyInterface,
 			final Class<? extends T> strategyClass) {
-		final JClass copyBuilderJClass = codeModel.ref(strategyClass);
+		final JClass strategyJClass = codeModel.ref(strategyClass);
 		try {
 			final Method getInstanceMethod = strategyClass.getMethod(
 					"getInstance", new Class<?>[0]);
@@ -25,7 +25,7 @@ public class StrategyClassUtils {
 							.getReturnType())
 					&& Modifier.isStatic(getInstanceMethod.getModifiers())
 					&& Modifier.isPublic(getInstanceMethod.getModifiers())) {
-				return copyBuilderJClass.staticInvoke("getInstance");
+				return strategyJClass.staticInvoke("getInstance");
 			}
 
 		} catch (Exception ignored) {
@@ -38,12 +38,12 @@ public class StrategyClassUtils {
 							.getType())
 					&& Modifier.isStatic(instanceField.getModifiers())
 					&& Modifier.isPublic(instanceField.getModifiers())) {
-				return copyBuilderJClass.staticRef("INSTANCE");
+				return strategyJClass.staticRef("INSTANCE");
 			}
 		} catch (Exception ignored) {
 			// Nothing to do
 		}
-		return JExpr._new(copyBuilderJClass);
+		return JExpr._new(strategyJClass);
 	}
 
 	public static <T> Boolean superClassImplements(ClassOutline classOutline,
