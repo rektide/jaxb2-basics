@@ -46,20 +46,20 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<? extends HashCodeStrategy> hashCodeStrategy = JAXBHashCodeStrategy.class;
+	private Class<? extends HashCodeStrategy> hashCodeStrategyClass = JAXBHashCodeStrategy.class;
 
-	public void setHashCodeStrategy(
+	public void setHashCodeStrategyClass(
 			Class<? extends HashCodeStrategy> hashCodeStrategy) {
-		this.hashCodeStrategy = hashCodeStrategy;
+		this.hashCodeStrategyClass = hashCodeStrategy;
 	}
 
-	public Class<? extends HashCodeStrategy> getHashCodeStrategy() {
-		return hashCodeStrategy;
+	public Class<? extends HashCodeStrategy> getHashCodeStrategyClass() {
+		return hashCodeStrategyClass;
 	}
 
 	public JExpression createHashCodeStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				HashCodeStrategy.class, getHashCodeStrategy());
+				HashCodeStrategy.class, getHashCodeStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

@@ -50,19 +50,19 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<? extends CopyStrategy> copyStrategy = JAXBCopyStrategy.class;
+	private Class<? extends CopyStrategy> copyStrategyClass = JAXBCopyStrategy.class;
 
-	public void setCopyStrategy(final Class<? extends CopyStrategy> copyStrategy) {
-		this.copyStrategy = copyStrategy;
+	public void setCopyStrategyClass(final Class<? extends CopyStrategy> copyStrategy) {
+		this.copyStrategyClass = copyStrategy;
 	}
 
-	public Class<? extends CopyStrategy> getCopyStrategy() {
-		return copyStrategy;
+	public Class<? extends CopyStrategy> getCopyStrategyClass() {
+		return copyStrategyClass;
 	}
 
 	public JExpression createCopyStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				CopyStrategy.class, getCopyStrategy());
+				CopyStrategy.class, getCopyStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

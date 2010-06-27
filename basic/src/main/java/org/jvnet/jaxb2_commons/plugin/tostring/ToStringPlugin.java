@@ -45,23 +45,23 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 		return "TBD";
 	}
 
-	private Class<? extends ToStringStrategy> toStringStrategy = JAXBToStringStrategy.class;
+	private Class<? extends ToStringStrategy> toStringStrategyClass = JAXBToStringStrategy.class;
 
-	public void setToStringStrategy(
+	public void setToStringStrategyClass(
 			Class<? extends ToStringStrategy> toStringStrategy) {
 		if (!ToStringStrategy.class.isAssignableFrom(toStringStrategy))
 			throw new IllegalArgumentException("The class must extend ["
 					+ ToStringStrategy.class.getName() + "].");
-		this.toStringStrategy = toStringStrategy;
+		this.toStringStrategyClass = toStringStrategy;
 	}
 
-	public Class<? extends ToStringStrategy> getToStringStrategy() {
-		return toStringStrategy;
+	public Class<? extends ToStringStrategy> getToStringStrategyClass() {
+		return toStringStrategyClass;
 	}
 
 	public JExpression createToStringStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				ToStringStrategy.class, getToStringStrategy());
+				ToStringStrategy.class, getToStringStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
