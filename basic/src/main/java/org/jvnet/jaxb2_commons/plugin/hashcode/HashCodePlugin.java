@@ -190,12 +190,10 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 					fieldAccessor.toRawValue(block, theValue);
 
-					// hashCode(LocatorUtils.field("field"), currentHashCode,
-					// value)
 					block.assign(currentHashCode, hashCodeStrategy.invoke(
 							"hashCode").arg(
 							codeModel.ref(LocatorUtils.class).staticInvoke(
-									"field").arg(locator).arg(
+									"property").arg(locator).arg(
 									fieldOutline.getPropertyInfo().getName(
 											false)).arg(theValue)).arg(
 							currentHashCode).arg(theValue));

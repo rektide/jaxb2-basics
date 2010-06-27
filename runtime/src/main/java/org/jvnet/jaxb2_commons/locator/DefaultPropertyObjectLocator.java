@@ -7,13 +7,13 @@ import java.text.MessageFormat;
  * 
  * @author Aleksei Valikov
  */
-public final class DefaultFieldObjectLocator extends AbstractObjectLocator
-		implements FieldObjectLocator {
+public final class DefaultPropertyObjectLocator extends AbstractObjectLocator
+		implements PropertyObjectLocator {
 
 	/**
 	 * Field name.
 	 */
-	protected final String fieldName;
+	protected final String propertyName;
 
 	/**
 	 * Constructs a new validation event locator.
@@ -22,28 +22,19 @@ public final class DefaultFieldObjectLocator extends AbstractObjectLocator
 	 *            parent location (may be <code>null</code>).
 	 * @param object
 	 *            object.
-	 * @param fieldName
+	 * @param propertyName
 	 *            field name.
 	 */
-	protected DefaultFieldObjectLocator(final ObjectLocator parentLocator,
-			final String fieldName, final Object fieldValue) {
-		super(parentLocator, fieldValue);
-		this.fieldName = fieldName;
+	protected DefaultPropertyObjectLocator(final ObjectLocator parentLocator,
+			final String propertyName, final Object propertyValue) {
+		super(parentLocator, propertyValue);
+		this.propertyName = propertyName;
 	}
 
-	// /**
-	// * Returns step for this locator. The step is a single part of location
-	// expression.
-	// *
-	// * @return Step for this locator.
-	// */
-	// public String getStep()
-	// {
-	// return getFieldName();
-	// }
+	
 
-	public String getFieldName() {
-		return fieldName;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
 	/**
@@ -52,7 +43,7 @@ public final class DefaultFieldObjectLocator extends AbstractObjectLocator
 	 * @return Message formatting parameters.
 	 */
 	public Object[] getMessageParameters() {
-		return new Object[] { getObject(), getFieldName() };
+		return new Object[] { getObject(), getPropertyName() };
 	}
 
 	@Override

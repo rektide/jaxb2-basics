@@ -1,6 +1,6 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
 
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
@@ -78,7 +78,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode * iConstant + 1;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -130,7 +130,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -143,7 +143,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -157,7 +157,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -171,7 +171,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -185,7 +185,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -199,7 +199,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -213,7 +213,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;
@@ -227,7 +227,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy {
 		} else {
 			int currentHashCode = hashCode;
 			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCode(entry(locator, i, value[i]),
+				currentHashCode = hashCode(item(locator, i, value[i]),
 						currentHashCode, value[i]);
 			}
 			return currentHashCode;

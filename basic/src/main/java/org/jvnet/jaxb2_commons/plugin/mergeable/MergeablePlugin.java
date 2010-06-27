@@ -202,12 +202,12 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					rightFieldAccessor.toRawValue(block, rightField);
 
 					final JExpression leftFieldLocator = codeModel.ref(
-							LocatorUtils.class).staticInvoke("field").arg(
+							LocatorUtils.class).staticInvoke("property").arg(
 							leftLocator).arg(
 							fieldOutline.getPropertyInfo().getName(false)).arg(
 							leftField);
 					final JExpression rightFieldLocator = codeModel.ref(
-							LocatorUtils.class).staticInvoke("field").arg(
+							LocatorUtils.class).staticInvoke("property").arg(
 							rightLocator).arg(
 							fieldOutline.getPropertyInfo().getName(false)).arg(
 							rightField);

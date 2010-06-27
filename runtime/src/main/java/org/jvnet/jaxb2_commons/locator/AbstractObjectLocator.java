@@ -29,7 +29,7 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	 *            parent location (may be <code>null</code>).
 	 * @param object
 	 *            object.
-	 * @param fieldName
+	 * @param propertyName
 	 *            field name.
 	 */
 	protected AbstractObjectLocator(final ObjectLocator parentLocator,
@@ -143,12 +143,12 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 //		return hashCode;
 //	}
 
-	public ListEntryObjectLocator entry(int index, Object value) {
-		return new DefaultListEntryObjectLocator(this, index, value);
+	public ItemObjectLocator item(int index, Object value) {
+		return new DefaultItemObjectLocator(this, index, value);
 	}
 
-	public FieldObjectLocator field(String name, Object value) {
-		return new DefaultFieldObjectLocator(this, name, value);
+	public PropertyObjectLocator property(String name, Object value) {
+		return new DefaultPropertyObjectLocator(this, name, value);
 	}
 
 }

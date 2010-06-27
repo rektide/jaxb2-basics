@@ -1,7 +1,7 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.field;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.property;
 
 import java.util.Collection;
 
@@ -204,7 +204,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	 * 
 	 * @param buffer
 	 *            the <code>StringBuilder</code> to populate
-	 * @param fieldName
+	 * @param propertyName
 	 *            the field name
 	 */
 	protected void appendFieldStart(ObjectLocator parentLocator, Object parent,
@@ -222,7 +222,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	 * 
 	 * @param buffer
 	 *            the <code>StringBuilder</code> to populate
-	 * @param fieldName
+	 * @param propertyName
 	 *            the field name, typically not used as already appended
 	 */
 	protected void appendFieldEnd(ObjectLocator parentLocator, Object parent,
@@ -262,7 +262,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	 * 
 	 * @param buffer
 	 *            the <code>StringBuilder</code> to populate
-	 * @param fieldName
+	 * @param propertyName
 	 *            the field name, typically not used as already appended
 	 * @param size
 	 *            the size to append
@@ -299,7 +299,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, Object value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -307,7 +307,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, boolean value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -315,7 +315,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, byte value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -323,7 +323,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, char value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -331,7 +331,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, double value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -339,7 +339,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, float value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -347,7 +347,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, long value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -355,7 +355,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, int value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -363,7 +363,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, short value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -372,7 +372,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			Object parent, String fieldName, StringBuilder buffer,
 			Object[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -381,7 +381,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder append(ObjectLocator parentLocator, Object parent,
 			String fieldName, StringBuilder buffer, Collection value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -390,7 +390,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			Object parent, String fieldName, StringBuilder buffer,
 			boolean[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -398,7 +398,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, byte[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -406,7 +406,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, char[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -415,7 +415,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			Object parent, String fieldName, StringBuilder buffer,
 			double[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -423,7 +423,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, float[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -431,7 +431,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, long[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -439,7 +439,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, int[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -447,7 +447,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 	public StringBuilder appendField(ObjectLocator parentLocator,
 			Object parent, String fieldName, StringBuilder buffer, short[] value) {
 		appendFieldStart(parentLocator, parent, fieldName, buffer);
-		append(field(parentLocator, fieldName, value), buffer, value);
+		append(property(parentLocator, fieldName, value), buffer, value);
 		appendFieldEnd(parentLocator, parent, fieldName, buffer);
 		return buffer;
 	}
@@ -757,7 +757,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -770,7 +770,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -783,7 +783,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -796,7 +796,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -809,7 +809,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -822,7 +822,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -835,7 +835,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -848,7 +848,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				buffer.append(arraySeparator);
 			}
-			append(entry(locator, i, array[i]), buffer, array[i]);
+			append(item(locator, i, array[i]), buffer, array[i]);
 		}
 		buffer.append(arrayEnd);
 		return buffer;
@@ -866,7 +866,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 				appendNullText(buffer);
 
 			} else {
-				append(entry(locator, i, array[i]), buffer, array[i]);
+				append(item(locator, i, array[i]), buffer, array[i]);
 			}
 		}
 		buffer.append(arrayEnd);
@@ -882,7 +882,7 @@ public class DefaultToStringStrategy implements ToStringStrategy {
 			if (i > 0) {
 				appendArraySeparator(buffer);
 			}
-			append(entry(locator, i, item), buffer, item);
+			append(item(locator, i, item), buffer, item);
 			i = i + 1;
 		}
 		appendArrayEnd(buffer);

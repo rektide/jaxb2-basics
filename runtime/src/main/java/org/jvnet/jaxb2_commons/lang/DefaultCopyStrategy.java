@@ -1,6 +1,6 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -17,8 +17,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		} else if (object instanceof Number) {
 			return object;
 		} else if (object instanceof CopyTo) {
-			return ((CopyTo) object).copyTo(locator, ((CopyTo) object)
-					.createNewInstance(), this);
+			return ((CopyTo) object).copyTo(locator,
+					((CopyTo) object).createNewInstance(), this);
 		} else if (object instanceof Cloneable) {
 			return copyInternal(locator, (Cloneable) object);
 		} else {
@@ -97,7 +97,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final Object[] copy = new Object[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final Object element = array[index];
-			final Object elementCopy = copy(entry(locator, index, element), element);
+			final Object elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -110,7 +111,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final long[] copy = new long[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final long element = array[index];
-			final long elementCopy = copy(entry(locator, index, element), element);
+			final long elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -123,7 +125,7 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final int[] copy = new int[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final int element = array[index];
-			final int elementCopy = copy(entry(locator, index, element), element);
+			final int elementCopy = copy(item(locator, index, element), element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -136,7 +138,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final short[] copy = new short[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final short element = array[index];
-			final short elementCopy = copy(entry(locator, index, element), element);
+			final short elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -149,7 +152,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final char[] copy = new char[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final char element = array[index];
-			final char elementCopy = copy(entry(locator, index, element), element);
+			final char elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -162,7 +166,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final byte[] copy = new byte[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final byte element = array[index];
-			final byte elementCopy = copy(entry(locator, index, element), element);
+			final byte elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -175,7 +180,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final double[] copy = new double[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final double element = array[index];
-			final double elementCopy = copy(entry(locator, index, element), element);
+			final double elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -188,7 +194,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final float[] copy = new float[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final float element = array[index];
-			final float elementCopy = copy(entry(locator, index, element), element);
+			final float elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;
@@ -201,7 +208,8 @@ public class DefaultCopyStrategy implements CopyStrategy {
 		final boolean[] copy = new boolean[array.length];
 		for (int index = 0; index < array.length; index++) {
 			final boolean element = array[index];
-			final boolean elementCopy = copy(entry(locator, index, element), element);
+			final boolean elementCopy = copy(item(locator, index, element),
+					element);
 			copy[index] = elementCopy;
 		}
 		return copy;

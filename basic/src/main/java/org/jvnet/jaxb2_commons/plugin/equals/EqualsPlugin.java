@@ -220,12 +220,12 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 					rightFieldAccessor.toRawValue(block, rhsValue);
 
 					final JExpression leftFieldLocator = codeModel.ref(
-							LocatorUtils.class).staticInvoke("field").arg(
+							LocatorUtils.class).staticInvoke("property").arg(
 							leftLocator).arg(
 							fieldOutline.getPropertyInfo().getName(false)).arg(
 							lhsValue);
 					final JExpression rightFieldLocator = codeModel.ref(
-							LocatorUtils.class).staticInvoke("field").arg(
+							LocatorUtils.class).staticInvoke("property").arg(
 							rightLocator).arg(
 							fieldOutline.getPropertyInfo().getName(false)).arg(
 							rhsValue);

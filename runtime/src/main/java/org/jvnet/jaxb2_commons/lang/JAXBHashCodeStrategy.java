@@ -1,7 +1,7 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.field;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.property;
 
 import java.util.List;
 
@@ -35,13 +35,17 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode,
 			final JAXBElement<?> element) {
 		int currentHashCode = hashCode;
-		currentHashCode = hashCode(field(locator, "name", element.getName()),
-				currentHashCode, element.getName());
-		currentHashCode = hashCode(field(locator, "declaredType", element
-				.getDeclaredType()), currentHashCode, element.getDeclaredType());
-		currentHashCode = hashCode(field(locator, "scope", element.getScope()),
+		currentHashCode = hashCode(
+				property(locator, "name", element.getName()), currentHashCode,
+				element.getName());
+		currentHashCode = hashCode(
+				property(locator, "declaredType", element.getDeclaredType()),
+				currentHashCode, element.getDeclaredType());
+		currentHashCode = hashCode(
+				property(locator, "scope", element.getScope()),
 				currentHashCode, element.getScope());
-		currentHashCode = hashCode(field(locator, "value", element.getValue()),
+		currentHashCode = hashCode(
+				property(locator, "value", element.getValue()),
 				currentHashCode, element.getValue());
 		return currentHashCode;
 	}
@@ -51,7 +55,7 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
 		int currentHashCode = hashCode;
 		for (int index = 0; index < list.size(); index++) {
 			final Object item = list.get(index);
-			currentHashCode = hashCode(entry(locator, index, item),
+			currentHashCode = hashCode(item(locator, index, item),
 					currentHashCode, item);
 		}
 		return currentHashCode;

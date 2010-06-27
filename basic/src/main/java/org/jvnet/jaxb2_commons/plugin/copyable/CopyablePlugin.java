@@ -289,7 +289,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 						final JExpression builtCopy = JExpr.invoke(
 								copyStrategy, "copy").arg(
 								theClass.owner().ref(LocatorUtils.class)
-										.staticInvoke("field").arg(locator)
+										.staticInvoke("property").arg(locator)
 										.arg(
 												fieldOutline.getPropertyInfo()
 														.getName(false)).arg(

@@ -1,7 +1,7 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.field;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.property;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +38,7 @@ public class JAXBEqualsStrategy extends DefaultEqualsStrategy {
 			Object o1 = e1.next();
 			Object o2 = e2.next();
 			if (!(o1 == null ? o2 == null : equals(
-					entry(leftLocator, index, o1), entry(rightLocator, index,
+					item(leftLocator, index, o1), item(rightLocator, index,
 							o2), o1, o2))) {
 				return false;
 			}
@@ -52,11 +52,11 @@ public class JAXBEqualsStrategy extends DefaultEqualsStrategy {
 			final JAXBElement<?> right) {
 		return
 		//
-		equals(field(leftLocator, "name", left.getName()), field(rightLocator,
+		equals(property(leftLocator, "name", left.getName()), property(rightLocator,
 				"name", right.getName()), left.getName(), right.getName())
 				&&
 				//
-				equals(field(leftLocator, "value", left.getValue()), field(
+				equals(property(leftLocator, "value", left.getValue()), property(
 						rightLocator, "name", right.getValue()), left
 						.getValue(), right.getValue());
 	}

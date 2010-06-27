@@ -1,6 +1,6 @@
 package org.jvnet.jaxb2_commons.lang;
 
-import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.entry;
+import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
 
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
@@ -123,7 +123,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -143,7 +143,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -163,7 +163,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -183,7 +183,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -203,7 +203,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -223,7 +223,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -243,7 +243,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -263,7 +263,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
@@ -283,7 +283,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy {
 			return false;
 		}
 		for (int i = 0; i < left.length; ++i) {
-			if (!equals(entry(leftLocator, i, left[i]), entry(rightLocator, i,
+			if (!equals(item(leftLocator, i, left[i]), item(rightLocator, i,
 					right[i]), left[i], right[i])) {
 				return false;
 			}
