@@ -192,11 +192,11 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 					}
 					final JBlock block = body.block();
 					final JVar leftField = block.decl(leftFieldAccessor
-							.getType(), "left"
+							.getType(), "lhs"
 							+ fieldOutline.getPropertyInfo().getName(true));
 					leftFieldAccessor.toRawValue(block, leftField);
 					final JVar rightField = block.decl(rightFieldAccessor
-							.getType(), "right"
+							.getType(), "rhs"
 							+ fieldOutline.getPropertyInfo().getName(true));
 
 					rightFieldAccessor.toRawValue(block, rightField);

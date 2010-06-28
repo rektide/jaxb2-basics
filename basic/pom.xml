@@ -5,6 +5,7 @@
 	<groupId>org.jvnet.jaxb2_commons</groupId>
 	<artifactId>jaxb2-basics</artifactId>
 	<packaging>jar</packaging>
+	<version>0.5.3.MR1</version>
 	<name>JAXB2 Basics - Basic Plugins</name>
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
