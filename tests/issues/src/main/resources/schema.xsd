@@ -133,5 +133,28 @@
 
 	<xs:complexType name="issueJIIB16Type"/>
 
+	<xs:complexType name="issueHJIII59AType">
+		<xs:sequence>
+			<xs:any>
+				<xs:annotation>
+					<xs:appinfo>
+						<!--basic:ignored /-->
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:any>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="issueHJIII59BType">
+		<xs:sequence>
+			<xs:element name="any" type="xs:anyType">
+				<xs:annotation>
+					<xs:appinfo>
+						<basic:ignored />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
 </xs:schema>
