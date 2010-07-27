@@ -69,6 +69,10 @@ public abstract class AbstractSpringConfigurablePlugin extends
 							this, getAutowireMode(), isDependencyCheck());
 				}
 			} catch (Exception ex) {
+				ex.printStackTrace();
+				ex.getCause().printStackTrace();
+				logger.error("Error loading applicaion context from ["
+						+ configLocationsString + "].", ex);
 				throw new BadCommandLineException(
 						"Error loading  applicaion context from ["
 								+ configLocationsString + "].", ex);

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.jaxb2_commons</groupId>
 	<artifactId>jaxb2-basics-jaxb</artifactId>
-	<version>2.1.13.MR1</version>
+	<version>2.1.13.MR2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Modular [jaxb]</name>
 	<modules>
@@ -27,6 +27,11 @@
 			<id>java.net-maven2-repository</id>
 			<url>java-net:/maven2-repository/trunk/repository</url>
 		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.snapshots</id>
+			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
+		</snapshotRepository>
 	</distributionManagement>
 	<build>
 		<defaultGoal>install</defaultGoal>
