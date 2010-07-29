@@ -9,17 +9,12 @@
 	<name>JAXB2 Basics - Project</name>
 	<url>http://static.highsource.org/jaxb2-basics</url>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>3</version>
+	</parent>
 	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>java.net-maven2-repository</id>
-			<url>${dev.java.net-releases.deploy.url}</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>org.highsource.repository.maven2.snapshots</id>
-			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
-		</snapshotRepository>
 		<site>
 			<url>${sftp.static.highsource.org}/jaxb2-basics</url>
 		</site>
@@ -72,10 +67,6 @@
 		<developerConnection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn/trunk/basics/</developerConnection>
 		<url>https://jaxb2-commons-svn.dev.java.net/source/browse/jaxb2-commons-svn/trunk/basics/</url>
 	</scm>
-	<organization>
-		<name>Sun Microsystems</name>
-		<url>http://www.sun.com/</url>
-	</organization>
 	<modules>
 		<module>ant</module>
 		<module>runtime</module>
@@ -108,28 +99,6 @@
 			</modules>
 		</profile>
 	</profiles>
-	<repositories>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>maven-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>maven-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</pluginRepository>
-	</pluginRepositories>
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
