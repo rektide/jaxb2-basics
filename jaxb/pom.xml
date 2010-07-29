@@ -7,32 +7,40 @@
 	<version>2.1.13.MR2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Modular [jaxb]</name>
+	<description>Modular Maven build of JAXB RI</description>
+	<url>http://static.highsource.org/jaxb2-basics/jaxb</url>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>3</version>
+	</parent>
+	<licenses>
+		<license>
+			<name>CDDL v1.0 / GPL v2 dual license</name>
+			<url>https://glassfish.dev.java.net/nonav/public/CDDL+GPL.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn/trunk/basics/jaxb/</connection>
+		<developerConnection>scm:svn:https://jaxb2-commons-svn.dev.java.net/svn/jaxb2-commons-svn/trunk/basics/jaxb/</developerConnection>
+		<url>https://jaxb2-commons-svn.dev.java.net/source/browse/jaxb2-commons-svn/trunk/basics/jaxb/</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>kohsuke</id>
+			<name>Kohsuke Kawaguchi</name>
+			<email>kohsuke.kawaguchi@sun.com</email>
+		</developer>
+		<developer>
+			<id>lexi</id>
+			<name>Aleksei Valikov</name>
+			<email>valikov@gmx.net</email>
+		</developer>
+	</developers>
 	<modules>
 		<module>xjc</module>
 	</modules>
-	<repositories>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>maven-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</repository>
-	</repositories>
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>java.net-maven2-repository</id>
-			<url>java-net:/maven2-repository/trunk/repository</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>org.highsource.repository.maven2.snapshots</id>
-			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<pluginManagement>
@@ -47,12 +55,5 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<extensions>
-			<extension>
-				<groupId>org.jvnet.wagon-svn</groupId>
-				<artifactId>wagon-svn</artifactId>
-				<version>1.8</version>
-			</extension>
-		</extensions>
 	</build>
 </project>
