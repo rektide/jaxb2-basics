@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project name="jaxb2-basics-sample-annotate-ant" default="install">
 	<property name="artifactId" value="jaxb2-basics-sample-annotate-ant"/>
-	<property name="version" value="0.6.0-SNAPSHOT"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="jaxb-api-*.jar"/>
@@ -141,7 +140,7 @@
 	</target>
 	<target name="package" depends="test">
 		<mkdir dir="${basedir}/target"/>
-		<jar destfile="${basedir}/target/${artifactId}-${version}.jar"
+		<jar destfile="${basedir}/target/${artifactId}.jar"
 			basedir="${basedir}/target/classes"/> 
 	</target>
 	<target name="install" depends="package"/>
