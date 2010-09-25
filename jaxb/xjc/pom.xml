@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.jvnet.jaxb2_commons</groupId>
 		<artifactId>jaxb2-basics-jaxb</artifactId>
-		<version>2.1.14-SNAPSHOT</version>
+		<version>2.1.13.MR3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<licenses>
@@ -103,7 +103,7 @@
 									<version>2.1.13</version>
 									<type>jar</type>
 									<classifier>sources</classifier>
-									<outputDirectory>target/generated-sources/xjc</outputDirectory>
+									<outputDirectory>${project.build.directory}/generated-sources/xjc</outputDirectory>
 									<excludes>
 										com/sun/codemodel/**,
 										com/sun/dtdparser/**,
@@ -113,6 +113,17 @@
 										org/**,
 										javax/**
 									</excludes>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sun.xml.bind</groupId>
+									<artifactId>jaxb-xjc</artifactId>
+									<version>2.1.13</version>
+									<type>jar</type>
+									<outputDirectory>${project.build.directory}/generated-resources/xjc</outputDirectory>
+									<includes>
+										<!-- 1.0/com/sun/tools/xjc/runtime/**/*.java, -->
+										com/sun/tools/xjc/runtime/**/*.java_
+									</includes>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -131,7 +142,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>target/generated-sources/xjc</source>
+								<source>${project.build.directory}/generated-sources/xjc</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -143,14 +154,21 @@
 						</goals>
 						<configuration>
 							<!--sources>
-								<source>target/generated-sources/xjc</source>
+								<source>${project.build.directory}/generated-sources/xjc</source>
 							</sources-->
 							<resources>
 								<resource>
-									<directory>target/generated-sources/xjc</directory>
+									<directory>${project.build.directory}/generated-sources/xjc</directory>
 									<excludes>
 										<exclude>**/*.java</exclude>
 									</excludes>
+								</resource>
+								<resource>
+									<directory>${project.build.directory}/generated-resources/xjc</directory>
+									<includes>
+										<include>**/*.java</include>
+										<include>**/*.java_</include>
+									</includes>
 								</resource>
 							</resources>
 						</configuration>
